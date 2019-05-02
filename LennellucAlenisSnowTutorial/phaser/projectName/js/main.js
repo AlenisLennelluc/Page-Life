@@ -21,7 +21,7 @@ MainMenu.prototype = {
 		// Add the background and make it properly cover the canvas
 		var sky = game.add.sprite(0,0, 'sky');
 		sky.scale.setTo(1, 2);
-
+//kljdfsjlk;afsdjklsadjfkljklfsadkjl;fdskkjfasd
 		// Add instruction text
 		game.add.text(16,16, 'The Snowstorm\n' +
 			'Use the arrow keys to move\nleft and right and jump\n' +
@@ -242,4 +242,3 @@ function collectDoggos (player, doggo) {
 	this.score -= 25;
 	game.state.start('GameOver', true, false, this.score);
 }
-
