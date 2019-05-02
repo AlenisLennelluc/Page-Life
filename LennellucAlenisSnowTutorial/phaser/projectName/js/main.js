@@ -1,3 +1,5 @@
+//Github is cool.
+
 var game = new Phaser.Game(600, 800, Phaser.AUTO);
 
 
@@ -21,7 +23,7 @@ MainMenu.prototype = {
 		// Add the background and make it properly cover the canvas
 		var sky = game.add.sprite(0,0, 'sky');
 		sky.scale.setTo(1, 2);
-		
+
 		// Add instruction text
 		game.add.text(16,16, 'The Snowstorm\n' +
 			'Use the arrow keys to move\nleft and right and jump\n' +
