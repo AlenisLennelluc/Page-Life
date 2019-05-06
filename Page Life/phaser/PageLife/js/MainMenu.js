@@ -6,10 +6,12 @@ MainMenu.prototype = {
 		console.log('MainMenu: Preload');
 
 		// preload assets
-		game.load.spritesheet('player', 'assets/img/dude.png', 288 / 9, 48);
+		game.load.atlas('ship', 'assets/img/ship.png', 'assets/img/ship.json');
 		game.load.atlas('space', 'assets/img/space.png', 'assets/img/space.json');
 		game.load.image('background', 'assets/img/background.png');
-		game.load.image('ground', 'assets/img/platform.png');
+
+		// Generate the animation frames
+		Phaser.Animation.generateFrameNames('ship', 1, 7, 1);
 
 		// Preload audio
 		game.load.audio('pop', 'assets/audio/pop01.mp3');
