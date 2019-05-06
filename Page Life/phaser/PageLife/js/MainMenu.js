@@ -25,10 +25,8 @@ MainMenu.prototype = {
 		//bg.loopFull();
 
 		// Add instruction text
-		game.add.text(16,16, 'Space: Just Another Frontier\n\n' +
+		game.add.text(16,16, 'Page Life\n\n' +
 			'Use the arrow keys to move\nleft, right, up and down.\n' +
-			'Hold Space to shoot.\n\n' +
-			'Shoot these:\n\nCollect these:\n\n' +
 			'Press Space To Start', { fontSize: '32px', fill: '#FFF'});
 
 		// Add instructional sprites
