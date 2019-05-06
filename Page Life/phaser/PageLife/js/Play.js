@@ -80,8 +80,6 @@ Play.prototype = {
 		else
 		{ // Else stop the player and face them front
 			this.player.body.velocity.x = 0;
-			// mirroring
-			this.player.animations.frame = 4;
 		}
 
 		// If up is down, move up
