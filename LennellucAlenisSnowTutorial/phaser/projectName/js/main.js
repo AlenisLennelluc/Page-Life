@@ -1,5 +1,6 @@
 var game = new Phaser.Game(600, 800, Phaser.AUTO);
-
+Phaser.World.x = 2000;
+Phaser.World.y = 2000;
 
 // The MainMenu state and its methods
 var MainMenu = function(game) {};
@@ -21,7 +22,7 @@ MainMenu.prototype = {
 		// Add the background and make it properly cover the canvas
 		var sky = game.add.sprite(0,0, 'sky');
 		sky.scale.setTo(1, 2);
-		
+
 		// Add instruction text
 		game.add.text(16,16, 'The Snowstorm\n' +
 			'Use the arrow keys to move\nleft and right and jump\n' +
@@ -72,6 +73,7 @@ Play.prototype = {
 		player.body.bounce.y = 0.2;	// Add a bounce effect
 		player.body.gravity.y = 300; // Add gravity
 		player.body.collideWorldBounds = true; // Make it so the player can't move off screen
+		Phaser.Camera.target = player;
 
 		// Set up the player walking animations
 		player.animations.add('left', [0,1,2,3], 10, true);
