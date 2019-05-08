@@ -81,7 +81,7 @@ Play.prototype = {
 		{ // Else stop the player and face them front
 			this.player.body.velocity.x = 0;
 			this.player.animations.frame = 5;
-			this.sky.tilePosition.x -= 10;
+			//this.sky.tilePosition.x -= 10;
 		}
 
 		// If up is down, move up
@@ -91,7 +91,7 @@ Play.prototype = {
 		}
 
 		// Scroll the background
-		this.sky.tilePosition.y += 5;
+		//this.sky.tilePosition.y += 5;
 	},
 	render: function() {
 		// Debug info
