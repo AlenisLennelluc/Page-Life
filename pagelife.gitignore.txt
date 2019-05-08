@@ -1,0 +1,22 @@
+#image files
+*.png
+*.jpg
+*.gif
+*.tiff
+*.csp
+*.psd
+*.pro
+
+#os related
+.DS_Store*
+*.dll
+
+#other files
+*.exe
+*.wav
+*.mp3
+*.mp4
+*.mov
+*.blend
+*.fbx
+*.dae
