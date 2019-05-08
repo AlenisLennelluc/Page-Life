@@ -80,6 +80,8 @@ Play.prototype = {
 		else
 		{ // Else stop the player and face them front
 			this.player.body.velocity.x = 0;
+			this.player.animations.frame = 5;
+			this.sky.tilePosition.x -= 10;
 		}
 
 		// If up is down, move up
