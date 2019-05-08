@@ -43,13 +43,13 @@ Play.prototype = {
 		ledge.body.immovable = true;
 
 		// Creating Snowflakes
-		snowflakes = game.add.group();
-		snowflakes.enableBody = true;
-		for (var i = 0; i < 1000; i ++) {
-			var flake = new SnowStorm(game, 'space', 'Nathan');
-
-			game.add.existing(flake);
-		}
+		// snowflakes = game.add.group();
+		// snowflakes.enableBody = true;
+		// for (var i = 0; i < 1000; i ++) {
+		// 	var flake = new SnowStorm(game, 'space', 'Nathan');
+		//
+		// 	game.add.existing(flake);
+		// }
 
 		// Create the score
 		this.score = 0;
