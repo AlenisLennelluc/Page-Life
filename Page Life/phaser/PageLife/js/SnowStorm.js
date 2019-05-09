@@ -1,4 +1,4 @@
- function SnowStorm(game, key, frame) {
+//  function SnowStorm(game, key, frame) {
 // 	// Calling out Phaser.Sprite
 // 	// New Sprite(game, x, y, key, frame)
 // 	Phaser.Sprite.call(this, game, game.rnd.integerInRange(0, game.world.width),
@@ -29,4 +29,4 @@
 // 	if (this.position.y > game.world.height + 22) {
 // 		this.position.y = -22;
 // 	}
- }
+//  }
