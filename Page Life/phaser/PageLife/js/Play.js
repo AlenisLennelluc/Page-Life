@@ -8,19 +8,19 @@ Play.prototype = {
 
 		// Add the background and make it properly cover the canvas
 		this.sky = game.add.tileSprite(0,0, game.world.width, game.world.height, 'background');
+		//sky.scale.setTo(1, 2);
 
 		// Create the player
-		this.player = game.add.sprite(32, game.world.height - 450, 'birb');
+		this.player = game.add.sprite(32, game.world.height - 350, 'player');
 		game.physics.arcade.enable(this.player); // Enable physics
 		this.player.body.collideWorldBounds = true; // Make it so the player can't move off screen
-		this.player.body.gravity.y = 1200;
+		this.player.body.gravity.y = 300;
 		this.player.body.bounce.y = 0.1;
-		this.player.anchor.setTo(0.5,0.5); // Make mirroring clean
 		game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 1, 1);
 
 		// Set up player animations
-		//this.player.animations.add('left', [0, 1, 2, 3], 10, true);
-		//this.player.animations.add('right', [5, 6, 7, 8], 10, true);
+		this.player.animations.add('left', [0, 1, 2, 3], 10, true);
+		this.player.animations.add('right', [5, 6, 7, 8], 10, true);
 
 		// Grab the arrowkey inputs
 		cursors = game.input.keyboard.createCursorKeys();
@@ -42,15 +42,6 @@ Play.prototype = {
 		ledge = this.platforms.create(600, 1650, 'ground');
 		ledge.body.immovable = true;
 
-		// Creating Snowflakes
-		// snowflakes = game.add.group();
-		// snowflakes.enableBody = true;
-		// for (var i = 0; i < 1000; i ++) {
-		// 	var flake = new SnowStorm(game, 'space', 'Nathan');
-		//
-		// 	game.add.existing(flake);
-		// }
-
 		// Create the score
 		this.score = 0;
 		this.scoreText = game.add.text(16,16, 'Score: 0', { fontSize: '32px', fill: '#FFF'});
@@ -60,10 +51,6 @@ Play.prototype = {
 
 		// Add the collision audio
 		this.pop = game.add.audio('pop');
-
-		// timers
-		this.jumpTimer = 0;
-		this.jumpState = 0;
 	},
 	update: function() {
 		// Check if player is touching platform. Returns boolean
@@ -71,70 +58,26 @@ Play.prototype = {
 
 		if (cursors.left.isDown)
 		{ // If left key down, move player left
-			this.player.body.velocity.x = -300;
-			// Enable mirroring
-			this.player.scale.x = -1;
+			this.player.body.velocity.x = -150;
 
-			//this.player.animations.play('right', 10, true); // Play animation
+			this.player.animations.play('left', 10, true); // Play animation
 		}
 		else if (cursors.right.isDown)
 		{ // If right key down, move playerr right
-			this.player.body.velocity.x = 300;
-			// disable mirroring
-			this.player.scale.x = 1;
+			this.player.body.velocity.x = 150;
 
-			//this.player.animations.play('right', 10, true); // Play animation
+			this.player.animations.play('right', 10, true); // Play animation
 		}
 		else
 		{ // Else stop the player and face them front
 			this.player.body.velocity.x = 0;
-			//this.player.animations.frame = 5;
-			//this.sky.tilePosition.x -= 10;
+			this.player.animations.frame = 5;
 		}
 
 		// If up is down, move up
 		if (cursors.up.isDown && this.player.body.touching.down) // && hitPlatform)
 		{
-			this.jumpState = 1;
-			this.jumpTimer = 0;
-		}
-
-		// Widen birb
-		if (this.jumpState == 1) {
-			this.jumpTimer += game.time.physicsElapsed * 2;
-			var widen = this.jumpTimer  + 1;
-			this.player.scale.x = widen;
-			if (this.jumpTimer > 0.1) {
-				this.jumpState = 2;
-				this.jumpTimer = 0;
-			}
-		}
-
-		// Shorten birb
-		if (this.jumpState == 2) {
-			this.jumpTimer -= game.time.physicsElapsed * 8;
-			var shrink = this.jumpTimer + 1;
-			this.player.scale.y = shrink;
-			if (this.jumpTimer < -0.4) {
-				this.jumpState = 3;
-				this.jumpTimer = 0.1;
-				this.player.body.velocity.y = -650;
-			}
-		}
-
-		// Normalize birb
-		if (this.jumpState == 3) {
-			this.jumpTimer -= game.time.physicsElapsed * 2;
-			var narrow = this.jumpTimer + 1;
-			this.player.scale.x = narrow;
-			var grow = this.jumpTimer * -4 + 1;
-			this.player.scale.y = grow;
-			if (this.jumpTimer < 0) {
-				this.jumpState = 0;
-				this.jumpTimer = 0;
-				this.player.scale.y = 1;
-				this.player.scale.x = 1;
-			}
+			this.player.body.velocity.y = -350;
 		}
 
 		// Scroll the background
