@@ -16,11 +16,10 @@ Play.prototype = {
 		this.player.body.collideWorldBounds = true; // Make it so the player can't move off screen
 		this.player.body.gravity.y = 300;
 		this.player.body.bounce.y = 0.1;
-		this.player.anchor.setTo(0.5,0.5); // Make mirroring clean
 		game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 1, 1);
 
 		// Set up player animations
-		//this.player.animations.add('left', [0, 1, 2, 3], 10, true);
+		this.player.animations.add('left', [0, 1, 2, 3], 10, true);
 		this.player.animations.add('right', [5, 6, 7, 8], 10, true);
 
 		// Grab the arrowkey inputs
@@ -43,15 +42,6 @@ Play.prototype = {
 		ledge = this.platforms.create(600, 1650, 'ground');
 		ledge.body.immovable = true;
 
-		// Creating Snowflakes
-		// snowflakes = game.add.group();
-		// snowflakes.enableBody = true;
-		// for (var i = 0; i < 1000; i ++) {
-		// 	var flake = new SnowStorm(game, 'space', 'Nathan');
-		//
-		// 	game.add.existing(flake);
-		// }
-
 		// Create the score
 		this.score = 0;
 		this.scoreText = game.add.text(16,16, 'Score: 0', { fontSize: '32px', fill: '#FFF'});
@@ -69,16 +59,12 @@ Play.prototype = {
 		if (cursors.left.isDown)
 		{ // If left key down, move player left
 			this.player.body.velocity.x = -150;
-			// Enable mirroring
-			this.player.scale.x = -1;
 
-			this.player.animations.play('right', 10, true); // Play animation
+			this.player.animations.play('left', 10, true); // Play animation
 		}
 		else if (cursors.right.isDown)
 		{ // If right key down, move playerr right
 			this.player.body.velocity.x = 150;
-			// disable mirroring
-			this.player.scale.x = 1;
 
 			this.player.animations.play('right', 10, true); // Play animation
 		}
@@ -86,7 +72,6 @@ Play.prototype = {
 		{ // Else stop the player and face them front
 			this.player.body.velocity.x = 0;
 			this.player.animations.frame = 5;
-			//this.sky.tilePosition.x -= 10;
 		}
 
 		// If up is down, move up
