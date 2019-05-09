@@ -11,7 +11,7 @@ Play.prototype = {
 		//sky.scale.setTo(1, 2);
 
 		// Create the player
-		this.player = game.add.sprite(32, game.world.height - 350, 'player');
+		this.player = game.add.sprite(32, game.world.height - 450, 'birb');
 		game.physics.arcade.enable(this.player); // Enable physics
 		this.player.body.collideWorldBounds = true; // Make it so the player can't move off screen
 		this.player.body.gravity.y = 300;
@@ -21,7 +21,7 @@ Play.prototype = {
 
 		// Set up player animations
 		//this.player.animations.add('left', [0, 1, 2, 3], 10, true);
-		this.player.animations.add('right', [5, 6, 7, 8], 10, true);
+		//this.player.animations.add('right', [5, 6, 7, 8], 10, true);
 
 		// Grab the arrowkey inputs
 		cursors = game.input.keyboard.createCursorKeys();
@@ -44,13 +44,13 @@ Play.prototype = {
 		ledge.body.immovable = true;
 
 		// Creating Snowflakes
-		// snowflakes = game.add.group();
-		// snowflakes.enableBody = true;
-		// for (var i = 0; i < 1000; i ++) {
-		// 	var flake = new SnowStorm(game, 'space', 'Nathan');
-		//
-		// 	game.add.existing(flake);
-		// }
+		snowflakes = game.add.group();
+		snowflakes.enableBody = true;
+		for (var i = 0; i < 1000; i ++) {
+			var flake = new SnowStorm(game, 'space', 'Nathan');
+
+			game.add.existing(flake);
+		}
 
 		// Create the score
 		this.score = 0;
@@ -72,7 +72,7 @@ Play.prototype = {
 			// Enable mirroring
 			this.player.scale.x = -1;
 
-			this.player.animations.play('right', 10, true); // Play animation
+			//this.player.animations.play('right', 10, true); // Play animation
 		}
 		else if (cursors.right.isDown)
 		{ // If right key down, move playerr right
@@ -80,12 +80,12 @@ Play.prototype = {
 			// disable mirroring
 			this.player.scale.x = 1;
 
-			this.player.animations.play('right', 10, true); // Play animation
+			//this.player.animations.play('right', 10, true); // Play animation
 		}
 		else
 		{ // Else stop the player and face them front
 			this.player.body.velocity.x = 0;
-			this.player.animations.frame = 5;
+			//this.player.animations.frame = 5;
 			//this.sky.tilePosition.x -= 10;
 		}
 

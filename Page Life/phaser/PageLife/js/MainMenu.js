@@ -10,6 +10,7 @@ MainMenu.prototype = {
 		game.load.atlas('space', 'assets/img/space.png', 'assets/img/space.json');
 		game.load.image('background', 'assets/img/background.png');
 		game.load.image('ground', 'assets/img/platform.png');
+		game.load.image('birb', 'assets/img/birb.png');
 
 		// Preload audio
 		game.load.audio('pop', 'assets/audio/pop01.mp3');
@@ -27,11 +28,7 @@ MainMenu.prototype = {
 		// Add instruction text
 		game.add.text(16,16, 'Page Life\n\n' +
 			'Use the arrow keys to move\nleft, right, up and down.\n' +
-			'Press Space To Start', { fontSize: '32px', fill: '#FFF'});
-
-		// Add instructional sprites
-		game.add.sprite(250, 275, 'space', 'enemy');
-		game.add.sprite(250, 360, 'space', 'powerup');
+			'Press Space To Start', { fontSize: '32px', fill: '#000'});
 	},
 
 	update() {
