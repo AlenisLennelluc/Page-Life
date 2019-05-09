@@ -1,1 +1,1 @@
-"C:\Users\Alenis Lennelluc\AppData\Local\Programs\Python\Python37\python.exe" -m http.server
+"C:\Users\erago\AppData\Local\Programs\Python\Python37-32\python.exe" -m http.server
