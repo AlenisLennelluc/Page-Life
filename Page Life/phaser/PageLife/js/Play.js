@@ -97,6 +97,7 @@ Play.prototype = {
 		{
 			this.jumpState = 1;
 			this.jumpTimer = 0;
+			this.player.body.velocity.y = -650;
 		}
 
 		// Widen birb
@@ -118,7 +119,6 @@ Play.prototype = {
 			if (this.jumpTimer < -0.4) {
 				this.jumpState = 3;
 				this.jumpTimer = 0.1;
-				this.player.body.velocity.y = -650;
 			}
 		}
 
