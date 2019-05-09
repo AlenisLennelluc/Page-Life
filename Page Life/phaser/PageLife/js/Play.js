@@ -101,7 +101,7 @@ Play.prototype = {
 
 		// Widen birb
 		if (this.jumpState == 1) {
-			this.jumpTimer += game.time.physicsElapsed;
+			this.jumpTimer += game.time.physicsElapsed * 2;
 			var widen = this.jumpTimer  + 1;
 			this.player.scale.x = widen;
 			if (this.jumpTimer > 0.1) {
@@ -112,7 +112,7 @@ Play.prototype = {
 
 		// Shorten birb
 		if (this.jumpState == 2) {
-			this.jumpTimer -= game.time.physicsElapsed * 4;
+			this.jumpTimer -= game.time.physicsElapsed * 8;
 			var shrink = this.jumpTimer + 1;
 			this.player.scale.y = shrink;
 			if (this.jumpTimer < -0.4) {
@@ -124,7 +124,7 @@ Play.prototype = {
 
 		// Normalize birb
 		if (this.jumpState == 3) {
-			this.jumpTimer -= game.time.physicsElapsed;
+			this.jumpTimer -= game.time.physicsElapsed * 2;
 			var narrow = this.jumpTimer + 1;
 			this.player.scale.x = narrow;
 			var grow = this.jumpTimer * -4 + 1;
