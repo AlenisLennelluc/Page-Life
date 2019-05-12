@@ -70,7 +70,8 @@ Play.prototype = {
 		this.jumpTimer = 0;
 		this.jumpState = 0;
 
-		game.add.sprite(0, 720, 'mask');
+		this.mask = game.add.sprite(0, 720, 'mask');
+		this.mask.anchor.setTo(0.5, 0.5);
 
 	},
 
@@ -119,27 +120,27 @@ Play.prototype = {
 			this.player.body.velocity.y = -650;
 		}
 
-		// Widen birb
-		if (this.jumpState == 1) {
-			// Increase timer by time elapsed * 2
-			this.jumpTimer += game.time.physicsElapsed;
-			// this.jumpTimer = magnitude, this.facing = direction
-			this.player.scale.x += this.jumpTimer * this.facing;
-			if (this.jumpTimer > 0.05) {
-				// Move to phase 2
-				this.jumpState = 2;
-				this.jumpTimer = 0;
-			}
-		}
-
 		// Shorten birb
-		if (this.jumpState == 2) {
+		if (this.jumpState == 1) {
 			// Increase timer by time elapsed * 8
 			this.jumpTimer += game.time.physicsElapsed * 4;
 			// this.jumpTimer = magnitude, this.facing = direction
 			this.player.scale.y -= this.jumpTimer;
 			if (this.jumpTimer > 0.2) {
 				// Move to phase 3
+				this.jumpState = 2;
+				this.jumpTimer = 0;
+			}
+		}
+
+		// Widen birb
+		if (this.jumpState == 2) {
+			// Increase timer by time elapsed * 2
+			this.jumpTimer += game.time.physicsElapsed;
+			// this.jumpTimer = magnitude, this.facing = direction
+			this.player.scale.x += this.jumpTimer * this.facing;
+			if (this.jumpTimer > 0.05) {
+				// Move to phase 2
 				this.jumpState = 3;
 				this.jumpTimer = 0;
 			}
@@ -164,6 +165,10 @@ Play.prototype = {
 
 		// Scroll the background
 		//this.sky.tilePosition.y += 5;
+
+		//update mask
+		this.mask.position.x = this.player.position.x;
+		this.mask.position.y = this.player.position.y;
 	},
 	render: function() {
 		// Debug info
