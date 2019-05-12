@@ -131,7 +131,7 @@ Play.prototype = {
 			// Increase timer by time elapsed * 8
 			this.jumpTimer += game.time.physicsElapsed * 4;
 			// this.jumpTimer = magnitude, this.facing = direction
-			this.player.scale.y -= this.jumpTimer * this.facing;
+			this.player.scale.y -= this.jumpTimer;
 			if (this.jumpTimer > 0.2) {
 				// Move to phase 3
 				this.jumpState = 3;
@@ -146,7 +146,7 @@ Play.prototype = {
 			// this.jumpTimer = magnitude, this.facing = direction
 			this.player.scale.x -= this.jumpTimer * this.facing;
 			// this.jumpTimer = magnitude, this.facing = direction
-			this.player.scale.y += this.jumpTimer * this.facing * 2;
+			this.player.scale.y += this.jumpTimer * 2;
 			if (this.jumpTimer > 0.05) {
 				// Normalize and end jump
 				this.jumpState = 0;
