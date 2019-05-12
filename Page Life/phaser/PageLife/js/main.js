@@ -11,12 +11,12 @@ game.state.add('GameOver', GameOver);
 game.state.start('MainMenu');
 
 
-//////////////////
-//PAUSE FUNCTION//
-//////////////////
+//////////////
+//PAUSE CODE//
+//////////////
 
 //CODE FROM NATHAN'S P2 PHYSICS CODE EXAMPLE
-// bind pause key to browser window event
+  // bind pause key to browser window event
 window.onkeydown = function(event) {
 	// capture keycode (event.which for Firefox compatibility)
 	var keycode = event.keyCode || event.which;
