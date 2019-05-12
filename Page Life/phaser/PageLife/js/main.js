@@ -1,4 +1,4 @@
-var game = new Phaser.Game(1200, 800, Phaser.AUTO);
+var game = new Phaser.Game(1280, 720, Phaser.AUTO);
 
 // Global Variables
 var cursors;
