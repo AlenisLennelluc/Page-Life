@@ -1,7 +1,9 @@
 // The Play state and its methods
 var Play = function(game) {var score;};
 Play.prototype = {
+
 	create: function() {
+
 		game.world.setBounds(0,0,2000,2000);
 		// Turn on the Physics engine
 		game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -64,7 +66,11 @@ Play.prototype = {
 		// timers
 		this.jumpTimer = 0;
 		this.jumpState = 0;
+
+		game.add.sprite(0, 720, 'mask');
+
 	},
+
 	update: function() {
 		// Check if player is touching platform. Returns boolean
 		var hitPlatform = game.physics.arcade.collide(this.player, this.platforms);

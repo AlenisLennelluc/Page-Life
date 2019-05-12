@@ -9,6 +9,7 @@ MainMenu.prototype = {
 		game.load.image('background', 'assets/img/background.png');
 		game.load.image('ground', 'assets/img/platform.png');
 		game.load.image('birb', 'assets/img/birb.png');
+		game.load.image('mask', 'assets/img/mask.png');
 
 	},
 
@@ -21,9 +22,10 @@ MainMenu.prototype = {
 		//bg.loopFull();
 
 		// Add instruction text
-		game.add.text(16,16, 'Page Life\n\n' +
+		game.add.text(400,200, 'Page Life\n\n' +
 			'Use the arrow keys to move\nleft, right, up and down.\n' +
 			'Press Space To Start', { fontSize: '32px', fill: '#000'});
+		game.add.sprite(0, 0, 'mask');
 	},
 
 	update() {
