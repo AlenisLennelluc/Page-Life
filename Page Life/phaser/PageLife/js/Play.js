@@ -18,6 +18,9 @@ Play.prototype = {
 		this.player.anchor.setTo(0.5,0.5); // Make mirroring clean
 		game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 1, 1);
 
+		// 1 = Right, -1 = left
+		this.facing = 1;
+
 		// Set up player animations
 		//this.player.animations.add('left', [0, 1, 2, 3], 10, true);
 		//this.player.animations.add('right', [5, 6, 7, 8], 10, true);
@@ -73,7 +76,11 @@ Play.prototype = {
 		{ // If left key down, move player left
 			this.player.body.velocity.x = -300;
 			// Enable mirroring
-			this.player.scale.x = -1;
+			if (this.player.scale.x > 0)
+			{
+				this.facing = -1;
+				this.player.scale.x *= -1;
+			}
 
 			//this.player.animations.play('right', 10, true); // Play animation
 		}
@@ -81,7 +88,11 @@ Play.prototype = {
 		{ // If right key down, move playerr right
 			this.player.body.velocity.x = 300;
 			// disable mirroring
-			this.player.scale.x = 1;
+			if (this.player.scale.x < 0)
+			{
+				this.facing = 1;
+				this.player.scale.x *= -1;
+			}
 
 			//this.player.animations.play('right', 10, true); // Play animation
 		}
@@ -95,17 +106,21 @@ Play.prototype = {
 		// If up is down, move up
 		if (cursors.up.isDown && this.player.body.touching.down) // && hitPlatform)
 		{
+			// Start jump animation
 			this.jumpState = 1;
 			this.jumpTimer = 0;
+			// Begin moving upwards immediately
 			this.player.body.velocity.y = -650;
 		}
 
 		// Widen birb
 		if (this.jumpState == 1) {
-			this.jumpTimer += game.time.physicsElapsed * 2;
-			var widen = this.jumpTimer  + 1;
-			this.player.scale.x = widen;
-			if (this.jumpTimer > 0.1) {
+			// Increase timer by time elapsed * 2
+			this.jumpTimer += game.time.physicsElapsed;
+			// this.jumpTimer = magnitude, this.facing = direction
+			this.player.scale.x += this.jumpTimer * this.facing;
+			if (this.jumpTimer > 0.05) {
+				// Move to phase 2
 				this.jumpState = 2;
 				this.jumpTimer = 0;
 			}
@@ -113,27 +128,31 @@ Play.prototype = {
 
 		// Shorten birb
 		if (this.jumpState == 2) {
-			this.jumpTimer -= game.time.physicsElapsed * 8;
-			var shrink = this.jumpTimer + 1;
-			this.player.scale.y = shrink;
-			if (this.jumpTimer < -0.4) {
+			// Increase timer by time elapsed * 8
+			this.jumpTimer += game.time.physicsElapsed * 4;
+			// this.jumpTimer = magnitude, this.facing = direction
+			this.player.scale.y -= this.jumpTimer * this.facing;
+			if (this.jumpTimer > 0.2) {
+				// Move to phase 3
 				this.jumpState = 3;
-				this.jumpTimer = 0.1;
+				this.jumpTimer = 0;
 			}
 		}
 
 		// Normalize birb
 		if (this.jumpState == 3) {
-			this.jumpTimer -= game.time.physicsElapsed * 2;
-			var narrow = this.jumpTimer + 1;
-			this.player.scale.x = narrow;
-			var grow = this.jumpTimer * -4 + 1;
-			this.player.scale.y = grow;
-			if (this.jumpTimer < 0) {
+			// Increase timer by time elapsed * 8
+			this.jumpTimer += game.time.physicsElapsed;
+			// this.jumpTimer = magnitude, this.facing = direction
+			this.player.scale.x -= this.jumpTimer * this.facing;
+			// this.jumpTimer = magnitude, this.facing = direction
+			this.player.scale.y += this.jumpTimer * this.facing * 2;
+			if (this.jumpTimer > 0.05) {
+				// Normalize and end jump
 				this.jumpState = 0;
 				this.jumpTimer = 0;
 				this.player.scale.y = 1;
-				this.player.scale.x = 1;
+				this.player.scale.x = this.facing;
 			}
 		}
 
