@@ -3,16 +3,31 @@ var Play = function(game) {var score;};
 Play.prototype = {
 
 	create: function() {
+		game.stage.setBackgroundColor('#fff');
+		// create new Tilemap object - when using Tiled, you only need to pass the key
+		this.map = game.add.tilemap('level');
+		// add an image to the map to be used as a tileset (tileset, key)
+    // the tileset name is specified w/in the .json file (or in Tiled)
+    // a single map may use multiple tilesets
+    this.map.addTilesetImage('level1artA', 'sheetA');
+		this.map.addTilesetImage('level1ArtB', 'sheetB');
+		this.map.addTilesetImage('level1ArtC', 'sheetC');
+		this.map.addTilesetImage('level1ArtD', 'sheetD');
+		this.map.addTilesetImage('level1ArtE', 'sheetE');
+    // set ALL tiles to collide *except* those passed in the array
+    this.map.setCollisionByExclusion([]);
+    // create new TilemapLayer object
+    // A Tilemap Layer is a set of map data combined with a tileset
+    this.mapLayer = this.map.createLayer('Tile Layer 1');
 
-		game.world.setBounds(0,0,2000,2000);
+    // set the world size to match the size of the Tilemap layer
+    this.mapLayer.resizeWorld();
+
 		// Turn on the Physics engine
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
-		// Add the background and make it properly cover the canvas
-		this.sky = game.add.tileSprite(0,0, game.world.width, game.world.height, 'background');
-
 		// Create the player
-		this.player = game.add.sprite(32, game.world.height - 450, 'birb');
+		this.player = game.add.sprite(200, 2000, 'birb');
 		game.physics.arcade.enable(this.player); // Enable physics
 		this.player.body.collideWorldBounds = true; // Make it so the player can't move off screen
 		this.player.body.gravity.y = 1200;
@@ -78,6 +93,7 @@ Play.prototype = {
 	update: function() {
 		// Check if player is touching platform. Returns boolean
 		var hitPlatform = game.physics.arcade.collide(this.player, this.platforms);
+		game.physics.arcade.collide(this.player, this.mapLayer);
 
 		if (cursors.left.isDown)
 		{ // If left key down, move player left
@@ -111,13 +127,13 @@ Play.prototype = {
 		}
 
 		// If up is down, move up
-		if (cursors.up.isDown && this.player.body.touching.down) // && hitPlatform)
+		if (cursors.up.isDown && this.player.body.blocked.down) // && hitPlatform)
 		{
 			// Start jump animation
 			this.jumpState = 1;
 			this.jumpTimer = 0;
 			// Begin moving upwards immediately
-			this.player.body.velocity.y = -650;
+			this.player.body.velocity.y = -1250;
 		}
 
 		// Shorten birb

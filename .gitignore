@@ -6,6 +6,8 @@
 *.csp
 *.psd
 *.pro
+*.pdf
+*.docx
 
 #os related
 .DS_Store*
