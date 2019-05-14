@@ -7,7 +7,6 @@ MainMenu.prototype = {
 
 		// preload assets
 		game.load.image('background', 'assets/img/background.png');
-		game.load.image('ground', 'assets/img/platform.png');
 		game.load.image('birb', 'assets/img/birb.png');
 		game.load.image('mask', 'assets/img/mask.png');
 		game.load.image('star', 'assets/img/star.png');
@@ -41,6 +40,7 @@ MainMenu.prototype = {
 		game.add.text(400,200, 'Page Life\n\n' +
 			'Use the arrow keys to move\nleft, right, up and down.\n' +
 			'Find the star and click it to win!\n' +
+			'You can also drag the friend birb around.\n' +
 			'Press Space To Start', { fontSize: '32px', fill: '#000'});
 		game.add.sprite(-1 * game.world.width, -1 * game.world.height, 'mask');
 	},
