@@ -1,3 +1,11 @@
+/*
+Page Life
+
+Will Porter
+Pace Mendoza
+Alenis Lennelluc
+*/
+
 var game = new Phaser.Game(1280, 720, Phaser.AUTO);
 
 // Global Variables
