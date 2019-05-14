@@ -4,6 +4,8 @@ Page Life
 Will Porter
 Pace Mendoza
 Alenis Lennelluc
+
+https://github.com/AlenisLennelluc/Page-Life
 */
 
 var game = new Phaser.Game(1280, 720, Phaser.AUTO);
