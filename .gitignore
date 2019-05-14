@@ -1,0 +1,29 @@
+#image files
+*.png
+*.jpg
+*.gif
+*.tiff
+*.csp
+*.psd
+*.pro
+*.pdf
+*.docx
+
+#os related
+.DS_Store*
+*.dll
+*.bat
+
+#other files
+*.exe
+*.wav
+*.mp3
+*.mp4
+*.mov
+*.blend
+*.fbx
+*.dae
+*.json
+
+#all assets
+/assets
