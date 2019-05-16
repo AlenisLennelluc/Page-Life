@@ -6,7 +6,6 @@ Play.prototype = {
 		game.stage.setBackgroundColor('#fff');
 		// create new Tilemap objects - when using Tiled, you only need to pass the key
 		this.map = game.add.tilemap('level');
-		this.top = game.add.tilemap('top');
 		// add an image to the maps to be used as a tileset (tileset, key)
     // the tileset name is specified w/in the .json file (or in Tiled)
     // a single map may use multiple tilesets
@@ -15,19 +14,13 @@ Play.prototype = {
 		this.map.addTilesetImage('level1ArtC', 'sheetC');
 		this.map.addTilesetImage('level1ArtD', 'sheetD');
 		this.map.addTilesetImage('level1ArtE', 'sheetE');
-
-		this.top.addTilesetImage('level1artA', 'sheetA');
-		this.top.addTilesetImage('level1ArtB', 'sheetB');
-		this.top.addTilesetImage('level1ArtC', 'sheetC');
-		this.top.addTilesetImage('level1ArtD', 'sheetD');
-		this.top.addTilesetImage('level1ArtE', 'sheetE');
     // set ALL tiles to collide *except* those passed in the array
     this.map.setCollisionByExclusion([]);
     // create new TilemapLayer object
     // A Tilemap Layer is a set of map data combined with a tileset
-    this.mapLayer = this.map.createLayer('Tile Layer 1');
-		this.top.createLayer('Tile Layer 1');
-
+		this.map.createLayer('behind1');
+    this.mapLayer = this.map.createLayer('Platform1');
+		this.map.createLayer('infront1');
     // set the world size to match the size of the Tilemap layer
     this.mapLayer.resizeWorld();
 
