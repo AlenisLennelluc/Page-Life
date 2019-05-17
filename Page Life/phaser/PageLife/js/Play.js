@@ -29,13 +29,14 @@ Play.prototype = {
 		game.physics.arcade.TILE_BIAS = 32;
 
 		// Box the player can move around for future use
-		this.box = game.add.sprite(300, 2000, 'birb');
+		this.box = game.add.sprite(300, 2000, 'egg');
 		this.box.inputEnabled = true;
 		this.box.input.enableDrag(true);
 		game.physics.arcade.enable(this.box);
 		this.box.body.gravity.y = 1200;
 		this.box.body.bounce.y = 0.1;
 		this.box.body.collideWorldBounds = true;
+		this.box.body.friction = new Phaser.Point(0.5, 1);
 		// Make sure box doesnt freak out while picked up
 		this.box.events.onDragStart.add(startDrag, this);
     this.box.events.onDragStop.add(stopDrag, this);
@@ -54,7 +55,8 @@ Play.prototype = {
 		this.player.body.gravity.y = 1200;
 		this.player.body.bounce.y = 0.1;
 		this.player.anchor.setTo(0.5,0.5); // Make mirroring clean
-		game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 1, 1);
+		this.player.body.friction = new Phaser.Point(0.5, 1);
+		game.camera.follow(this.player, Phaser.Camera.FOLLOW_PLATFORMER, .1, .1);
 
 		// 1 = Right, -1 = left
 		this.facing = 1;
@@ -108,6 +110,8 @@ Play.prototype = {
 		{ // Else stop the player and face them front
 			this.player.body.velocity.x = 0;
 		}
+
+		this.box.body.velocity.x *= .5;
 
 		// If up is down, move up
 		if (cursors.up.isDown && (this.player.body.blocked.down || this.player.body.touching.down))
@@ -172,11 +176,15 @@ Play.prototype = {
 // While dragging box, turn off physics
 function startDrag() {
 	this.box.body.moves = false;
+	this.box.body.immovable = true;
+	game.camera.follow(null);
 }
 
 // Once player lets go of box, re-engage physics
 function stopDrag() {
 	this.box.body.moves = true;
+	this.box.body.immovable = false;
+	game.camera.follow(this.player, Phaser.Camera.FOLLOW_PLATFORMER, .1, .1);
 }
 
 // When player clicks on star, end the game

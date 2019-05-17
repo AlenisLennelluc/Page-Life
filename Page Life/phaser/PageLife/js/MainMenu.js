@@ -10,6 +10,7 @@ MainMenu.prototype = {
 		game.load.image('birb', 'assets/img/birb.png');
 		game.load.image('mask', 'assets/img/mask.png');
 		game.load.image('star', 'assets/img/star.png');
+		game.load.image('egg', 'assets/img/egg.png');
 
 		// load tilemap data (key, url, data, format)
     game.load.tilemap('level', 'assets/img/level1.json', null, Phaser.Tilemap.TILED_JSON);
