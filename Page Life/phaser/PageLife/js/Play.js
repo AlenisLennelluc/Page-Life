@@ -41,6 +41,9 @@ Play.prototype = {
 		this.box.events.onDragStart.add(startDrag, this);
     this.box.events.onDragStop.add(stopDrag, this);
 
+		this.oldBoxX = this.box.position.x;
+		this.oldBoxY = this.box.position.y;
+
 		// Create mask to fade out far away parts of the level
 		this.mask = game.add.sprite(0, 720, 'mask');
 		this.mask.anchor.setTo(0.5, 0.5);
@@ -110,8 +113,10 @@ Play.prototype = {
 		{ // Else stop the player and face them front
 			this.player.body.velocity.x = 0;
 		}
-
-		this.box.body.velocity.x *= .5;
+		if (this.box.body.blocked.down || this.box.body.touching.down)
+		{
+			this.box.body.velocity.x *= .7;
+		}
 
 		// If up is down, move up
 		if (cursors.up.isDown && (this.player.body.blocked.down || this.player.body.touching.down))
@@ -170,6 +175,9 @@ Play.prototype = {
 		//update mask
 		this.mask.position.x = this.player.position.x;
 		this.mask.position.y = this.player.position.y;
+
+		this.oldBoxX = this.box.position.x;
+		this.oldBoxY = this.box.position.y;
 	}
 }
 
@@ -185,6 +193,11 @@ function stopDrag() {
 	this.box.body.moves = true;
 	this.box.body.immovable = false;
 	game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, .1, .1);
+	var xMove = this.box.position.x - this.oldBoxX;
+	var yMove = this.box.position.y - this.oldBoxY;
+	this.box.body.velocity.x = xMove;
+	this.box.body.velocity.y = yMove;
+
 }
 
 // When player clicks on star, end the game
