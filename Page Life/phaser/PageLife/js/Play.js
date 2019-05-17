@@ -56,7 +56,7 @@ Play.prototype = {
 		this.player.body.bounce.y = 0.1;
 		this.player.anchor.setTo(0.5,0.5); // Make mirroring clean
 		this.player.body.friction = new Phaser.Point(0.5, 1);
-		game.camera.follow(this.player, Phaser.Camera.FOLLOW_PLATFORMER, .1, .1);
+		game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, .1, .1);
 
 		// 1 = Right, -1 = left
 		this.facing = 1;
@@ -184,7 +184,7 @@ function startDrag() {
 function stopDrag() {
 	this.box.body.moves = true;
 	this.box.body.immovable = false;
-	game.camera.follow(this.player, Phaser.Camera.FOLLOW_PLATFORMER, .1, .1);
+	game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, .1, .1);
 }
 
 // When player clicks on star, end the game
