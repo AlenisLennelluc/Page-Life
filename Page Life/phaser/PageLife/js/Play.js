@@ -41,8 +41,18 @@ Play.prototype = {
 		this.box.events.onDragStart.add(startDrag, this);
     this.box.events.onDragStop.add(stopDrag, this);
 
-		this.oldBoxX = this.box.position.x;
-		this.oldBoxY = this.box.position.y;
+		this.oldBoxX1 = this.box.position.x;
+		this.oldBoxY1 = this.box.position.y;
+		this.oldBoxX2 = this.box.position.x;
+		this.oldBoxY2 = this.box.position.y;
+		this.oldBoxX3 = this.box.position.x;
+		this.oldBoxY3 = this.box.position.y;
+		this.oldBoxX4 = this.box.position.x;
+		this.oldBoxY4 = this.box.position.y;
+		this.oldBoxX5 = this.box.position.x;
+		this.oldBoxY5 = this.box.position.y;
+
+		this.boxDragged = false;
 
 		// Create mask to fade out far away parts of the level
 		this.mask = game.add.sprite(0, 720, 'mask');
@@ -176,8 +186,26 @@ Play.prototype = {
 		this.mask.position.x = this.player.position.x;
 		this.mask.position.y = this.player.position.y;
 
-		this.oldBoxX = this.box.position.x;
-		this.oldBoxY = this.box.position.y;
+
+		// Keeping track of egg movement
+		this.oldBoxX5 = this.oldBoxX4;
+		this.oldBoxY5 = this.oldBoxY4;
+		this.oldBoxX4 = this.oldBoxX3;
+		this.oldBoxY4 = this.oldBoxY3;
+		this.oldBoxX3 = this.oldBoxX2;
+		this.oldBoxY3 = this.oldBoxY2;
+		this.oldBoxX2 = this.oldBoxX1;
+		this.oldBoxY2 = this.oldBoxY1;
+		this.oldBoxX1 = this.box.position.x;
+		this.oldBoxY1 = this.box.position.y;
+
+		var birbEggDist = Math.abs(this.box.position.x - this.player.position.x)
+				+ Math.abs(this.box.position.y - this.player.position.y);
+
+		if (birbEggDist > 500 && !this.boxDragged)
+		{
+			game.state.start('Play');
+		}
 	}
 }
 
@@ -185,6 +213,7 @@ Play.prototype = {
 function startDrag() {
 	this.box.body.moves = false;
 	this.box.body.immovable = true;
+	this.boxDragged = true;
 	game.camera.follow(null);
 }
 
@@ -192,11 +221,20 @@ function startDrag() {
 function stopDrag() {
 	this.box.body.moves = true;
 	this.box.body.immovable = false;
+	this.boxDragged = false;
 	game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, .1, .1);
-	var xMove = this.box.position.x - this.oldBoxX;
-	var yMove = this.box.position.y - this.oldBoxY;
-	this.box.body.velocity.x = xMove;
-	this.box.body.velocity.y = yMove;
+	var xMove = this.box.position.x - this.oldBoxX1;
+	var yMove = this.box.position.y - this.oldBoxY1;
+	xMove += this.oldBoxX1 - this.oldBoxX2;
+	yMove += this.oldBoxY1 - this.oldBoxY2;
+	xMove += this.oldBoxX2 - this.oldBoxX3;
+	yMove += this.oldBoxY2 - this.oldBoxY3;
+	xMove += this.oldBoxX3 - this.oldBoxX4;
+	yMove += this.oldBoxY3 - this.oldBoxY4;
+	xMove += this.oldBoxX4 - this.oldBoxX5;
+	yMove += this.oldBoxY4 - this.oldBoxY5;
+	this.box.body.velocity.x = xMove * 2;
+	this.box.body.velocity.y = yMove * 2;
 
 }
 
