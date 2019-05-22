@@ -18,9 +18,9 @@ Play.prototype = {
     this.map.setCollisionByExclusion([]);
     // create new TilemapLayer object
     // A Tilemap Layer is a set of map data combined with a tileset
-		this.map.createLayer('behind1');
-    this.mapLayer = this.map.createLayer('Platform1');
-		this.map.createLayer('infront1');
+		// this.map.createLayer('behind1');
+    this.mapLayer = this.map.createLayer('Tile Layer 1');
+		// this.map.createLayer('infront1');
     // set the world size to match the size of the Tilemap layer
     this.mapLayer.resizeWorld();
 
@@ -69,6 +69,7 @@ Play.prototype = {
 		this.player.body.bounce.y = 0.1;
 		this.player.anchor.setTo(0.5,0.5); // Make mirroring clean
 		this.player.body.friction = new Phaser.Point(0.5, 1);
+		this.player.tint = 0xff0000;
 		game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, .1, .1);
 
 		// 1 = Right, -1 = left
@@ -199,13 +200,21 @@ Play.prototype = {
 		this.oldBoxX1 = this.box.position.x;
 		this.oldBoxY1 = this.box.position.y;
 
-		var birbEggDist = Math.abs(this.box.position.x - this.player.position.x)
-				+ Math.abs(this.box.position.y - this.player.position.y);
+		var birbEggDistX = (this.box.position.x - this.player.position.x);
+		var birbEggDistY = (this.box.position.y - this.player.position.y);
 
-		if (birbEggDist > 500 && !this.boxDragged)
+		//console.log('Dist x: ' + birbEggDistX + ' y: ' + birbEggDistY);
+
+		var birbEggDist = Math.sqrt(Math.pow(birbEggDistX, 2) + Math.pow(birbEggDistY, 2));
+
+		//console.log('Total Dist: ' + birbEggDist);
+
+		if (birbEggDist > 1000 && !this.boxDragged)
 		{
 			game.state.start('Play');
 		}
+
+		this.player.tint = birbEggDist / 1000 * 0xff0000;
 	}
 }
 
@@ -223,6 +232,8 @@ function stopDrag() {
 	this.box.body.immovable = false;
 	this.boxDragged = false;
 	game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, .1, .1);
+
+	// Grab the last 5 x and y locations of the egg to calculate momentum
 	var xMove = this.box.position.x - this.oldBoxX1;
 	var yMove = this.box.position.y - this.oldBoxY1;
 	xMove += this.oldBoxX1 - this.oldBoxX2;

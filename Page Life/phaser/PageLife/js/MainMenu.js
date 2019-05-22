@@ -7,13 +7,13 @@ MainMenu.prototype = {
 
 		// preload assets
 		game.load.image('background', 'assets/img/background.png');
-		game.load.image('birb', 'assets/img/birb.png');
+		game.load.image('birb', 'assets/img/grey_birb.png');
 		game.load.image('mask', 'assets/img/mask.png');
 		game.load.image('star', 'assets/img/star.png');
 		game.load.image('egg', 'assets/img/egg.png');
 
 		// load tilemap data (key, url, data, format)
-    game.load.tilemap('level', 'assets/img/level1.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('level', 'assets/img/page_life_map.json', null, Phaser.Tilemap.TILED_JSON);
     // load tilemap spritesheet (key, url, frameWidth, frameHeight)
     game.load.spritesheet('sheetA', 'assets/img/level1ArtA.png', 32, 32);
 		game.load.spritesheet('sheetB', 'assets/img/level1ArtB.png', 32, 32);
