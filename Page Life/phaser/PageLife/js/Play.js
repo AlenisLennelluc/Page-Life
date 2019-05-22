@@ -211,7 +211,8 @@ Play.prototype = {
 
 		if (birbEggDist > 1000 && !this.boxDragged)
 		{
-			game.state.start('Play');
+			this.player.position.x = this.oldBoxX5;
+			this.player.position.y = this.oldBoxY5;
 		}
 
 		this.player.tint = birbEggDist / 1000 * 0xff0000;
