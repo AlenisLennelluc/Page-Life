@@ -54,6 +54,19 @@ Play.prototype = {
 
 		this.boxDragged = false;
 
+		this.nests = game.add.group();
+		this.nests.enableBody = true;
+		this.nests.create(400, game.world.height - 200, 'nest');
+		this.nests.create(2400, game.world.height - 200, 'nest');
+		this.nests.create(3776, 9436, 'nest');
+		this.nests.create(4960, 4572, 'nest');
+		this.nests.create(7072, 2396, 'nest');
+		this.nests.create(1440, 988, 'nest');
+		this.nests.create(4000, 1436, 'nest');
+
+		this.saveX = 400;
+		this.saveY = game.world.height - 200;
+
 		// Create mask to fade out far away parts of the level
 		this.mask = game.add.sprite(0, 720, 'mask');
 		this.mask.anchor.setTo(0.5, 0.5);
@@ -71,6 +84,9 @@ Play.prototype = {
 		this.player.body.friction = new Phaser.Point(0.5, 1);
 		this.player.tint = 0xff0000;
 		game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, .1, .1);
+
+		this.player.animations.add('walk', [ 0, 1, 2, 3], 10, true);
+		this.player.animations.add('jump', [4], 10, true);
 
 		// 1 = Right, -1 = left
 		this.facing = 1;
@@ -98,10 +114,12 @@ Play.prototype = {
 		game.physics.arcade.collide(this.player, this.mapLayer);
 		game.physics.arcade.collide(this.box, this.mapLayer);
 		game.physics.arcade.overlap(this.star, this.box, getStar, null, this);
+		game.physics.arcade.overlap(this.box, this.nests, setSave, null, this);
 
 		if (cursors.left.isDown)
 		{ // If left key down, move player left
 			this.player.body.velocity.x = -300;
+			this.player.animations.play('walk');
 			// Enable mirroring
 			if (this.player.scale.x > 0)
 			{
@@ -112,6 +130,7 @@ Play.prototype = {
 		else if (cursors.right.isDown)
 		{ // If right key down, move playerr right
 			this.player.body.velocity.x = 300;
+			this.player.animations.play('walk');
 			// disable mirroring
 			if (this.player.scale.x < 0)
 			{
@@ -120,8 +139,13 @@ Play.prototype = {
 			}
 		}
 		else
-		{ // Else stop the player and face them front
+		{ // Else stop the player
 			this.player.body.velocity.x = 0;
+			this.player.animations.stop();
+			if (this.player.body.blocked.down || this.player.body.touching.down)
+			{
+				this.player.frame = 0;
+			}
 		}
 		if (this.box.body.blocked.down || this.box.body.touching.down)
 		{
@@ -136,6 +160,7 @@ Play.prototype = {
 			this.jumpTimer = 0;
 			// Begin moving upwards immediately
 			this.player.body.velocity.y = -650;
+			this.player.animations.play('jump');
 			this.jump.play();
 		}
 
@@ -211,6 +236,9 @@ Play.prototype = {
 
 		if (birbEggDist > 1000 && !this.boxDragged)
 		{
+			console.log(this.saveX + " " + this.saveY);
+			this.box.position.x = this.saveX;
+			this.box.position.y = this.saveY;
 			this.player.position.x = this.oldBoxX5;
 			this.player.position.y = this.oldBoxY5;
 		}
@@ -255,4 +283,11 @@ function stopDrag() {
 function getStar() {
 	this.pickup.play();
 	game.state.start('GameOver');
+}
+
+// When player touches a nest, log the save Point
+function setSave(egg, nest) {
+	this.saveX = nest.position.x;
+	this.saveY = nest.position.y;
+	console.log("set save to: " + this.saveX + ", " + this.saveY);
 }

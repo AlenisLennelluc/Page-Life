@@ -7,7 +7,7 @@ MainMenu.prototype = {
 
 		// preload assets
 		game.load.image('background', 'assets/img/background.png');
-		game.load.image('birb', 'assets/img/grey_birb.png');
+		game.load.spritesheet('birb', 'assets/img/birb_walk_cycle.png', 100, 115);
 		game.load.image('mask', 'assets/img/mask.png');
 		game.load.image('star', 'assets/img/star.png');
 		game.load.image('egg', 'assets/img/egg.png');
