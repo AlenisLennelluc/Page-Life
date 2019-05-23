@@ -29,7 +29,7 @@ Play.prototype = {
 		game.physics.arcade.TILE_BIAS = 32;
 
 		// Box the player can move around for future use
-		this.box = game.add.sprite(300, 2000, 'egg');
+		this.box = game.add.sprite(game.world.width - 1000, 500, 'egg');
 		this.box.inputEnabled = true;
 		this.box.input.enableDrag(true);
 		game.physics.arcade.enable(this.box);
@@ -75,11 +75,9 @@ Play.prototype = {
 		// 1 = Right, -1 = left
 		this.facing = 1;
 
-		// Star for player to click on to win the game
-		this.star = game.add.sprite(game.world.width - 400, 2200, 'star');
-		this.star.inputEnabled = true;
-		this.star.input.enableDrag(true);
-		this.star.events.onDragStart.add(getStar, this);
+		// Star for player to touch and win the game
+		this.star = game.add.sprite(game.world.width - 400, 400, 'star');
+		game.physics.arcade.enable(this.star);
 
 		// Grab the arrowkey inputs
 		cursors = game.input.keyboard.createCursorKeys();
@@ -99,6 +97,7 @@ Play.prototype = {
 		game.physics.arcade.collide(this.player, this.box);
 		game.physics.arcade.collide(this.player, this.mapLayer);
 		game.physics.arcade.collide(this.box, this.mapLayer);
+		game.physics.arcade.overlap(this.star, this.box, getStar, null, this);
 
 		if (cursors.left.isDown)
 		{ // If left key down, move player left
@@ -200,6 +199,7 @@ Play.prototype = {
 		this.oldBoxX1 = this.box.position.x;
 		this.oldBoxY1 = this.box.position.y;
 
+		// Calculate distance from birb to egg
 		var birbEggDistX = (this.box.position.x - this.player.position.x);
 		var birbEggDistY = (this.box.position.y - this.player.position.y);
 
@@ -215,6 +215,7 @@ Play.prototype = {
 			this.player.position.y = this.oldBoxY5;
 		}
 
+		// Currently tints semirandomly. Should tint red.
 		this.player.tint = birbEggDist / 1000 * 0xff0000;
 	}
 }
@@ -250,7 +251,7 @@ function stopDrag() {
 
 }
 
-// When player clicks on star, end the game
+// When player steps on star, end the game
 function getStar() {
 	this.pickup.play();
 	game.state.start('GameOver');
