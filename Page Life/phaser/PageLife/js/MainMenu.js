@@ -46,14 +46,37 @@ MainMenu.prototype = {
 		game.add.text(400,200, 'Page Life\n\n' +
 			'Use the arrow keys to move\nleft, right, up and down.\n' +
 			'Find the star and click it to win!\n' +
-			'You can also drag the friend birb around.\n' +
-			'Press Space To Start', { fontSize: '32px', fill: '#000'});
-		game.add.sprite(-1 * game.world.width, -1 * game.world.height, 'mask');
+			'You can also drag the egg around.\n' +
+			'Drop the egg to start.', { fontSize: '32px', fill: '#000'});
+		this.egg = game.add.sprite(170, game.world.height - 250, 'egg');
+		this.egg.inputEnabled = true;
+		this.egg.input.enableDrag(true);
+		game.physics.arcade.enable(this.egg);
+		this.egg.body.gravity.y = 1200;
+		this.egg.body.bounce.y = 0.1;
+		this.egg.events.onDragStart.add(startDragMenu, this);
+    this.egg.events.onDragStop.add(stopDragMenu, this);
+
+		this.nest = game.add.sprite(100, game.world.height - 200, 'nest');
+		game.physics.arcade.enable(this.nest);
+		this.nest.body.immovable = true;
 	},
 
 	update() {
-		// Check for spacebar to move to Play
-		if (game.input.keyboard.isDown(Phaser.KeyCode.SPACEBAR))
+		game.physics.arcade.collide(this.egg, this.nest);
+
+		if (this.egg.position.y > game.world.height + 100)
+		{
 			game.state.start('Play');
+		}
 	}
+}
+
+function startDragMenu() {
+	this.egg.body.moves = false;
+}
+
+// Once player lets go of box, re-engage physics
+function stopDragMenu() {
+	this.egg.body.moves = true;
 }
