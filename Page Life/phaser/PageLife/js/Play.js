@@ -14,6 +14,11 @@ Play.prototype = {
 		this.map.addTilesetImage('level1ArtC', 'sheetC');
 		this.map.addTilesetImage('level1ArtD', 'sheetD');
 		this.map.addTilesetImage('level1ArtE', 'sheetE');
+		this.map.addTilesetImage('level1ArtF', 'sheetF');
+		this.map.addTilesetImage('levelArtG', 'sheetG');
+		this.map.addTilesetImage('levelArtH', 'sheetH');
+		this.map.addTilesetImage('levelArtJ', 'sheetJ');
+		this.map.addTilesetImage('levelArtK', 'sheetK');
     // set ALL tiles to collide *except* those passed in the array
     this.map.setCollisionByExclusion([]);
     // create new TilemapLayer object

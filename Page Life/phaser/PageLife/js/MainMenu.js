@@ -21,6 +21,11 @@ MainMenu.prototype = {
 		game.load.spritesheet('sheetC', 'assets/img/level1ArtC.png', 32, 32);
 		game.load.spritesheet('sheetD', 'assets/img/level1ArtD.png', 32, 32);
 		game.load.spritesheet('sheetE', 'assets/img/level1ArtE.png', 32, 32);
+		game.load.spritesheet('sheetF', 'assets/img/level1ArtF.PNG', 32, 32);
+		game.load.spritesheet('sheetG', 'assets/img/levelArtG.PNG', 32, 32);
+		game.load.spritesheet('sheetH', 'assets/img/levelArtH.PNG', 32, 32);
+		game.load.spritesheet('sheetJ', 'assets/img/levelArtJ.PNG', 32, 32);
+		game.load.spritesheet('sheetK', 'assets/img/levelArtK.PNG', 32, 32);
 
 		// Load audio
 		game.load.audio('jump', 'assets/audio/BirbJump.wav');
