@@ -159,7 +159,7 @@ Play.prototype = {
 		}
 
 		// If up is down, move up
-		if ((cursors.up.isDown || game.input.keyboard.isDown(Phaser.KeyCode.W)) && (this.player.body.blocked.down || this.player.body.touching.down))
+		if ((cursors.up.isDown || game.input.keyboard.isDown(Phaser.KeyCode.W) || game.input.keyboard.isDown(Phaser.KeyCode.SPACEBAR)) && (this.player.body.blocked.down || this.player.body.touching.down))
 		{
 			// Start jump animation
 			this.jumpState = 1;
