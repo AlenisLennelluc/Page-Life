@@ -18,9 +18,9 @@ Play.prototype = {
     this.map.setCollisionByExclusion([]);
     // create new TilemapLayer object
     // A Tilemap Layer is a set of map data combined with a tileset
-		// this.map.createLayer('behind1');
-    this.mapLayer = this.map.createLayer('Tile Layer 1');
-		// this.map.createLayer('infront1');
+		this.map.createLayer('behind');
+    this.mapLayer = this.map.createLayer('platforms');
+		this.map.createLayer('ontop');
     // set the world size to match the size of the Tilemap layer
     this.mapLayer.resizeWorld();
 
@@ -86,7 +86,7 @@ Play.prototype = {
 		game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, .1, .1);
 
 		this.player.animations.add('walk', [ 0, 1, 2, 3], 10, true);
-		this.player.animations.add('jump', [4], 10, true);
+		this.player.animations.add('jump', [4,5], 10, true);
 
 		// 1 = Right, -1 = left
 		this.facing = 1;
@@ -116,10 +116,13 @@ Play.prototype = {
 		game.physics.arcade.overlap(this.star, this.box, getStar, null, this);
 		game.physics.arcade.overlap(this.box, this.nests, setSave, null, this);
 
-		if (cursors.left.isDown)
+		if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.KeyCode.A))
 		{ // If left key down, move player left
 			this.player.body.velocity.x = -300;
-			this.player.animations.play('walk');
+			if (this.player.body.blocked.down || this.player.body.touching.down)
+			{
+				this.player.animations.play('walk');
+			}
 			// Enable mirroring
 			if (this.player.scale.x > 0)
 			{
@@ -127,10 +130,13 @@ Play.prototype = {
 				this.player.scale.x *= -1;
 			}
 		}
-		else if (cursors.right.isDown)
+		else if (cursors.right.isDown || game.input.keyboard.isDown(Phaser.KeyCode.D))
 		{ // If right key down, move playerr right
 			this.player.body.velocity.x = 300;
-			this.player.animations.play('walk');
+			if (this.player.body.blocked.down || this.player.body.touching.down)
+			{
+				this.player.animations.play('walk');
+			}
 			// disable mirroring
 			if (this.player.scale.x < 0)
 			{
@@ -141,9 +147,9 @@ Play.prototype = {
 		else
 		{ // Else stop the player
 			this.player.body.velocity.x = 0;
-			this.player.animations.stop();
 			if (this.player.body.blocked.down || this.player.body.touching.down)
 			{
+				this.player.animations.stop();
 				this.player.frame = 0;
 			}
 		}
@@ -153,7 +159,7 @@ Play.prototype = {
 		}
 
 		// If up is down, move up
-		if (cursors.up.isDown && (this.player.body.blocked.down || this.player.body.touching.down))
+		if ((cursors.up.isDown || game.input.keyboard.isDown(Phaser.KeyCode.W)) && (this.player.body.blocked.down || this.player.body.touching.down))
 		{
 			// Start jump animation
 			this.jumpState = 1;
@@ -245,6 +251,10 @@ Play.prototype = {
 
 		// Currently tints semirandomly. Should tint red.
 		this.player.tint = birbEggDist / 1000 * 0xff0000;
+	},
+	render: function() {
+		game.debug.body(this.player);
+		game.debug.body(this.mapLayer);
 	}
 }
 
