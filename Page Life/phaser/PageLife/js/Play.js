@@ -30,34 +30,52 @@ Play.prototype = {
     this.mapLayer.resizeWorld();
 
 		// Turn on the Physics engine
-		game.physics.startSystem(Phaser.Physics.ARCADE);
-		game.physics.arcade.TILE_BIAS = 32;
+		game.physics.startSystem(Phaser.Physics.P2JS);
+		game.physics.p2.gravity.y = 1200;
+		game.physics.p2.restitution = 0.1;
+
+		game.physics.p2.convertTilemap(this.map, this.mapLayer);
+		game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
 		// Box the player can move around for future use
-		this.box = game.add.sprite(game.world.width - 1000, 500, 'egg');
-		this.box.inputEnabled = true;
-		this.box.input.enableDrag(true);
-		game.physics.arcade.enable(this.box);
-		this.box.body.gravity.y = 1200;
-		this.box.body.bounce.y = 0.1;
-		this.box.body.collideWorldBounds = true;
-		this.box.body.friction = new Phaser.Point(0.5, 1);
-		// Make sure box doesnt freak out while picked up
-		this.box.events.onDragStart.add(startDrag, this);
-    this.box.events.onDragStop.add(stopDrag, this);
+		this.egg = game.add.sprite(400, game.world.height - 200, 'egg');
+		// this.box.inputEnabled = true;
+		// this.box.input.enableDrag(true);
+		// this.box.anchor.setTo(0.5, 1);
+		game.physics.p2.enable(this.egg, true);
+		this.egg.body.setCircle(20);
+		// this.box.body.gravity.y = 1200;
+		// this.box.body.bounce.y = 0.1;
+		// this.box.body.collideWorldBounds = true;
+		// this.box.body.friction = new Phaser.Point(0.5, 1);
+		// // Make sure box doesnt freak out while picked up
+		// this.box.events.onDragStart.add(startDrag, this);
+    // this.box.events.onDragStop.add(stopDrag, this);
 
-		this.oldBoxX1 = this.box.position.x;
-		this.oldBoxY1 = this.box.position.y;
-		this.oldBoxX2 = this.box.position.x;
-		this.oldBoxY2 = this.box.position.y;
-		this.oldBoxX3 = this.box.position.x;
-		this.oldBoxY3 = this.box.position.y;
-		this.oldBoxX4 = this.box.position.x;
-		this.oldBoxY4 = this.box.position.y;
-		this.oldBoxX5 = this.box.position.x;
-		this.oldBoxY5 = this.box.position.y;
+		this.mouse = game.add.sprite(200,game.world.height - 200, 'star');
+		game.physics.p2.enable(this.mouse, true);
+		this.mouse.body.static = true;
+		this.mouse.body.setCircle(10);
+		this.mouse.body.data.shapes[0].sensor = true;
 
-		this.boxDragged = false;
+		this.spring = new Phaser.Line(this.egg.x, this.egg.y, this.mouse.x, this.mouse.y);
+
+		game.input.onDown.add(startDrag, this);
+		game.input.onUp.add(stopDrag, this);
+		game.input.addMoveCallback(move, this);
+
+		// this.oldBoxX1 = this.box.position.x;
+		// this.oldBoxY1 = this.box.position.y;
+		// this.oldBoxX2 = this.box.position.x;
+		// this.oldBoxY2 = this.box.position.y;
+		// this.oldBoxX3 = this.box.position.x;
+		// this.oldBoxY3 = this.box.position.y;
+		// this.oldBoxX4 = this.box.position.x;
+		// this.oldBoxY4 = this.box.position.y;
+		// this.oldBoxX5 = this.box.position.x;
+		// this.oldBoxY5 = this.box.position.y;
+
+		//this.boxDragged = false;
 
 		this.nests = game.add.group();
 		this.nests.enableBody = true;
@@ -80,15 +98,20 @@ Play.prototype = {
 		game.add.tileSprite(0,0, game.world.width, game.world.height, 'background');
 
 		// Create the player
-		this.player = game.add.sprite(200, 2000, 'birb');
-		game.physics.arcade.enable(this.player); // Enable physics
-		this.player.body.collideWorldBounds = true; // Make it so the player can't move off screen
-		this.player.body.gravity.y = 1200;
-		this.player.body.bounce.y = 0.1;
-		this.player.anchor.setTo(0.5,0.5); // Make mirroring clean
-		this.player.body.friction = new Phaser.Point(0.5, 1);
-		this.player.tint = 0xff0000;
+		this.player = game.add.sprite(200, game.world.height - 400, 'birb');
+		game.physics.p2.enable(this.player, true); // Enable physics
+		this.player.body.fixedRotation = true;
+		this.player.body.clearShapes();
+		this.player.body.addRectangle(45, 90, 0, -1);
+		// this.player.body.collideWorldBounds = true; // Make it so the player can't move off screen
+		// this.player.body.gravity.y = 1200;
+		// this.player.body.bounce.y = 0.1;
+		// this.player.anchor.setTo(0.5, 0); // Make mirroring clean
+		// this.player.body.friction = new Phaser.Point(0.5, 1);
+		// this.player.tint = 0xff0000;
 		game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, .1, .1);
+
+		// this.eggOnHead = false;
 
 		this.player.animations.add('walk', [ 0, 1, 2, 3], 10, true);
 		this.player.animations.add('jump', [4,5], 10, true);
@@ -98,7 +121,7 @@ Play.prototype = {
 
 		// Star for player to touch and win the game
 		this.star = game.add.sprite(game.world.width - 400, 400, 'star');
-		game.physics.arcade.enable(this.star);
+		game.physics.p2.enable(this.star);
 
 		// Grab the arrowkey inputs
 		cursors = game.input.keyboard.createCursorKeys();
@@ -114,17 +137,18 @@ Play.prototype = {
 	},
 
 	update: function() {
-		// Check if player is touching platform. Returns boolean
-		game.physics.arcade.collide(this.player, this.box);
-		game.physics.arcade.collide(this.player, this.mapLayer);
-		game.physics.arcade.collide(this.box, this.mapLayer);
-		game.physics.arcade.overlap(this.star, this.box, getStar, null, this);
-		game.physics.arcade.overlap(this.box, this.nests, setSave, null, this);
+
+		// Check pphysics
+		// game.physics.arcade.collide(this.player, this.box, slideEgg, null, this);
+		// game.physics.arcade.collide(this.player, this.mapLayer);
+		// game.physics.arcade.collide(this.box, this.mapLayer);
+		// game.physics.arcade.overlap(this.star, this.box, getStar, null, this);
+		// game.physics.arcade.overlap(this.box, this.nests, setSave, null, this);
 
 		if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.KeyCode.A))
 		{ // If left key down, move player left
-			this.player.body.velocity.x = -300;
-			if (this.player.body.blocked.down || this.player.body.touching.down)
+			this.player.body.moveLeft(300);
+			//if (this.player.body.blocked.down || this.player.body.touching.down)
 			{
 				this.player.animations.play('walk');
 			}
@@ -137,8 +161,8 @@ Play.prototype = {
 		}
 		else if (cursors.right.isDown || game.input.keyboard.isDown(Phaser.KeyCode.D))
 		{ // If right key down, move playerr right
-			this.player.body.velocity.x = 300;
-			if (this.player.body.blocked.down || this.player.body.touching.down)
+			this.player.body.moveRight(300);
+			//if (this.player.body.blocked.down || this.player.body.touching.down)
 			{
 				this.player.animations.play('walk');
 			}
@@ -152,27 +176,33 @@ Play.prototype = {
 		else
 		{ // Else stop the player
 			this.player.body.velocity.x = 0;
-			if (this.player.body.blocked.down || this.player.body.touching.down)
+			//if (this.player.body.blocked.down || this.player.body.touching.down)
 			{
 				this.player.animations.stop();
 				this.player.frame = 0;
 			}
 		}
-		if (this.box.body.blocked.down || this.box.body.touching.down)
-		{
-			this.box.body.velocity.x *= .7;
+		// if (this.box.body.blocked.down || this.box.body.touching.down)
+		// {
+		// 	this.box.body.velocity.x *= .7;
+		// }
+
+		if (this.eggOnHead && !this.boxDragged) {
+			this.egg.body.velocity.x = this.player.body.velocity.x;
 		}
 
 		// If up is down, move up
-		if ((cursors.up.isDown || game.input.keyboard.isDown(Phaser.KeyCode.W) || game.input.keyboard.isDown(Phaser.KeyCode.SPACEBAR)) && (this.player.body.blocked.down || this.player.body.touching.down))
+		if ((cursors.up.isDown || game.input.keyboard.isDown(Phaser.KeyCode.W) ||
+			game.input.keyboard.isDown(Phaser.KeyCode.SPACEBAR)) && checkIfCanJump(this.player))
 		{
 			// Start jump animation
 			this.jumpState = 1;
 			this.jumpTimer = 0;
+			this.eggOnHead = false;
 			// Begin moving upwards immediately
-			this.player.body.velocity.y = -650;
+			this.player.body.moveUp(650);
 			this.player.animations.play('jump');
-			this.jump.play();
+			//this.jump.play();
 		}
 
 		// Shorten birb
@@ -224,20 +254,20 @@ Play.prototype = {
 
 
 		// Keeping track of egg movement
-		this.oldBoxX5 = this.oldBoxX4;
-		this.oldBoxY5 = this.oldBoxY4;
-		this.oldBoxX4 = this.oldBoxX3;
-		this.oldBoxY4 = this.oldBoxY3;
-		this.oldBoxX3 = this.oldBoxX2;
-		this.oldBoxY3 = this.oldBoxY2;
-		this.oldBoxX2 = this.oldBoxX1;
-		this.oldBoxY2 = this.oldBoxY1;
-		this.oldBoxX1 = this.box.position.x;
-		this.oldBoxY1 = this.box.position.y;
+		// this.oldBoxX5 = this.oldBoxX4;
+		// this.oldBoxY5 = this.oldBoxY4;
+		// this.oldBoxX4 = this.oldBoxX3;
+		// this.oldBoxY4 = this.oldBoxY3;
+		// this.oldBoxX3 = this.oldBoxX2;
+		// this.oldBoxY3 = this.oldBoxY2;
+		// this.oldBoxX2 = this.oldBoxX1;
+		// this.oldBoxY2 = this.oldBoxY1;
+		// this.oldBoxX1 = this.box.position.x;
+		// this.oldBoxY1 = this.box.position.y;
 
 		// Calculate distance from birb to egg
-		var birbEggDistX = (this.box.position.x - this.player.position.x);
-		var birbEggDistY = (this.box.position.y - this.player.position.y);
+		var birbEggDistX = (this.egg.position.x - this.player.position.x);
+		var birbEggDistY = (this.egg.position.y - this.player.position.y);
 
 		//console.log('Dist x: ' + birbEggDistX + ' y: ' + birbEggDistY);
 
@@ -247,15 +277,15 @@ Play.prototype = {
 
 		if (birbEggDist > 1000 && !this.boxDragged)
 		{
-			console.log(this.saveX + " " + this.saveY);
-			this.box.position.x = this.saveX;
-			this.box.position.y = this.saveY;
-			this.player.position.x = this.oldBoxX5;
-			this.player.position.y = this.oldBoxY5;
+			//console.log(this.saveX + " " + this.saveY);
+			this.egg.position.x = this.saveX;
+			this.egg.position.y = this.saveY;
+			this.player.position.x = this.saveX;
+			this.player.position.y = this.saveY;
 		}
 
 		// Currently tints semirandomly. Should tint red.
-		this.player.tint = birbEggDist / 1000 * 0xff0000;
+		//this.player.tint = birbEggDist / 1000 * 0xff0000;
 	},
 	render: function() {
 		game.debug.body(this.player);
@@ -264,34 +294,31 @@ Play.prototype = {
 }
 
 // While dragging box, turn off physics
-function startDrag() {
-	this.box.body.moves = false;
-	this.box.body.immovable = true;
-	this.boxDragged = true;
-	game.camera.follow(null);
+function startDrag(pointer) {
+	var position = Phaser.Point.add(pointer.position, game.camera.position);
+	var eggPosition = this.egg.position;
+	var bodies = game.physics.p2.hitTest(position, [this.egg.body]);
+
+	if (bodies.length)
+	{
+		this.mouseSpring = game.physics.p2.createSpring(this.mouse, bodies[0], 0, 70, 10);
+	}
 }
 
 // Once player lets go of box, re-engage physics
 function stopDrag() {
-	this.box.body.moves = true;
-	this.box.body.immovable = false;
-	this.boxDragged = false;
-	game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, .1, .1);
+	game.physics.p2.removeSpring(this.mouseSpring);
+}
 
-	// Grab the last 5 x and y locations of the egg to calculate momentum
-	var xMove = this.box.position.x - this.oldBoxX1;
-	var yMove = this.box.position.y - this.oldBoxY1;
-	xMove += this.oldBoxX1 - this.oldBoxX2;
-	yMove += this.oldBoxY1 - this.oldBoxY2;
-	xMove += this.oldBoxX2 - this.oldBoxX3;
-	yMove += this.oldBoxY2 - this.oldBoxY3;
-	xMove += this.oldBoxX3 - this.oldBoxX4;
-	yMove += this.oldBoxY3 - this.oldBoxY4;
-	xMove += this.oldBoxX4 - this.oldBoxX5;
-	yMove += this.oldBoxY4 - this.oldBoxY5;
-	this.box.body.velocity.x = xMove * 2;
-	this.box.body.velocity.y = yMove * 2;
-
+// Keep egg on head
+function slideEgg() {
+	if (this.player.position.y >= this.box.position.y)
+	{
+		this.eggOnHead = true;
+		// this.box.position.y = this.player.position.y;
+		// this.box.body.velocity.y = 0;
+		// this.box.position.x = this.player.position.x;
+	}
 }
 
 // When player steps on star, end the game
@@ -305,4 +332,33 @@ function setSave(egg, nest) {
 	this.saveX = nest.position.x;
 	this.saveY = nest.position.y;
 	console.log("set save to: " + this.saveX + ", " + this.saveY);
+}
+
+// Mouse movement
+function move(pointer, x, y, isDown) {
+	this.mouse.body.x = x + game.camera.x;
+	this.mouse.body.y = y + game.camera.y;
+}
+
+
+// http://phaser.io/examples/v2/p2-physics/tilemap-gravity
+function checkIfCanJump(player) {
+
+    var yAxis = p2.vec2.fromValues(0, 1);
+    var result = false;
+
+    for (var i = 0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++)
+    {
+        var c = game.physics.p2.world.narrowphase.contactEquations[i];
+
+        if (c.bodyA === player.body.data || c.bodyB === player.body.data)
+        {
+            var d = p2.vec2.dot(c.normalA, yAxis); // Normal dot Y-axis
+            if (c.bodyA === player.body.data) d *= -1;
+            if (d > 0.5) result = true;
+        }
+    }
+
+    return result;
+
 }
