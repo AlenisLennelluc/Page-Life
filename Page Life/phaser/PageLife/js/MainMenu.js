@@ -12,6 +12,7 @@ MainMenu.prototype = {
 		game.load.image('star', 'assets/img/star.png');
 		game.load.image('egg', 'assets/img/egg.png');
 		game.load.image('nest', 'assets/img/boat_body.png');
+		game.load.image('BGIMG', 'assets/img/page_life_map_platforms.png');
 
 		// load tilemap data (key, url, data, format)
     game.load.tilemap('level', 'assets/img/page_life_map.json', null, Phaser.Tilemap.TILED_JSON);

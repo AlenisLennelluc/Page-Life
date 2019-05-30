@@ -10,24 +10,26 @@ Play.prototype = {
     // the tileset name is specified w/in the .json file (or in Tiled)
     // a single map may use multiple tilesets
     this.map.addTilesetImage('level1artA', 'sheetA');
-		this.map.addTilesetImage('level1ArtB', 'sheetB');
+		//this.map.addTilesetImage('level1ArtB', 'sheetB');
 		this.map.addTilesetImage('level1ArtC', 'sheetC');
-		this.map.addTilesetImage('level1ArtD', 'sheetD');
+		//this.map.addTilesetImage('level1ArtD', 'sheetD');
 		this.map.addTilesetImage('level1ArtE', 'sheetE');
-		this.map.addTilesetImage('level1ArtF', 'sheetF');
-		this.map.addTilesetImage('levelArtG', 'sheetG');
-		this.map.addTilesetImage('levelArtH', 'sheetH');
-		this.map.addTilesetImage('levelArtJ', 'sheetJ');
-		this.map.addTilesetImage('levelArtK', 'sheetK');
+		// this.map.addTilesetImage('level1ArtF', 'sheetF');
+		// this.map.addTilesetImage('levelArtG', 'sheetG');
+		// this.map.addTilesetImage('levelArtH', 'sheetH');
+		// this.map.addTilesetImage('levelArtJ', 'sheetJ');
+		// this.map.addTilesetImage('levelArtK', 'sheetK');
     // set ALL tiles to collide *except* those passed in the array
     this.map.setCollisionByExclusion([]);
     // create new TilemapLayer object
     // A Tilemap Layer is a set of map data combined with a tileset
-		this.map.createLayer('behind');
+		//this.map.createLayer('behind');
     this.mapLayer = this.map.createLayer('platforms');
-		this.map.createLayer('ontop');
+		//this.map.createLayer('ontop');
     // set the world size to match the size of the Tilemap layer
     this.mapLayer.resizeWorld();
+
+		game.add.sprite(0, 0, 'BGIMG');
 
 		// Turn on the Physics engine
 		game.physics.startSystem(Phaser.Physics.P2JS);
@@ -37,7 +39,7 @@ Play.prototype = {
 		game.physics.p2.convertTilemap(this.map, this.mapLayer);
 		game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
-		// Box the player can move around for future use
+		// Egg of the player, bring to star to win
 		this.egg = game.add.sprite(400, game.world.height - 200, 'egg');
 		// this.box.inputEnabled = true;
 		// this.box.input.enableDrag(true);
@@ -57,6 +59,7 @@ Play.prototype = {
 		this.mouse.body.static = true;
 		this.mouse.body.setCircle(10);
 		this.mouse.body.data.shapes[0].sensor = true;
+		this.mouse.alpha = 0;
 
 		this.spring = new Phaser.Line(this.egg.x, this.egg.y, this.mouse.x, this.mouse.y);
 
@@ -75,9 +78,10 @@ Play.prototype = {
 		// this.oldBoxX5 = this.box.position.x;
 		// this.oldBoxY5 = this.box.position.y;
 
-		//this.boxDragged = false;
+		this.eggDragged = false;
 
 		this.nests = game.add.group();
+		this.nests.physicsBodyType = Phaser.Physics.P2JS;
 		this.nests.enableBody = true;
 		this.nests.create(400, game.world.height - 200, 'nest');
 		this.nests.create(2400, game.world.height - 200, 'nest');
@@ -86,6 +90,10 @@ Play.prototype = {
 		this.nests.create(7072, 2396, 'nest');
 		this.nests.create(1440, 988, 'nest');
 		this.nests.create(4000, 1436, 'nest');
+
+		this.nests.forEach(setupNest, this);
+		this.nests.setAll('body.static', true);
+		this.nests.setAll('body.data.shapes[0].sensor', true);
 
 		this.saveX = 400;
 		this.saveY = game.world.height - 200;
@@ -122,6 +130,7 @@ Play.prototype = {
 		// Star for player to touch and win the game
 		this.star = game.add.sprite(game.world.width - 400, 400, 'star');
 		game.physics.p2.enable(this.star);
+		this.star.body.createBodyCallback(this.egg, getStar, this);
 
 		// Grab the arrowkey inputs
 		cursors = game.input.keyboard.createCursorKeys();
@@ -273,15 +282,15 @@ Play.prototype = {
 
 		var birbEggDist = Math.sqrt(Math.pow(birbEggDistX, 2) + Math.pow(birbEggDistY, 2));
 
-		//console.log('Total Dist: ' + birbEggDist);
+		console.log('Total Dist: ' + birbEggDist + ' Being Dragged: ' + this.eggDragged);
 
-		if (birbEggDist > 1000 && !this.boxDragged)
+		if (birbEggDist > 1000 && !this.eggDragged)
 		{
-			//console.log(this.saveX + " " + this.saveY);
-			this.egg.position.x = this.saveX;
-			this.egg.position.y = this.saveY;
-			this.player.position.x = this.saveX;
-			this.player.position.y = this.saveY;
+			console.log(this.saveX + " " + this.saveY);
+			this.egg.body.x = this.saveX;
+			this.egg.body.y = this.saveY;
+			this.player.body.x = this.saveX;
+			this.player.body.y = this.saveY;
 		}
 
 		// Currently tints semirandomly. Should tint red.
@@ -301,13 +310,16 @@ function startDrag(pointer) {
 
 	if (bodies.length)
 	{
-		this.mouseSpring = game.physics.p2.createSpring(this.mouse, bodies[0], 0, 70, 10);
+		this.mouseSpring = game.physics.p2.createLockConstraint(
+			this.mouse, bodies[0],[0,0],0, 1000);
+			this.eggDragged = true;
 	}
 }
 
 // Once player lets go of box, re-engage physics
 function stopDrag() {
-	game.physics.p2.removeSpring(this.mouseSpring);
+	game.physics.p2.removeConstraint(this.mouseSpring);
+	this.eggDragged = false;
 }
 
 // Keep egg on head
@@ -327,8 +339,13 @@ function getStar() {
 	game.state.start('GameOver');
 }
 
+// set nests as savepoints
+function setupNest(nest) {
+	nest.body.createBodyCallback(this.egg, setSave, this);
+}
+
 // When player touches a nest, log the save Point
-function setSave(egg, nest) {
+function setSave(nest, egg) {
 	this.saveX = nest.position.x;
 	this.saveY = nest.position.y;
 	console.log("set save to: " + this.saveX + ", " + this.saveY);
