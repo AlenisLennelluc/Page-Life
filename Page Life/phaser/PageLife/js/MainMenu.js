@@ -11,8 +11,9 @@ MainMenu.prototype = {
 		game.load.image('mask', 'assets/img/mask.png');
 		game.load.image('star', 'assets/img/star.png');
 		game.load.image('egg', 'assets/img/egg.png');
-		game.load.image('nest', 'assets/img/boat_body.png');
-		game.load.image('BGIMG', 'assets/img/page_life_map_platforms.png');
+		game.load.image('nest', 'assets/img/nest.png');
+		game.load.image('bgImage', 'assets/img/page_life_map.png');
+		game.load.image('tear', 'assets/img/Tear.png');
 
 		// load tilemap data (key, url, data, format)
     game.load.tilemap('level', 'assets/img/page_life_map.json', null, Phaser.Tilemap.TILED_JSON);
@@ -22,11 +23,11 @@ MainMenu.prototype = {
 		game.load.spritesheet('sheetC', 'assets/img/level1ArtC.png', 32, 32);
 		game.load.spritesheet('sheetD', 'assets/img/level1ArtD.png', 32, 32);
 		game.load.spritesheet('sheetE', 'assets/img/level1ArtE.png', 32, 32);
-		game.load.spritesheet('sheetF', 'assets/img/level1ArtF.PNG', 32, 32);
-		game.load.spritesheet('sheetG', 'assets/img/levelArtG.PNG', 32, 32);
-		game.load.spritesheet('sheetH', 'assets/img/levelArtH.PNG', 32, 32);
-		game.load.spritesheet('sheetJ', 'assets/img/levelArtJ.PNG', 32, 32);
-		game.load.spritesheet('sheetK', 'assets/img/levelArtK.PNG', 32, 32);
+		// game.load.spritesheet('sheetF', 'assets/img/level1ArtF.PNG', 32, 32);
+		// game.load.spritesheet('sheetG', 'assets/img/levelArtG.PNG', 32, 32);
+		// game.load.spritesheet('sheetH', 'assets/img/levelArtH.PNG', 32, 32);
+		// game.load.spritesheet('sheetJ', 'assets/img/levelArtJ.PNG', 32, 32);
+		// game.load.spritesheet('sheetK', 'assets/img/levelArtK.PNG', 32, 32);
 
 		// Load audio
 		game.load.audio('jump', 'assets/audio/BirbJump.wav');

@@ -92,8 +92,6 @@ Play.prototype = {
 		this.nests.create(4000, 1436, 'nest');
 
 		this.nests.forEach(setupNest, this);
-		this.nests.setAll('body.static', true);
-		this.nests.setAll('body.data.shapes[0].sensor', true);
 
 		this.saveX = 400;
 		this.saveY = game.world.height - 200;
@@ -111,6 +109,10 @@ Play.prototype = {
 		this.player.body.fixedRotation = true;
 		this.player.body.clearShapes();
 		this.player.body.addRectangle(45, 90, 0, -1);
+		this.player.body.addCircle(45 / 2, 0, -45);
+		this.player.body.data.shapes[1].sensor = true;
+		this.player.body.onBeginContact.add(slideEgg, this);
+		this.player.body.onEndContact.add(deSlideEgg, this);
 		// this.player.body.collideWorldBounds = true; // Make it so the player can't move off screen
 		// this.player.body.gravity.y = 1200;
 		// this.player.body.bounce.y = 0.1;
@@ -282,7 +284,7 @@ Play.prototype = {
 
 		var birbEggDist = Math.sqrt(Math.pow(birbEggDistX, 2) + Math.pow(birbEggDistY, 2));
 
-		console.log('Total Dist: ' + birbEggDist + ' Being Dragged: ' + this.eggDragged);
+		//console.log('Total Dist: ' + birbEggDist + ' Being Dragged: ' + this.eggDragged);
 
 		if (birbEggDist > 1000 && !this.eggDragged)
 		{
@@ -313,6 +315,7 @@ function startDrag(pointer) {
 		this.mouseSpring = game.physics.p2.createLockConstraint(
 			this.mouse, bodies[0],[0,0],0, 1000);
 			this.eggDragged = true;
+			game.physics.p2.removeConstraint(this.eggHead);
 	}
 }
 
@@ -323,13 +326,19 @@ function stopDrag() {
 }
 
 // Keep egg on head
-function slideEgg() {
-	if (this.player.position.y >= this.box.position.y)
+function slideEgg(eggBody, eggData, playerShape, eggShape) {
+	if (eggBody === this.egg.body && !this.eggDragged && playerShape.sensor)
 	{
-		this.eggOnHead = true;
-		// this.box.position.y = this.player.position.y;
-		// this.box.body.velocity.y = 0;
-		// this.box.position.x = this.player.position.x;
+		this.eggHead = game.physics.p2.createLockConstraint(
+			this.player, this.egg, [0, 0], 0, 100);
+	}
+}
+
+// if egg falls off head
+function deSlideEgg(player, egg) {
+	if (egg === this.egg.body.data)
+	{
+		game.physics.p2.removeConstraint(this.eggHead);
 	}
 }
 
@@ -341,16 +350,20 @@ function getStar(star, egg, starShape, eggShape) {
 
 // set nests as savepoints
 function setupNest(nest) {
-	nest.body.createBodyCallback(this.egg.body, setSave, this);
+	nest.body.onBeginContact.add(setSave, this);
+	nest.body.static = true;
+	nest.body.data.shapes[0].sensor = true;
 	console.log("setup a nest");
 }
 
 // When player touches a nest, log the save Point
-function setSave(nest, egg, nestShape, eggShape) {
-	console.log("touched a save");
-	this.saveX = nest.x;
-	this.saveY = nest.y;
-	console.log("set save to: " + this.saveX + ", " + this.saveY);
+function setSave(nest, egg) {
+	if (egg === this.egg.body.data) {
+		console.log("touched a save");
+		this.saveX = nest.x;
+		this.saveY = nest.y;
+		console.log("set save to: " + this.saveX + ", " + this.saveY);
+	}
 }
 
 // Mouse movement
