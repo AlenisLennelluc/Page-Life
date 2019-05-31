@@ -130,7 +130,7 @@ Play.prototype = {
 		// Star for player to touch and win the game
 		this.star = game.add.sprite(game.world.width - 400, 400, 'star');
 		game.physics.p2.enable(this.star);
-		this.star.body.createBodyCallback(this.egg, getStar, this);
+		this.star.body.createBodyCallback(this.egg.body, getStar, this);
 
 		// Grab the arrowkey inputs
 		cursors = game.input.keyboard.createCursorKeys();
@@ -334,20 +334,22 @@ function slideEgg() {
 }
 
 // When player steps on star, end the game
-function getStar() {
+function getStar(star, egg, starShape, eggShape) {
 	this.pickup.play();
 	game.state.start('GameOver');
 }
 
 // set nests as savepoints
 function setupNest(nest) {
-	nest.body.createBodyCallback(this.egg, setSave, this);
+	nest.body.createBodyCallback(this.egg.body, setSave, this);
+	console.log("setup a nest");
 }
 
 // When player touches a nest, log the save Point
-function setSave(nest, egg) {
-	this.saveX = nest.position.x;
-	this.saveY = nest.position.y;
+function setSave(nest, egg, nestShape, eggShape) {
+	console.log("touched a save");
+	this.saveX = nest.x;
+	this.saveY = nest.y;
 	console.log("set save to: " + this.saveX + ", " + this.saveY);
 }
 
