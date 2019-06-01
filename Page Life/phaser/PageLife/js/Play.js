@@ -111,8 +111,8 @@ Play.prototype = {
 		this.player.body.addRectangle(45, 90, 0, -1);
 		this.player.body.addCircle(45 / 2, 0, -45);
 		this.player.body.data.shapes[1].sensor = true;
-		this.player.body.onBeginContact.add(slideEgg, this);
-		this.player.body.onEndContact.add(deSlideEgg, this);
+		this.player.body.onBeginContact.add(eggEnteredHead, this);
+		this.player.body.onEndContact.add(eggLeftHead, this);
 		// this.player.body.collideWorldBounds = true; // Make it so the player can't move off screen
 		// this.player.body.gravity.y = 1200;
 		// this.player.body.bounce.y = 0.1;
@@ -198,9 +198,9 @@ Play.prototype = {
 		// 	this.box.body.velocity.x *= .7;
 		// }
 
-		if (this.eggOnHead && !this.boxDragged) {
-			this.egg.body.velocity.x = this.player.body.velocity.x;
-		}
+		// if (this.eggOnHead && !this.boxDragged) {
+		// 	this.egg.body.velocity.x = this.player.body.velocity.x;
+		// }
 
 		// If up is down, move up
 		if ((cursors.up.isDown || game.input.keyboard.isDown(Phaser.KeyCode.W) ||
@@ -209,7 +209,7 @@ Play.prototype = {
 			// Start jump animation
 			this.jumpState = 1;
 			this.jumpTimer = 0;
-			this.eggOnHead = false;
+			// this.eggOnHead = false;
 			// Begin moving upwards immediately
 			this.player.body.moveUp(650);
 			this.player.animations.play('jump');
@@ -313,32 +313,55 @@ function startDrag(pointer) {
 	if (bodies.length)
 	{
 		this.mouseSpring = game.physics.p2.createLockConstraint(
-			this.mouse, bodies[0],[0,0],0, 1000);
-			this.eggDragged = true;
-			game.physics.p2.removeConstraint(this.eggHead);
+		this.mouse, bodies[0],[0,0],0, 1000);
+		this.eggDragged = true;
+		if (this.eggOnHead) {
+			disconnectEgg(this);
+		}
 	}
 }
 
 // Once player lets go of box, re-engage physics
 function stopDrag() {
-	game.physics.p2.removeConstraint(this.mouseSpring);
-	this.eggDragged = false;
+	if (this.eggDragged)
+	{
+		game.physics.p2.removeConstraint(this.mouseSpring);
+		this.eggDragged = false;
+		if (this.eggOnHead) {
+			connectEggToHead(this);
+		}
+	}
 }
 
 // Keep egg on head
-function slideEgg(eggBody, eggData, playerShape, eggShape) {
-	if (eggBody === this.egg.body && !this.eggDragged && playerShape.sensor)
+function eggEnteredHead(eggBody, eggData, playerShape, eggShape) {
+	if (eggBody === this.egg.body && playerShape.sensor)
 	{
-		this.eggHead = game.physics.p2.createLockConstraint(
-			this.player, this.egg, [0, 0], 0, 100);
+		this.eggOnHead = true;
+		connectEggToHead(this);
 	}
 }
 
 // if egg falls off head
-function deSlideEgg(player, egg) {
-	if (egg === this.egg.body.data)
+function eggLeftHead(eggBody, eggData, playerShape, eggShape) {
+	if (eggData === this.egg.body.data && playerShape.sensor)
 	{
-		game.physics.p2.removeConstraint(this.eggHead);
+		disconnectEgg(this);
+		this.eggOnHead = false;
+	}
+}
+
+function connectEggToHead(play) {
+	if (play.eggHead == null && !play.eggDragged) {
+		play.eggHead = game.physics.p2.createLockConstraint(
+			play.player, play.egg, [0, 0], 0, 100);
+	}
+}
+
+function disconnectEgg(play) {
+	if (play.eggHead != null) {
+		game.physics.p2.removeConstraint(play.eggHead);
+		play.eggHead = null;
 	}
 }
 
