@@ -160,6 +160,8 @@ Play.prototype = {
 		this.pickup = game.add.audio('pickup');
 		this.song = game.add.audio('backgroundSong');
 
+		this.song.play('', 0, 0.75, true);
+
 		game.camera.position = this.player.position;
 
 
@@ -170,9 +172,9 @@ Play.prototype = {
 
 	update: function() {
 
-		
 
-		this.song.play('', 0, 0.75, true);
+
+
 
 		// Check pphysics
 		// game.physics.arcade.collide(this.player, this.box, slideEgg, null, this);
