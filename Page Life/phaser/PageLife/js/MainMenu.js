@@ -35,6 +35,19 @@ MainMenu.prototype = {
 	},
 
 	create() {
+		
+		//Code taken from scaling lecture
+		//set scale
+		// show entire game display while maintaining aspect ratio
+		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		//Full Screen
+		// set scaling for fullscreen
+		game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
+		
+		// add button if fullscreen is supported
+		if(game.scale.compatibility.supportsFullScreen) {
+			this.button = game.add.button(32, 32, 'star', this.buttonClick, this, 'star', 'star', 'star');
+		}
 		// Add the background and make it properly cover the canvas
 		var sky = game.add.tileSprite(0,0, game.world.width, game.world.height, 'background');
 
@@ -82,3 +95,12 @@ function startDragMenu() {
 function stopDragMenu() {
 	this.egg.body.moves = true;
 }
+
+//fullscreen slides
+function buttonClick() {
+		if(!game.scale.isFullScreen) {
+			game.scale.startFullScreen();
+		} else {
+			game.scale.stopFullScreen();
+		}
+	}
