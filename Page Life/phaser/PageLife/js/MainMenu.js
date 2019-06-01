@@ -12,7 +12,7 @@ MainMenu.prototype = {
 		game.load.image('star', 'assets/img/star.png');
 		game.load.image('egg', 'assets/img/egg.png');
 		game.load.image('nest', 'assets/img/nest.png');
-		game.load.image('bgImage', 'assets/img/page_life_map.png');
+		game.load.image('BGIMG', 'assets/img/page_life_map.png');
 		game.load.image('tear', 'assets/img/Tear.png');
 
 		// load tilemap data (key, url, data, format)
@@ -35,7 +35,7 @@ MainMenu.prototype = {
 	},
 
 	create() {
-		
+
 		//Code taken from scaling lecture
 		//set scale
 		// show entire game display while maintaining aspect ratio
@@ -43,10 +43,11 @@ MainMenu.prototype = {
 		//Full Screen
 		// set scaling for fullscreen
 		game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
-		
+
 		// add button if fullscreen is supported
 		if(game.scale.compatibility.supportsFullScreen) {
-			this.button = game.add.button(32, 32, 'star', this.buttonClick, this, 'star', 'star', 'star');
+			this.button = game.add.button(32, 32, 'star', buttonClick, this);
+			this.button.anchor.setTo(0.5, 0.5);
 		}
 		// Add the background and make it properly cover the canvas
 		var sky = game.add.tileSprite(0,0, game.world.width, game.world.height, 'background');
@@ -84,6 +85,8 @@ MainMenu.prototype = {
 		{
 			game.state.start('Play');
 		}
+
+		this.button.rotation += .1;
 	}
 }
 

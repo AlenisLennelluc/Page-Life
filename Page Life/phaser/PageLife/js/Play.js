@@ -3,7 +3,7 @@ var Play = function(game) {var score;};
 Play.prototype = {
 
 	create: function() {
-		
+
 		//Code taken from scaling lecture
 		//set scale
 		// show entire game display while maintaining aspect ratio
@@ -11,10 +11,11 @@ Play.prototype = {
 		//Full Screen
 		// set scaling for fullscreen
 		game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
-		
+
 		// add button if fullscreen is supported
 		if(game.scale.compatibility.supportsFullScreen) {
-			this.button = game.add.button(32, 32, 'star', this.buttonClick, this, 'star', 'star', 'star');
+			this.button = game.add.button(32, 32, 'star', buttonClick, this);
+			this.button.fixedToCamera = true;
 		}
 		game.stage.setBackgroundColor('#fff');
 		// create new Tilemap objects - when using Tiled, you only need to pass the key
@@ -67,7 +68,7 @@ Play.prototype = {
 		// this.box.events.onDragStart.add(startDrag, this);
     // this.box.events.onDragStop.add(stopDrag, this);
 
-		this.mouse = game.add.sprite(200,game.world.height - 200, 'star');
+		this.mouse = game.add.sprite(200,game.world.height - 450, 'star');
 		game.physics.p2.enable(this.mouse, true);
 		this.mouse.body.static = true;
 		this.mouse.body.setCircle(10);
@@ -110,8 +111,8 @@ Play.prototype = {
 		this.saveY = game.world.height - 200;
 
 		// Create mask to fade out far away parts of the level
-		//this.mask = game.add.sprite(0, 720, 'mask');
-		//this.mask.anchor.setTo(0.5, 0.5);
+		this.mask = game.add.sprite(0, 720, 'mask');
+		this.mask.anchor.setTo(0.5, 0.5);
 
 		// Insert background
 		game.add.tileSprite(0,0, game.world.width, game.world.height, 'background');
@@ -132,7 +133,7 @@ Play.prototype = {
 		// this.player.anchor.setTo(0.5, 0); // Make mirroring clean
 		// this.player.body.friction = new Phaser.Point(0.5, 1);
 		// this.player.tint = 0xff0000;
-		game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, .1, .1);
+		this.playerJumpTimer = 0;
 
 		// this.eggOnHead = false;
 
@@ -154,6 +155,8 @@ Play.prototype = {
 		this.jump = game.add.audio('jump');
 		this.pickup = game.add.audio('pickup');
 
+		game.camera.position = this.player.position;
+
 
 		// timers
 		this.jumpTimer = 0;
@@ -172,7 +175,7 @@ Play.prototype = {
 		if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.KeyCode.A))
 		{ // If left key down, move player left
 			this.player.body.moveLeft(300);
-			//if (this.player.body.blocked.down || this.player.body.touching.down)
+			if (checkIfCanJump(this.player))
 			{
 				this.player.animations.play('walk');
 			}
@@ -186,7 +189,7 @@ Play.prototype = {
 		else if (cursors.right.isDown || game.input.keyboard.isDown(Phaser.KeyCode.D))
 		{ // If right key down, move playerr right
 			this.player.body.moveRight(300);
-			//if (this.player.body.blocked.down || this.player.body.touching.down)
+			if (checkIfCanJump(this.player))
 			{
 				this.player.animations.play('walk');
 			}
@@ -200,7 +203,7 @@ Play.prototype = {
 		else
 		{ // Else stop the player
 			this.player.body.velocity.x = 0;
-			//if (this.player.body.blocked.down || this.player.body.touching.down)
+			if (checkIfCanJump(this.player))
 			{
 				this.player.animations.stop();
 				this.player.frame = 0;
@@ -217,7 +220,8 @@ Play.prototype = {
 
 		// If up is down, move up
 		if ((cursors.up.isDown || game.input.keyboard.isDown(Phaser.KeyCode.W) ||
-			game.input.keyboard.isDown(Phaser.KeyCode.SPACEBAR)) && checkIfCanJump(this.player))
+			game.input.keyboard.isDown(Phaser.KeyCode.SPACEBAR)) && this.playerJumpTimer < 0 &&
+			checkIfCanJump(this.player))
 		{
 			// Start jump animation
 			this.jumpState = 1;
@@ -226,6 +230,7 @@ Play.prototype = {
 			// Begin moving upwards immediately
 			this.player.body.moveUp(650);
 			this.player.animations.play('jump');
+			this.playerJumpTimer = 0.5;
 			//this.jump.play();
 		}
 
@@ -273,21 +278,7 @@ Play.prototype = {
 		}
 
 		//update mask
-		//this.mask.position.x = this.player.position.x;
-		//this.mask.position.y = this.player.position.y;
-
-
-		// Keeping track of egg movement
-		// this.oldBoxX5 = this.oldBoxX4;
-		// this.oldBoxY5 = this.oldBoxY4;
-		// this.oldBoxX4 = this.oldBoxX3;
-		// this.oldBoxY4 = this.oldBoxY3;
-		// this.oldBoxX3 = this.oldBoxX2;
-		// this.oldBoxY3 = this.oldBoxY2;
-		// this.oldBoxX2 = this.oldBoxX1;
-		// this.oldBoxY2 = this.oldBoxY1;
-		// this.oldBoxX1 = this.box.position.x;
-		// this.oldBoxY1 = this.box.position.y;
+		this.mask.position = this.player.position;
 
 		// Calculate distance from birb to egg
 		var birbEggDistX = (this.egg.position.x - this.player.position.x);
@@ -299,21 +290,20 @@ Play.prototype = {
 
 		//console.log('Total Dist: ' + birbEggDist + ' Being Dragged: ' + this.eggDragged);
 
-		if (birbEggDist > 1000 && !this.eggDragged)
+		if (!this.eggDragged && (birbEggDist > 1000 || !this.egg.inCamera))
 		{
 			console.log(this.saveX + " " + this.saveY);
 			this.egg.body.x = this.saveX;
-			this.egg.body.y = this.saveY;
+			this.egg.body.y = this.saveY - 45;
+			this.egg.body.setZeroVelocity();
 			this.player.body.x = this.saveX;
 			this.player.body.y = this.saveY;
 		}
 
+		this.playerJumpTimer -= game.time.physicsElapsed;
+
 		// Currently tints semirandomly. Should tint red.
 		//this.player.tint = birbEggDist / 1000 * 0xff0000;
-	},
-	render: function() {
-		game.debug.body(this.player);
-		game.debug.body(this.mapLayer);
 	}
 }
 
@@ -368,6 +358,7 @@ function connectEggToHead(play) {
 	if (play.eggHead == null && !play.eggDragged) {
 		play.eggHead = game.physics.p2.createLockConstraint(
 			play.player, play.egg, [0, 0], 0, 100);
+		game.camera.follow(play.player, Phaser.Camera.FOLLOW_LOCKON, .1, .1);
 	}
 }
 
@@ -375,6 +366,7 @@ function disconnectEgg(play) {
 	if (play.eggHead != null) {
 		game.physics.p2.removeConstraint(play.eggHead);
 		play.eggHead = null;
+		game.camera.follow(null);
 	}
 }
 
@@ -430,5 +422,3 @@ function checkIfCanJump(player) {
     return result;
 
 }
-
-
