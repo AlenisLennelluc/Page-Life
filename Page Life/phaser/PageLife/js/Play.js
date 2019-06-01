@@ -54,11 +54,12 @@ Play.prototype = {
 		game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
 		// Egg of the player, bring to star to win
-		this.egg = game.add.sprite(400, game.world.height - 200, 'egg');
+		//this.egg = game.add.sprite(400, game.world.height - 200, 'egg');
+		this.egg = game.add.sprite(200, game.world.height - 400, 'egg'); // debug
 		// this.box.inputEnabled = true;
 		// this.box.input.enableDrag(true);
 		// this.box.anchor.setTo(0.5, 1);
-		game.physics.p2.enable(this.egg, true);
+		game.physics.p2.enable(this.egg);
 		this.egg.body.setCircle(20);
 		// this.box.body.gravity.y = 1200;
 		// this.box.body.bounce.y = 0.1;
@@ -69,7 +70,7 @@ Play.prototype = {
     // this.box.events.onDragStop.add(stopDrag, this);
 
 		this.mouse = game.add.sprite(200,game.world.height - 450, 'star');
-		game.physics.p2.enable(this.mouse, true);
+		game.physics.p2.enable(this.mouse);
 		this.mouse.body.static = true;
 		this.mouse.body.setCircle(10);
 		this.mouse.body.data.shapes[0].sensor = true;
@@ -81,16 +82,16 @@ Play.prototype = {
 		game.input.onUp.add(stopDrag, this);
 		game.input.addMoveCallback(move, this);
 
-		// this.oldBoxX1 = this.box.position.x;
-		// this.oldBoxY1 = this.box.position.y;
-		// this.oldBoxX2 = this.box.position.x;
-		// this.oldBoxY2 = this.box.position.y;
-		// this.oldBoxX3 = this.box.position.x;
-		// this.oldBoxY3 = this.box.position.y;
-		// this.oldBoxX4 = this.box.position.x;
-		// this.oldBoxY4 = this.box.position.y;
-		// this.oldBoxX5 = this.box.position.x;
-		// this.oldBoxY5 = this.box.position.y;
+		this.tears = game.add.group();
+		this.tears.physicsBodyType = Phaser.Physics.P2JS;
+		this.tears.enableBody = true;
+		for (var i = 0; i < 100; i ++) {
+			var tear = this.tears.create(100, game.world.height - i * 300, 'tear');
+			tear.body.static = true;
+			tear.body.clearShapes();
+			tear.body.addRectangle(64, 64, 0, 29);
+			tear.body.velocity.y = -100;
+		}
 
 		this.eggDragged = false;
 
@@ -108,7 +109,7 @@ Play.prototype = {
 		this.nests.forEach(setupNest, this);
 
 		this.saveX = 400;
-		this.saveY = game.world.height - 200;
+		this.saveY = game.world.height - 400;
 
 		// Create mask to fade out far away parts of the level
 		this.mask = game.add.sprite(0, 720, 'mask');
@@ -118,8 +119,9 @@ Play.prototype = {
 		game.add.tileSprite(0,0, game.world.width, game.world.height, 'background');
 
 		// Create the player
-		this.player = game.add.sprite(200, game.world.height - 400, 'birb');
-		game.physics.p2.enable(this.player, true); // Enable physics
+		//this.player = game.add.sprite(200, game.world.height - 400, 'birb');
+		this.player = game.add.sprite(200, game.world.sprite - 400, 'birb'); //debug
+		game.physics.p2.enable(this.player); // Enable physics
 		this.player.body.fixedRotation = true;
 		this.player.body.clearShapes();
 		this.player.body.addRectangle(45, 90, 0, -1);
@@ -146,7 +148,9 @@ Play.prototype = {
 		// Star for player to touch and win the game
 		this.star = game.add.sprite(game.world.width - 400, 400, 'star');
 		game.physics.p2.enable(this.star);
-		this.star.body.createBodyCallback(this.egg.body, getStar, this);
+		this.star.body.data.shapes[0].sensor = true;
+		this.star.body.static = true;
+		this.star.body.onBeginContact.add(getStar, this);
 
 		// Grab the arrowkey inputs
 		cursors = game.input.keyboard.createCursorKeys();
@@ -292,7 +296,7 @@ Play.prototype = {
 
 		if (!this.eggDragged && (birbEggDist > 1000 || !this.egg.inCamera))
 		{
-			console.log(this.saveX + " " + this.saveY);
+			// console.log(this.saveX + " " + this.saveY);
 			this.egg.body.x = this.saveX;
 			this.egg.body.y = this.saveY - 45;
 			this.egg.body.setZeroVelocity();
@@ -304,6 +308,15 @@ Play.prototype = {
 
 		// Currently tints semirandomly. Should tint red.
 		//this.player.tint = birbEggDist / 1000 * 0xff0000;
+
+		this.tears.forEach(resetTears, this);
+	}
+}
+
+// Reset tears
+function resetTears(tear) {
+	if (tear.position.y < 0) {
+		tear.position.y = game.world.height;
 	}
 }
 
@@ -347,7 +360,7 @@ function eggEnteredHead(eggBody, eggData, playerShape, eggShape) {
 
 // if egg falls off head
 function eggLeftHead(eggBody, eggData, playerShape, eggShape) {
-	if (eggData === this.egg.body.data && playerShape.sensor)
+	if (playerShape.sensor && eggData != null && eggData === this.egg.body.data)
 	{
 		disconnectEgg(this);
 		this.eggOnHead = false;
@@ -359,6 +372,7 @@ function connectEggToHead(play) {
 		play.eggHead = game.physics.p2.createLockConstraint(
 			play.player, play.egg, [0, 0], 0, 100);
 		game.camera.follow(play.player, Phaser.Camera.FOLLOW_LOCKON, .1, .1);
+		play.egg.body.mass = 0.1;
 	}
 }
 
@@ -367,6 +381,7 @@ function disconnectEgg(play) {
 		game.physics.p2.removeConstraint(play.eggHead);
 		play.eggHead = null;
 		game.camera.follow(null);
+		play.egg.body.mass = 1;
 	}
 }
 
@@ -381,16 +396,16 @@ function setupNest(nest) {
 	nest.body.onBeginContact.add(setSave, this);
 	nest.body.static = true;
 	nest.body.data.shapes[0].sensor = true;
-	console.log("setup a nest");
+	//console.log("setup a nest");
 }
 
 // When player touches a nest, log the save Point
 function setSave(nest, egg) {
 	if (egg === this.egg.body.data) {
-		console.log("touched a save");
+		//console.log("touched a save");
 		this.saveX = nest.x;
 		this.saveY = nest.y;
-		console.log("set save to: " + this.saveX + ", " + this.saveY);
+		//console.log("set save to: " + this.saveX + ", " + this.saveY);
 	}
 }
 

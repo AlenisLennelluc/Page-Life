@@ -3,7 +3,7 @@ var MainMenu = function(game) {};
 MainMenu.prototype = {
 
 	preload() {
-		console.log('MainMenu: Preload');
+		// console.log('MainMenu: Preload');
 
 		// preload assets
 		game.load.image('background', 'assets/img/background.png');
@@ -19,9 +19,9 @@ MainMenu.prototype = {
     game.load.tilemap('level', 'assets/img/page_life_map.json', null, Phaser.Tilemap.TILED_JSON);
     // load tilemap spritesheet (key, url, frameWidth, frameHeight)
     game.load.spritesheet('sheetA', 'assets/img/level1ArtA.png', 32, 32);
-		game.load.spritesheet('sheetB', 'assets/img/level1ArtB.png', 32, 32);
+		//game.load.spritesheet('sheetB', 'assets/img/level1ArtB.png', 32, 32);
 		game.load.spritesheet('sheetC', 'assets/img/level1ArtC.png', 32, 32);
-		game.load.spritesheet('sheetD', 'assets/img/level1ArtD.png', 32, 32);
+		//game.load.spritesheet('sheetD', 'assets/img/level1ArtD.png', 32, 32);
 		game.load.spritesheet('sheetE', 'assets/img/level1ArtE.png', 32, 32);
 		// game.load.spritesheet('sheetF', 'assets/img/level1ArtF.PNG', 32, 32);
 		// game.load.spritesheet('sheetG', 'assets/img/levelArtG.PNG', 32, 32);
