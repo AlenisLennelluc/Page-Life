@@ -32,6 +32,7 @@ MainMenu.prototype = {
 		// Load audio
 		game.load.audio('jump', 'assets/audio/BirbJump.wav');
 		game.load.audio('pickup', 'assets/audio/BirbPickup.wav');
+		game.load.audio('backgroundSong', 'assets/audio/WorldMap.mp3');
 	},
 
 	create() {
@@ -79,11 +80,15 @@ MainMenu.prototype = {
 	},
 
 	update() {
+
 		game.physics.arcade.collide(this.egg, this.nest);
 
 		if (this.egg.position.y > game.world.height + 100)
 		{
-			game.state.start('Play');
+			// Nate's decoding code from audio slide
+			if(this.cache.isSoundDecoded('backgroundSong')){
+				this.state.start('Play');
+			}
 		}
 
 		this.button.rotation += .1;
