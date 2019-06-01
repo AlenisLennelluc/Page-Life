@@ -12,7 +12,7 @@ MainMenu.prototype = {
 		game.load.image('star', 'assets/img/star.png');
 		game.load.image('egg', 'assets/img/egg.png');
 		game.load.image('nest', 'assets/img/nest.png');
-		game.load.image('BGIMG', 'assets/img/page_life_map.png');
+		game.load.image('BGIMG', 'assets/img/page_life_map_platforms.png');
 		game.load.image('tear', 'assets/img/Tear.png');
 
 		// load tilemap data (key, url, data, format)
