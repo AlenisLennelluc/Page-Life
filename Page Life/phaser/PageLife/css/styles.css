@@ -1,7 +1,19 @@
-body {
-	font-family: Helvetica;
+/*Code used from nathan's scaling css lecture slides*/
+* {
+	box-sizing: border-box;
 }
 
-canvas {
+body,html {
+	margin: 0;
+	padding: 0;
+}
+
+#container {
+	height: 100vh;
+	min-height:525px;
 	border: 1px solid black;
+}
+
+#phaser {
+	height: 100%
 }

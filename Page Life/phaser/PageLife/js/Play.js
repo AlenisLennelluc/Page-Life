@@ -3,6 +3,19 @@ var Play = function(game) {var score;};
 Play.prototype = {
 
 	create: function() {
+		
+		//Code taken from scaling lecture
+		//set scale
+		// show entire game display while maintaining aspect ratio
+		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		//Full Screen
+		// set scaling for fullscreen
+		game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
+		
+		// add button if fullscreen is supported
+		if(game.scale.compatibility.supportsFullScreen) {
+			this.button = game.add.button(32, 32, 'star', this.buttonClick, this, 'star', 'star', 'star');
+		}
 		game.stage.setBackgroundColor('#fff');
 		// create new Tilemap objects - when using Tiled, you only need to pass the key
 		this.map = game.add.tilemap('level');
@@ -97,8 +110,8 @@ Play.prototype = {
 		this.saveY = game.world.height - 200;
 
 		// Create mask to fade out far away parts of the level
-		this.mask = game.add.sprite(0, 720, 'mask');
-		this.mask.anchor.setTo(0.5, 0.5);
+		//this.mask = game.add.sprite(0, 720, 'mask');
+		//this.mask.anchor.setTo(0.5, 0.5);
 
 		// Insert background
 		game.add.tileSprite(0,0, game.world.width, game.world.height, 'background');
@@ -260,8 +273,8 @@ Play.prototype = {
 		}
 
 		//update mask
-		this.mask.position.x = this.player.position.x;
-		this.mask.position.y = this.player.position.y;
+		//this.mask.position.x = this.player.position.x;
+		//this.mask.position.y = this.player.position.y;
 
 
 		// Keeping track of egg movement
@@ -394,3 +407,5 @@ function checkIfCanJump(player) {
     return result;
 
 }
+
+
