@@ -358,7 +358,7 @@ function stopDrag() {
 		game.camera.follow(this.player, 0, 0.1, 0.1);
 		game.camera.deadzone = new Phaser.Rectangle(0, 0, game.camera.width, game.camera.height);
 		if (this.eggOnHead) {
-			connectEggToHead(this);
+			connectEggToHead(this, this.player);
 		}
 	}
 }
@@ -368,7 +368,7 @@ function eggEnteredHead(eggBody, eggData, playerShape, eggShape) {
 	if (eggBody === this.egg.body && playerShape.sensor)
 	{
 		this.eggOnHead = true;
-		connectEggToHead(this);
+		connectEggToHead(this, playerShape.body.parent.sprite);
 	}
 }
 
@@ -381,10 +381,10 @@ function eggLeftHead(eggBody, eggData, playerShape, eggShape) {
 	}
 }
 
-function connectEggToHead(play) {
+function connectEggToHead(play, player) {
 	if (play.eggHead == null && !play.eggDragged) {
 		play.eggHead = game.physics.p2.createLockConstraint(
-			play.player, play.egg, [0, 0], 0, 100);
+			player, play.egg, [0, 0], 0, 100);
 		game.camera.deadzone = new Phaser.Rectangle(game.camera.width / 2, game.camera.height / 2, 0, 0);
 		play.egg.body.mass = 0.1;
 	}
@@ -410,6 +410,8 @@ function setupNest(nest) {
 	nest.body.onBeginContact.add(setSave, this);
 	nest.body.static = true;
 	nest.body.data.shapes[0].sensor = true;
+	nest.body.onBeginContact.add(eggEnteredHead, this);
+	nest.body.onEndContact.add(eggLeftHead, this);
 	//console.log("setup a nest");
 }
 
