@@ -14,6 +14,11 @@ MainMenu.prototype = {
 		game.load.image('nest', 'assets/img/nest.png');
 		game.load.image('BGIMG', 'assets/img/page_life_map_platforms.png');
 		game.load.image('tear', 'assets/img/Tear.png');
+		game.load.image('sNest', 'assets/img/nest-copy.png');
+		game.load.image('no3', 'assets/img/No3.png');
+		game.load.image('no4', 'assets/img/No4.png');
+		game.load.image('no5', 'assets/img/No5.png');
+
 
 		// load tilemap data (key, url, data, format)
     game.load.tilemap('level', 'assets/img/page_life_map.json', null, Phaser.Tilemap.TILED_JSON);
@@ -92,6 +97,18 @@ MainMenu.prototype = {
 		}
 
 		this.button.rotation += .1;
+
+		// wide emitter with snow
+		// emitter = game.add.emitter(game.world.centerX, game.world.centerY);
+		// emitter.makeParticles(['star'], 0, 1);
+		// emitter.start(false, 1000000, 1);
+		// //emitter.setYSpeed(1000, 1000);
+		// let gravity = new Phaser.Point(0,0);
+		// emitter.gravity = gravity;
+		// emitter.setAlpha(0.25, 1);
+		// let area = new Phaser.Rectangle(game.world.centerX, 0, 500, 1);
+		// emitter.area = area;
+
 	}
 }
 

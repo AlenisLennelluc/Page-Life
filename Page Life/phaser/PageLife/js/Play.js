@@ -162,7 +162,7 @@ Play.prototype = {
 		this.pickup = game.add.audio('pickup');
 		this.song = game.add.audio('backgroundSong');
 
-		this.song.play('', 0, 0.75, true);
+		this.song.play('', 0, 0.10, true);
 
 		game.camera.position = this.player.position;
 
