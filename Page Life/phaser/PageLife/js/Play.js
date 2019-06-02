@@ -136,6 +136,8 @@ Play.prototype = {
 		// this.player.body.friction = new Phaser.Point(0.5, 1);
 		// this.player.tint = 0xff0000;
 		this.playerJumpTimer = 0;
+		this.playerJumping = false;
+		game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, .1, .1);
 
 		// this.eggOnHead = false;
 
@@ -186,7 +188,7 @@ Play.prototype = {
 		if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.KeyCode.A))
 		{ // If left key down, move player left
 			this.player.body.moveLeft(300);
-			if (checkIfCanJump(this.player))
+			if (!this.playerJumping && checkIfCanJump(this.player))
 			{
 				this.player.animations.play('walk');
 			}
@@ -200,7 +202,7 @@ Play.prototype = {
 		else if (cursors.right.isDown || game.input.keyboard.isDown(Phaser.KeyCode.D))
 		{ // If right key down, move playerr right
 			this.player.body.moveRight(300);
-			if (checkIfCanJump(this.player))
+			if (!this.playerJumping && checkIfCanJump(this.player))
 			{
 				this.player.animations.play('walk');
 			}
@@ -214,7 +216,7 @@ Play.prototype = {
 		else
 		{ // Else stop the player
 			this.player.body.velocity.x = 0;
-			if (checkIfCanJump(this.player))
+			if (!this.playerJumping && checkIfCanJump(this.player))
 			{
 				this.player.animations.stop();
 				this.player.frame = 0;
@@ -242,6 +244,7 @@ Play.prototype = {
 			this.player.body.moveUp(650);
 			this.player.animations.play('jump');
 			this.playerJumpTimer = 0.5;
+			this.playerJumping = true;
 			//this.jump.play();
 		}
 
@@ -285,6 +288,7 @@ Play.prototype = {
 				this.jumpTimer = 0;
 				this.player.scale.y = 1;
 				this.player.scale.x = this.facing;
+				this.playerJumping = false;
 			}
 		}
 
@@ -338,6 +342,7 @@ function startDrag(pointer) {
 		this.mouseSpring = game.physics.p2.createLockConstraint(
 		this.mouse, bodies[0],[0,0],0, 1000);
 		this.eggDragged = true;
+		game.camera.follow(null);
 		if (this.eggOnHead) {
 			disconnectEgg(this);
 		}
@@ -350,6 +355,8 @@ function stopDrag() {
 	{
 		game.physics.p2.removeConstraint(this.mouseSpring);
 		this.eggDragged = false;
+		game.camera.follow(this.player, 0, 0.1, 0.1);
+		game.camera.deadzone = new Phaser.Rectangle(0, 0, game.camera.width, game.camera.height);
 		if (this.eggOnHead) {
 			connectEggToHead(this);
 		}
@@ -378,7 +385,7 @@ function connectEggToHead(play) {
 	if (play.eggHead == null && !play.eggDragged) {
 		play.eggHead = game.physics.p2.createLockConstraint(
 			play.player, play.egg, [0, 0], 0, 100);
-		game.camera.follow(play.player, Phaser.Camera.FOLLOW_LOCKON, .1, .1);
+		game.camera.deadzone = new Phaser.Rectangle(game.camera.width / 2, game.camera.height / 2, 0, 0);
 		play.egg.body.mass = 0.1;
 	}
 }
@@ -387,7 +394,7 @@ function disconnectEgg(play) {
 	if (play.eggHead != null) {
 		game.physics.p2.removeConstraint(play.eggHead);
 		play.eggHead = null;
-		game.camera.follow(null);
+		game.camera.deadzone = new Phaser.Rectangle(0, 0, game.camera.width, game.camera.height);
 		play.egg.body.mass = 1;
 	}
 }
