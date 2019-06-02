@@ -4,10 +4,15 @@ Play.prototype = {
 
 	create: function() {
 
+		/////////////
+		// SCALING //
+		/////////////
+
 		//Code taken from scaling lecture
 		//set scale
 		// show entire game display while maintaining aspect ratio
 		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+
 		//Full Screen
 		// set scaling for fullscreen
 		game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -17,33 +22,39 @@ Play.prototype = {
 			this.button = game.add.button(32, 32, 'star', buttonClick, this);
 			this.button.fixedToCamera = true;
 		}
+
+		//SET WORLD COLOR
 		game.stage.setBackgroundColor('#fff');
+
+		///////////
+		//TILEMAP//
+		///////////
+
 		// create new Tilemap objects - when using Tiled, you only need to pass the key
 		this.map = game.add.tilemap('level');
+
 		// add an image to the maps to be used as a tileset (tileset, key)
     // the tileset name is specified w/in the .json file (or in Tiled)
     // a single map may use multiple tilesets
     this.map.addTilesetImage('level1artA', 'sheetA');
-		//this.map.addTilesetImage('level1ArtB', 'sheetB');
 		this.map.addTilesetImage('level1ArtC', 'sheetC');
-		//this.map.addTilesetImage('level1ArtD', 'sheetD');
 		this.map.addTilesetImage('level1ArtE', 'sheetE');
-		// this.map.addTilesetImage('level1ArtF', 'sheetF');
-		// this.map.addTilesetImage('levelArtG', 'sheetG');
-		// this.map.addTilesetImage('levelArtH', 'sheetH');
-		// this.map.addTilesetImage('levelArtJ', 'sheetJ');
-		// this.map.addTilesetImage('levelArtK', 'sheetK');
+
     // set ALL tiles to collide *except* those passed in the array
     this.map.setCollisionByExclusion([]);
+
     // create new TilemapLayer object
     // A Tilemap Layer is a set of map data combined with a tileset
-		//this.map.createLayer('behind');
     this.mapLayer = this.map.createLayer('platforms');
-		//this.map.createLayer('ontop');
+
     // set the world size to match the size of the Tilemap layer
     this.mapLayer.resizeWorld();
 
 		game.add.sprite(0, 0, 'BGIMG');
+
+		/////////////
+		// PHYSICS //
+		/////////////
 
 		// Turn on the Physics engine
 		game.physics.startSystem(Phaser.Physics.P2JS);
@@ -54,20 +65,13 @@ Play.prototype = {
 		game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
 		// Egg of the player, bring to star to win
-		//this.egg = game.add.sprite(400, game.world.height - 200, 'egg');
 		this.egg = game.add.sprite(200, game.world.height - 400, 'egg'); // debug
-		// this.box.inputEnabled = true;
-		// this.box.input.enableDrag(true);
-		// this.box.anchor.setTo(0.5, 1);
 		game.physics.p2.enable(this.egg);
 		this.egg.body.setCircle(20);
-		// this.box.body.gravity.y = 1200;
-		// this.box.body.bounce.y = 0.1;
-		// this.box.body.collideWorldBounds = true;
-		// this.box.body.friction = new Phaser.Point(0.5, 1);
-		// // Make sure box doesnt freak out while picked up
-		// this.box.events.onDragStart.add(startDrag, this);
-    // this.box.events.onDragStop.add(stopDrag, this);
+
+		///////////////////
+		// SPRING EFFECT //
+		///////////////////
 
 		this.mouse = game.add.sprite(200,game.world.height - 450, 'star');
 		game.physics.p2.enable(this.mouse);
@@ -82,6 +86,10 @@ Play.prototype = {
 		game.input.onUp.add(stopDrag, this);
 		game.input.addMoveCallback(move, this);
 
+		///////////
+		// TEARS //
+		///////////
+
 		this.tears = game.add.group();
 		this.tears.physicsBodyType = Phaser.Physics.P2JS;
 		this.tears.enableBody = true;
@@ -95,21 +103,29 @@ Play.prototype = {
 
 		this.eggDragged = false;
 
+		///////////
+		// NESTS //
+		///////////
+
 		this.nests = game.add.group();
 		this.nests.physicsBodyType = Phaser.Physics.P2JS;
 		this.nests.enableBody = true;
-		this.nests.create(400, game.world.height - 200, 'nest');
-		this.nests.create(2400, game.world.height - 200, 'nest');
-		this.nests.create(3776, 9436, 'nest');
-		this.nests.create(4960, 4572, 'nest');
-		this.nests.create(7072, 2396, 'nest');
-		this.nests.create(1440, 988, 'nest');
-		this.nests.create(4000, 1436, 'nest');
+		this.nests.create(400, game.world.height - 200, 'sNest');
+		this.nests.create(2400, game.world.height - 200, 'sNest');
+		this.nests.create(3776, 9436, 'sNest');
+		this.nests.create(4960, 4572, 'sNest');
+		this.nests.create(7072, 2396, 'sNest');
+		this.nests.create(1440, 988, 'sNest');
+		this.nests.create(4000, 1436, 'sNest');
 
 		this.nests.forEach(setupNest, this);
 
 		this.saveX = 400;
 		this.saveY = game.world.height - 400;
+
+		///////////
+		// MASKS //
+		///////////
 
 		// Create mask to fade out far away parts of the level
 		this.mask = game.add.sprite(0, 720, 'mask');
@@ -118,34 +134,35 @@ Play.prototype = {
 		// Insert background
 		game.add.tileSprite(0,0, game.world.width, game.world.height, 'background');
 
+		//////////
+		//PLAYER//
+		//////////
+
 		// Create the player
 		//this.player = game.add.sprite(200, game.world.height - 400, 'birb');
 		this.player = game.add.sprite(200, game.world.sprite - 400, 'birb'); //debug
 		game.physics.p2.enable(this.player); // Enable physics
 		this.player.body.fixedRotation = true;
 		this.player.body.clearShapes();
+		//PLAYER PHYSISCS
 		this.player.body.addRectangle(45, 90, 0, -1);
 		this.player.body.addCircle(45 / 2, 0, -45);
 		this.player.body.data.shapes[1].sensor = true;
 		this.player.body.onBeginContact.add(eggEnteredHead, this);
 		this.player.body.onEndContact.add(eggLeftHead, this);
-		// this.player.body.collideWorldBounds = true; // Make it so the player can't move off screen
-		// this.player.body.gravity.y = 1200;
-		// this.player.body.bounce.y = 0.1;
-		// this.player.anchor.setTo(0.5, 0); // Make mirroring clean
-		// this.player.body.friction = new Phaser.Point(0.5, 1);
-		// this.player.tint = 0xff0000;
+		//PLAYER JUMP
 		this.playerJumpTimer = 0;
 		this.playerJumping = false;
 		game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, .1, .1);
-
-		// this.eggOnHead = false;
-
+		//PLAYER ANIMATION
 		this.player.animations.add('walk', [ 0, 1, 2, 3], 10, true);
 		this.player.animations.add('jump', [4,5], 10, true);
-
-		// 1 = Right, -1 = left
+		// 1 = Right, -1 = left, used for mirroring player animation
 		this.facing = 1;
+
+		////////////////////////
+		//END OF GAME SEQUENCE//
+		////////////////////////
 
 		// Star for player to touch and win the game
 		this.star = game.add.sprite(game.world.width - 400, 400, 'star');
@@ -154,8 +171,13 @@ Play.prototype = {
 		this.star.body.static = true;
 		this.star.body.onBeginContact.add(getStar, this);
 
+
 		// Grab the arrowkey inputs
 		cursors = game.input.keyboard.createCursorKeys();
+
+		/////////
+		//AUDIO//
+		/////////
 
 		// Add the audio
 		this.jump = game.add.audio('jump');
@@ -164,6 +186,7 @@ Play.prototype = {
 
 		this.song.play('', 0, 0.10, true);
 
+		//Camera Position
 		game.camera.position = this.player.position;
 
 
@@ -172,18 +195,15 @@ Play.prototype = {
 		this.jumpState = 0;
 	},
 
+	//////////
+	//UPDATE//
+	//////////
+
 	update: function() {
 
-
-
-
-
-		// Check pphysics
-		// game.physics.arcade.collide(this.player, this.box, slideEgg, null, this);
-		// game.physics.arcade.collide(this.player, this.mapLayer);
-		// game.physics.arcade.collide(this.box, this.mapLayer);
-		// game.physics.arcade.overlap(this.star, this.box, getStar, null, this);
-		// game.physics.arcade.overlap(this.box, this.nests, setSave, null, this);
+		////////////
+		//MOVEMENT//
+		////////////
 
 		if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.KeyCode.A))
 		{ // If left key down, move player left
@@ -222,14 +242,10 @@ Play.prototype = {
 				this.player.frame = 0;
 			}
 		}
-		// if (this.box.body.blocked.down || this.box.body.touching.down)
-		// {
-		// 	this.box.body.velocity.x *= .7;
-		// }
 
-		// if (this.eggOnHead && !this.boxDragged) {
-		// 	this.egg.body.velocity.x = this.player.body.velocity.x;
-		// }
+		///////////
+		//JUMPING//
+		///////////
 
 		// If up is down, move up
 		if ((cursors.up.isDown || game.input.keyboard.isDown(Phaser.KeyCode.W) ||
@@ -295,6 +311,10 @@ Play.prototype = {
 		//update mask
 		this.mask.position = this.player.position;
 
+		/////////////
+		//BIRD MATH//
+		/////////////
+
 		// Calculate distance from birb to egg
 		var birbEggDistX = (this.egg.position.x - this.player.position.x);
 		var birbEggDistY = (this.egg.position.y - this.player.position.y);
@@ -314,15 +334,18 @@ Play.prototype = {
 			this.player.body.x = this.saveX;
 			this.player.body.y = this.saveY;
 		}
-
 		this.playerJumpTimer -= game.time.physicsElapsed;
-
-		// Currently tints semirandomly. Should tint red.
-		//this.player.tint = birbEggDist / 1000 * 0xff0000;
-
 		this.tears.forEach(resetTears, this);
 	}
 }
+
+//////////////////
+// END OF UPDATE//
+//////////////////
+
+/////////////
+//FUNCTIONS//
+/////////////
 
 // Reset tears
 function resetTears(tear) {
@@ -449,7 +472,9 @@ function checkIfCanJump(player) {
             if (d > 0.5) result = true;
         }
     }
-
     return result;
-
 }
+
+///////////////////
+// END OF PLAY.js//
+///////////////////
