@@ -403,7 +403,7 @@ function eggEnteredHead(eggBody, eggData, playerShape, eggShape) {
 function eggLeftHead(eggBody, eggData, playerShape, eggShape) {
 	if (playerShape.sensor && eggData != null && this.egg.body != null && eggData === this.egg.body.data)
 	{
-		disconnectEgg(this, this.player.body);
+		disconnectEgg(this, this.player.body.data);
 		this.eggOnHead = false;
 	}
 }
@@ -418,7 +418,7 @@ function connectEggToHead(play) {
 }
 
 function disconnectEgg(play, playerBody) {
-	if ((playerBody == null || playerBody === play.eggHead.bodyA) && play.eggHead != null) {
+	if (play.eggHead != null && (playerBody == null || playerBody === play.eggHead.bodyA)) {
 		game.physics.p2.removeConstraint(play.eggHead);
 		play.eggHead = null;
 		game.camera.deadzone = new Phaser.Rectangle(0, 0, game.camera.width, game.camera.height);
