@@ -25,6 +25,7 @@ Play.prototype = {
 
 		//SET WORLD COLOR
 		game.stage.setBackgroundColor('#fff');
+		game.add.sprite(0, 0, 'BGIMG');
 
 		///////////
 		//TILEMAP//
@@ -36,9 +37,8 @@ Play.prototype = {
 		// add an image to the maps to be used as a tileset (tileset, key)
     // the tileset name is specified w/in the .json file (or in Tiled)
     // a single map may use multiple tilesets
-    this.map.addTilesetImage('level1artA', 'sheetA');
-		this.map.addTilesetImage('level1ArtC', 'sheetC');
-		this.map.addTilesetImage('level1ArtE', 'sheetE');
+    // this.map.addTilesetImage('level1artA', 'sheetA');
+
 
     // set ALL tiles to collide *except* those passed in the array
     this.map.setCollisionByExclusion([]);
@@ -50,7 +50,6 @@ Play.prototype = {
     // set the world size to match the size of the Tilemap layer
     this.mapLayer.resizeWorld();
 
-		game.add.sprite(0, 0, 'BGIMG');
 
 		/////////////
 		// PHYSICS //
