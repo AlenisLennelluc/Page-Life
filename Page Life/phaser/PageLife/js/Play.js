@@ -51,6 +51,8 @@ Play.prototype = {
     // set the world size to match the size of the Tilemap layer
     this.mapLayer.resizeWorld();
 
+		game.camera.x = 0;
+		game.camera.y = game.world.height - game.camera.height;
 
 		/////////////
 		// PHYSICS //
@@ -64,8 +66,31 @@ Play.prototype = {
 		game.physics.p2.convertTilemap(this.map, this.mapLayer);
 		game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
+		///////////
+		// NESTS //
+		///////////
+
+		this.nests = game.add.group();
+		this.nests.physicsBodyType = Phaser.Physics.P2JS;
+		this.nests.enableBody = true;
+		this.nests.create(400, game.world.height - 200, 'sNest');
+		this.nests.create(2400, game.world.height - 200, 'sNest');
+		this.nests.create(3776, 9436, 'sNest');
+		this.nests.create(4960, 4572, 'sNest');
+		this.nests.create(7072, 2396, 'sNest');
+		this.nests.create(1440, 988, 'sNest');
+		this.nests.create(4000, 1436, 'sNest');
+
+		this.nests.forEach(setupNest, this);
+
+		this.saveX = 400;
+		this.saveY = game.world.height - 400;
+
+		//this.saveX = 8562;
+		//this.saveY = 600;
+
 		// Egg of the player, bring to star to win
-		this.egg = game.add.sprite(200, game.world.height - 400, 'egg'); // debug
+		this.egg = game.add.sprite(400, game.world.height - 400, 'egg'); // debug
 		game.physics.p2.enable(this.egg);
 		this.egg.body.setCircle(20);
 
@@ -104,29 +129,6 @@ Play.prototype = {
 		this.eggDragged = false;
 
 		///////////
-		// NESTS //
-		///////////
-
-		this.nests = game.add.group();
-		this.nests.physicsBodyType = Phaser.Physics.P2JS;
-		this.nests.enableBody = true;
-		this.nests.create(400, game.world.height - 200, 'sNest');
-		this.nests.create(2400, game.world.height - 200, 'sNest');
-		this.nests.create(3776, 9436, 'sNest');
-		this.nests.create(4960, 4572, 'sNest');
-		this.nests.create(7072, 2396, 'sNest');
-		this.nests.create(1440, 988, 'sNest');
-		this.nests.create(4000, 1436, 'sNest');
-
-		this.nests.forEach(setupNest, this);
-
-		this.saveX = 400;
-		this.saveY = game.world.height - 400;
-
-		//this.saveX = 8562;
-		//this.saveY = 5044;
-
-		///////////
 		// MASKS //
 		///////////
 
@@ -143,7 +145,7 @@ Play.prototype = {
 
 		// Create the player
 		//this.player = game.add.sprite(200, game.world.height - 400, 'birb');
-		this.player = game.add.sprite(200, game.world.sprite - 400, 'birb'); //debug
+		this.player = game.add.sprite(100, game.world.height - 1000, 'birb'); //debug
 		game.physics.p2.enable(this.player); // Enable physics
 		this.player.body.fixedRotation = true;
 		this.player.body.clearShapes();
@@ -156,7 +158,6 @@ Play.prototype = {
 		//PLAYER JUMP
 		this.playerJumpTimer = 0;
 		this.playerJumping = false;
-		game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, .1, .1);
 		//PLAYER ANIMATION
 		this.player.animations.add('walk', [ 0, 1, 2, 3], 10, true);
 		this.player.animations.add('jump', [4,5], 10, true);
@@ -168,11 +169,11 @@ Play.prototype = {
 		////////////////////////
 
 		// Star for player to touch and win the game
-		this.star = game.add.sprite(game.world.width - 400, 400, 'star');
-		game.physics.p2.enable(this.star);
-		this.star.body.data.shapes[0].sensor = true;
-		this.star.body.static = true;
-		this.star.body.onBeginContact.add(getStar, this);
+		this.home = game.add.sprite(game.world.width - 400, 400, 'nest');
+		game.physics.p2.enable(this.home);
+		this.home.body.data.shapes[0].sensor = true;
+		this.home.body.static = true;
+		this.home.body.onBeginContact.add(getHome, this);
 
 
 		// Grab the arrowkey inputs
@@ -190,7 +191,7 @@ Play.prototype = {
 		this.song.play('', 0, 0.10, true);
 
 		//Camera Position
-		game.camera.position = this.player.position;
+		//game.camera.position = this.player.position;
 
 
 		// timers
@@ -330,7 +331,7 @@ Play.prototype = {
 
 		if (!this.eggDragged && (birbEggDist > 1000 || !this.egg.inCamera))
 		{
-			// console.log(this.saveX + " " + this.saveY);
+			console.log('Player resetting');
 			this.egg.body.x = this.saveX;
 			this.egg.body.y = this.saveY - 45;
 			this.egg.body.setZeroVelocity();
@@ -400,7 +401,7 @@ function eggEnteredHead(eggBody, eggData, playerShape, eggShape) {
 
 // if egg falls off head
 function eggLeftHead(eggBody, eggData, playerShape, eggShape) {
-	if (playerShape.sensor && eggData != null && this.egg.body.data != null && eggData === this.egg.body.data)
+	if (playerShape.sensor && eggData != null && this.egg.body != null && eggData === this.egg.body.data)
 	{
 		disconnectEgg(this, this.player.body);
 		this.eggOnHead = false;
@@ -442,7 +443,7 @@ function connectEggToNest(eggBody, eggData, nestShape, eggShape) {
 }
 
 // When player steps on star, end the game
-function getStar(star, egg, starShape, eggShape) {
+function getHome(nest, egg, nestShape, eggShape) {
 	this.pickup.play();
 	game.state.start('GameOver');
 }

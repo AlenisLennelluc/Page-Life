@@ -54,11 +54,9 @@ MainMenu.prototype = {
 		//bg.loopFull();
 
 		// Add instruction text
-		game.add.text(400,200, 'Page Life\n\n' +
-			'Use the arrow keys to move\nleft, right, up and down.\n' +
-			'Find the star and click it to win!\n' +
-			'You can also drag the egg around.\n' +
-			'Drop the egg to start.', { fontSize: '32px', fill: '#000'});
+		this.text = game.add.text(600,100, 'Page Life\n\n' +
+			'Drag the egg with the mouse.\n' +
+			'Drop it off the side.', { fontSize: '32px', fill: '#000'});
 		this.egg = game.add.sprite(170, game.world.height - 250, 'egg');
 		this.egg.inputEnabled = true;
 		this.egg.input.enableDrag(true);
@@ -68,7 +66,13 @@ MainMenu.prototype = {
 		this.egg.events.onDragStart.add(startDragMenu, this);
     this.egg.events.onDragStop.add(stopDragMenu, this);
 
-		this.nest = game.add.sprite(100, game.world.height - 200, 'nest');
+		this.player = game.add.sprite(0, -300, 'birb');
+		game.physics.arcade.enable(this.player);
+		this.player.animations.add('walk', [ 0, 1, 2, 3], 10, true);
+		this.player.animations.add('jump', [4,5], 10, true);
+		this.player.anchor.setTo(0.5, 0.5);
+
+		this.nest = game.add.sprite(0, game.world.height - 200, 'nest');
 		game.physics.arcade.enable(this.nest);
 		this.nest.body.immovable = true;
 	},
@@ -76,16 +80,63 @@ MainMenu.prototype = {
 	update() {
 
 		game.physics.arcade.collide(this.egg, this.nest);
+		game.physics.arcade.collide(this.player, this.nest);
 
 		if (this.egg.position.y > game.world.height + 100)
 		{
-			// Nate's decoding code from audio slide
+			this.egg.position.y = -200;
+			this.egg.body.gravity.y = 0;
+			this.egg.body.velocity.y = 0;
+
+			this.player.body.position.x = 170;
+			this.player.body.gravity.y = 1200;
+			this.player.body.bounce.y = 0.1;
+
+			this.text.setText('Page Life\n\n' +
+				'Drag the egg with the mouse.\n' +
+				'Drop it off the side.\n\n' +
+				'WASD or arrow keys to move.\n' +
+				'Space or W to jump.\nGo save your egg!');
+		}
+
+		if (this.player.position.y > game.world.height + 100) {
 			if(this.cache.isSoundDecoded('backgroundSong')){
 				this.state.start('Play');
 			}
 		}
 
 		this.button.rotation += .1;
+
+		if (game.input.keyboard.isDown(Phaser.KeyCode.A) || game.input.keyboard.isDown(Phaser.KeyCode.LEFT))
+		{
+			this.player.body.velocity.x = -300;
+			this.player.scale.x = -1;
+		}
+		else if (game.input.keyboard.isDown(Phaser.KeyCode.D) || game.input.keyboard.isDown(Phaser.KeyCode.RIGHT))
+		{
+			this.player.body.velocity.x = 300;
+			this.player.scale.x = 1;
+		}
+		else {
+			this.player.body.velocity.x = 0;
+		}
+
+		if ((game.input.keyboard.isDown(Phaser.KeyCode.UP) || game.input.keyboard.isDown(Phaser.KeyCode.W) ||
+			game.input.keyboard.isDown(Phaser.KeyCode.SPACEBAR)) && this.player.body.touching.down)
+		{
+			this.player.body.velocity.y = -650;
+		}
+
+		if (!this.player.body.touching.down) {
+			this.player.animations.play('jump');
+		}
+		else if (this.player.body.velocity.x != 0) {
+			this.player.animations.play('walk');
+		}
+		else {
+			this.player.animations.stop();
+			this.player.frame = 0;
+		}
 
 		// wide emitter with snow
 		// emitter = game.add.emitter(game.world.centerX, game.world.centerY);
