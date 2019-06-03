@@ -15,9 +15,7 @@ MainMenu.prototype = {
 		game.load.image('BGIMG', 'assets/img/pageLifeMap.png');
 		game.load.image('tear', 'assets/img/Tear.png');
 		game.load.image('sNest', 'assets/img/nest-copy.png');
-		game.load.image('no3', 'assets/img/No3.png');
-		game.load.image('no4', 'assets/img/No4.png');
-		game.load.image('no5', 'assets/img/No5.png');
+		game.load.spritesheet('noCollusion', 'assets/img/collision.PNG', 32, 32);
 
 
 		// load tilemap data (key, url, data, format)

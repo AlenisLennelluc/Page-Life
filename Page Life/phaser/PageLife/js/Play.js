@@ -37,7 +37,7 @@ Play.prototype = {
 		// add an image to the maps to be used as a tileset (tileset, key)
     // the tileset name is specified w/in the .json file (or in Tiled)
     // a single map may use multiple tilesets
-    // this.map.addTilesetImage('level1artA', 'sheetA');
+    this.map.addTilesetImage('collision', 'noCollusion');
 
 
     // set ALL tiles to collide *except* those passed in the array
@@ -45,7 +45,8 @@ Play.prototype = {
 
     // create new TilemapLayer object
     // A Tilemap Layer is a set of map data combined with a tileset
-    this.mapLayer = this.map.createLayer('platforms');
+    this.mapLayer = this.map.createLayer('collision');
+		this.map.layers[0].visible = false;
 
     // set the world size to match the size of the Tilemap layer
     this.mapLayer.resizeWorld();
@@ -93,7 +94,7 @@ Play.prototype = {
 		this.tears.physicsBodyType = Phaser.Physics.P2JS;
 		this.tears.enableBody = true;
 		for (var i = 0; i < 100; i ++) {
-			var tear = this.tears.create(100, game.world.height - i * 300, 'tear');
+			var tear = this.tears.create(8400, 5200 - i * 300, 'tear');
 			tear.body.static = true;
 			tear.body.clearShapes();
 			tear.body.addRectangle(64, 64, 0, 29);
@@ -121,6 +122,9 @@ Play.prototype = {
 
 		this.saveX = 400;
 		this.saveY = game.world.height - 400;
+
+		//this.saveX = 8562;
+		//this.saveY = 5044;
 
 		///////////
 		// MASKS //
@@ -348,8 +352,8 @@ Play.prototype = {
 
 // Reset tears
 function resetTears(tear) {
-	if (tear.position.y < 0) {
-		tear.position.y = game.world.height;
+	if (tear.position.y < 2950) {
+		tear.body.y = 5200;
 	}
 }
 
