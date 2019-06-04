@@ -19,6 +19,7 @@
 *.wav
 *.mp3
 *.mp4
+*.ogg
 *.mov
 *.blend
 *.fbx

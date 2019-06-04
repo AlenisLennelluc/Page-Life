@@ -66,6 +66,25 @@ Play.prototype = {
 		game.physics.p2.convertTilemap(this.map, this.mapLayer);
 		game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
+
+		this.sword = game.physics.p2.createBody(7194, 8834, 0); //, null, [-851, -781, 851, 781]);
+		this.sword.addRectangle(2311, 10);
+		this.sword.angle = 42.5455;
+		this.sword.debug = true;
+		game.physics.p2.addBody(this.sword);
+		// game.physics.p2.enable(this.background, true);
+		// this.background.body.static = true;
+		// this.background.body.removeShape();
+		// this.background.body.addLine(2311, 7194, 8834, -0.742559)
+
+		// 6343 - 8046 = 1703
+		// 8053 - 9616 = 1563
+		//
+		// length: 2311
+		// midX: 7194
+		// midY: 8834
+		// rotation: -0.742559
+
 		///////////
 		// NESTS //
 		///////////
@@ -86,8 +105,8 @@ Play.prototype = {
 		this.saveX = 400;
 		this.saveY = game.world.height - 400;
 
-		//this.saveX = 8562;
-		//this.saveY = 600;
+		//this.saveX = 8046;
+		//this.saveY = 9616;
 
 		// Egg of the player, bring to star to win
 		this.egg = game.add.sprite(400, game.world.height - 400, 'egg'); // debug
@@ -189,10 +208,6 @@ Play.prototype = {
 		this.song = game.add.audio('backgroundSong');
 
 		this.song.play('', 0, 0.10, true);
-
-		//Camera Position
-		//game.camera.position = this.player.position;
-
 
 		// timers
 		this.jumpTimer = 0;
@@ -319,6 +334,10 @@ Play.prototype = {
 		//BIRD MATH//
 		/////////////
 
+		if (!this.eggDragged) {
+			cameraFollowing(this);
+		}
+
 		// Calculate distance from birb to egg
 		var birbEggDistX = (this.egg.position.x - this.player.position.x);
 		var birbEggDistY = (this.egg.position.y - this.player.position.y);
@@ -351,6 +370,25 @@ Play.prototype = {
 //FUNCTIONS//
 /////////////
 
+function cameraFollowing(play) {
+	var destX = (play.player.x - play.egg.x) / -2 + play.player.x - game.camera.width / 2;
+	var destY = (play.player.y - play.egg.y) / -2 + play.player.y - game.camera.height / 2;
+
+	var diffX = destX - game.camera.x;
+	var diffY = destY - game.camera.y;
+
+	if (Math.abs(diffX) > 2) {
+		destX -= diffX * 0.9;
+	}
+
+	if (Math.abs(diffY) > 2) {
+		destY -= diffY * 0.9;
+	}
+
+	game.camera.x = destX;
+	game.camera.y = destY;
+}
+
 // Reset tears
 function resetTears(tear) {
 	if (tear.position.y < 2950) {
@@ -369,7 +407,7 @@ function startDrag(pointer) {
 		this.mouseSpring = game.physics.p2.createLockConstraint(
 		this.mouse, bodies[0],[0,0],0, 1000);
 		this.eggDragged = true;
-		game.camera.follow(null);
+		//game.camera.follow(null);
 		if (this.eggHead) {
 			disconnectEgg(this);
 		}
@@ -382,8 +420,8 @@ function stopDrag() {
 	{
 		game.physics.p2.removeConstraint(this.mouseSpring);
 		this.eggDragged = false;
-		game.camera.follow(this.player, 0, 0.1, 0.1);
-		game.camera.deadzone = new Phaser.Rectangle(0, 0, game.camera.width, game.camera.height);
+		//game.camera.follow(this.player, 0, 0.1, 0.1);
+		//game.camera.deadzone = new Phaser.Rectangle(0, 0, game.camera.width, game.camera.height);
 		if (this.eggOnHead) {
 			connectEggToHead(this);
 		}
@@ -412,7 +450,7 @@ function connectEggToHead(play) {
 	if (play.eggHead == null && !play.eggDragged) {
 		play.eggHead = game.physics.p2.createLockConstraint(
 			play.player, play.egg, [0,0], 0, 10);
-		game.camera.deadzone = new Phaser.Rectangle(game.camera.width / 2, game.camera.height / 2, 0, 0);
+		//game.camera.deadzone = new Phaser.Rectangle(game.camera.width / 2, game.camera.height / 2, 0, 0);
 		play.egg.body.mass = 0.1;
 	}
 }
@@ -421,7 +459,7 @@ function disconnectEgg(play, playerBody) {
 	if (play.eggHead != null && (playerBody == null || playerBody === play.eggHead.bodyA)) {
 		game.physics.p2.removeConstraint(play.eggHead);
 		play.eggHead = null;
-		game.camera.deadzone = new Phaser.Rectangle(0, 0, game.camera.width, game.camera.height);
+		//game.camera.deadzone = new Phaser.Rectangle(0, 0, game.camera.width, game.camera.height);
 		play.egg.body.mass = 1;
 	}
 }
@@ -436,16 +474,19 @@ function connectEggToNest(eggBody, eggData, nestShape, eggShape) {
 			disconnectEgg(this);
 			this.eggHead = game.physics.p2.createLockConstraint(
 				nestShape.body.parent, this.egg, [0, 0], 0, 100);
-			game.camera.deadzone = new Phaser.Rectangle(0, 0, game.camera.width, game.camera.height);
+			//game.camera.deadzone = new Phaser.Rectangle(0, 0, game.camera.width, game.camera.height);
 			this.egg.body.mass = 0.1;
 		}
 	}
 }
 
 // When player steps on star, end the game
-function getHome(nest, egg, nestShape, eggShape) {
-	this.pickup.play();
-	game.state.start('GameOver');
+function getHome(eggBody, eggData, nestShape, eggShape) {
+	if (eggBody === this.egg.body.data)
+	{
+		this.pickup.play();
+		game.state.start('GameOver');
+	}
 }
 
 // set nests as savepoints
