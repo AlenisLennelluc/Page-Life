@@ -9,12 +9,12 @@ MainMenu.prototype = {
 		game.load.image('background', 'assets/img/background.png');
 		game.load.spritesheet('birb', 'assets/img/birb_walk_cycle.png', 75, 95);
 		game.load.image('mask', 'assets/img/mask.png');
-		game.load.image('star', 'assets/img/star.png');
-		game.load.image('egg', 'assets/img/egg.png');
-		game.load.image('nest', 'assets/img/nest.png');
+		// game.load.image('star', 'assets/img/star.png');
+		// game.load.image('egg', 'assets/img/egg.png');
+		// game.load.image('nest', 'assets/img/nest.png');
 		game.load.image('BGIMG', 'assets/img/pageLifeMap.png');
-		game.load.image('tear', 'assets/img/Tear.png');
-		game.load.image('sNest', 'assets/img/nest-copy.png');
+		// game.load.image('tear', 'assets/img/Tear.png');
+		// game.load.image('sNest', 'assets/img/nest-copy.png');
 		game.load.spritesheet('noCollusion', 'assets/img/collision.PNG', 32, 32);
 		game.load.atlas('sprites', 'assets/img/sprites.png', 'assets/img/sprites.json');
 
