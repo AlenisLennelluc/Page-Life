@@ -93,23 +93,24 @@ Play.prototype = {
 		this.nests.physicsBodyType = Phaser.Physics.P2JS;
 		this.nests.enableBody = true;
 		this.nests.create(2670, 14160, 'sprites', 'sNest'); //first nest
-		this.nests.create(1640,13245, 'sprites', 'sNest'); //above the first steps
+		this.nests.create(1640,13235, 'sprites', 'sNest');  //above the first steps
 		this.nests.create(4760, 12755, 'sprites', 'sNest'); //above B block
-		this.nests.create(3810, 9564, 'sprites', 'sNest');
-		this.nests.create(8777, 9727, 'sprites', 'sNest');
-		this.nests.create(4960, 4572, 'sprites', 'sNest');
-		this.nests.create(5325, 7070, 'sprites', 'sNest');
-		this.nests.create(3060, 7150, 'sprites', 'sNest');
-		this.nests.create(3475, 5160, 'sprites', 'sNest');
-		this.nests.create(7072, 2396, 'sprites', 'sNest');
-		this.nests.create(5585, 5025, 'sprites', 'sNest');
-		this.nests.create(7970, 2910, 'sprites', 'sNest');
-		this.nests.create(5260, 2750, 'sprites', 'sNest');
-		this.nests.create(980, 2470, 'sprites', 'sNest');
-		this.nests.create(3810, 9564, 'sprites', 'sNest');
-		this.nests.create(2230, 783, 'sprites', 'sNest');
-		this.nests.create(4054, 1410, 'sprites', 'sNest');
-		this.nests.create(6020, 670, 'sprites', 'sNest');
+		this.nests.create(3810, 9564, 'sprites', 'sNest');	//Start of preschool block section
+		this.nests.create(8777, 9727, 'sprites', 'sNest');	//End of preschool block section
+		this.nests.create(3600, 11100, 'sprites', 'sNest'); //Start of high school climb
+		this.nests.create(4960, 4600, 'sprites', 'sNest');  //Start of the gallery
+		this.nests.create(5330, 2840, 'sprites', 'sNest');  //In the gallery corner
+		this.nests.create(3060, 7150, 'sprites', 'sNest');	//
+		this.nests.create(3475, 5160, 'sprites', 'sNest');	//
+		this.nests.create(7072, 2396, 'sprites', 'sNest');	//
+		this.nests.create(5585, 5025, 'sprites', 'sNest');	//
+		this.nests.create(7970, 2910, 'sprites', 'sNest');	//
+		this.nests.create(5260, 2750, 'sprites', 'sNest');	//
+		this.nests.create(980, 2470, 'sprites', 'sNest');		//
+		this.nests.create(3810, 9564, 'sprites', 'sNest');	//
+		this.nests.create(2230, 783, 'sprites', 'sNest');		//
+		this.nests.create(4054, 1410, 'sprites', 'sNest');	//
+		this.nests.create(6020, 670, 'sprites', 'sNest');		//
 
 		this.nests.forEach(setupNest, this);
 
