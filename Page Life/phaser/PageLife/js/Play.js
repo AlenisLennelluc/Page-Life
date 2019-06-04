@@ -73,13 +73,24 @@ Play.prototype = {
 		this.nests = game.add.group();
 		this.nests.physicsBodyType = Phaser.Physics.P2JS;
 		this.nests.enableBody = true;
-		this.nests.create(400, game.world.height - 200, 'sNest');
-		this.nests.create(2400, game.world.height - 200, 'sNest');
-		this.nests.create(3776, 9436, 'sNest');
+		this.nests.create(2670, 14160, 'sNest'); //first nest
+		this.nests.create(1640,13245, 'sNest'); //above the first steps
+		this.nests.create(4760, 12755, 'sNest'); //above B block
+		this.nests.create(3810, 9564, 'sNest');
+		this.nests.create(8777, 9727, 'sNest');
 		this.nests.create(4960, 4572, 'sNest');
+		this.nests.create(5325, 7070, 'sNest');
+		this.nests.create(3060, 7150, 'sNest');
+		this.nests.create(3475, 5160, 'sNest');
 		this.nests.create(7072, 2396, 'sNest');
-		this.nests.create(1440, 988, 'sNest');
-		this.nests.create(4000, 1436, 'sNest');
+		this.nests.create(5585, 5025, 'sNest');
+		this.nests.create(7970, 2910, 'sNest');
+		this.nests.create(5260, 2750, 'sNest');
+		this.nests.create(980, 2470, 'sNest');
+		this.nests.create(3810, 9564, 'sNest');
+		this.nests.create(2230, 783, 'sNest');
+		this.nests.create(4054, 1410, 'sNest');
+		this.nests.create(6020, 670, 'sNest');
 
 		this.nests.forEach(setupNest, this);
 
