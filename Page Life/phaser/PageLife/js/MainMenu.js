@@ -9,20 +9,11 @@ MainMenu.prototype = {
 		game.load.image('background', 'assets/img/background.png');
 		game.load.spritesheet('birb', 'assets/img/birb_walk_cycle.png', 75, 95);
 		game.load.image('mask', 'assets/img/mask.png');
-		game.load.image('star', 'assets/img/star.png');
-		game.load.image('egg', 'assets/img/egg.png');
-		game.load.image('nest', 'assets/img/nest.png');
 		game.load.image('BGIMG', 'assets/img/pageLifeMap.png');
-		game.load.image('tear', 'assets/img/Tear.png');
-		game.load.image('sNest', 'assets/img/nest-copy.png');
 		game.load.spritesheet('noCollusion', 'assets/img/collision.PNG', 32, 32);
+
 		game.load.atlas('sprites', 'assets/img/sprites.png', 'assets/img/sprites.json');
-
-
-		// load tilemap data (key, url, data, format)
-    game.load.tilemap('level', 'assets/img/pageLifeMap.json', null, Phaser.Tilemap.TILED_JSON);
-    // // load tilemap spritesheet (key, url, frameWidth, frameHeight)
-    // game.load.spritesheet('sheetA', 'assets/img/pageLifeMap.png', 32, 32);
+		game.load.tilemap('level', 'assets/img/pageLifeMap.json', null, Phaser.Tilemap.TILED_JSON);
 
 		// Load audio
 		game.load.audio('jump', 'assets/audio/BirbJump.wav');
@@ -139,16 +130,19 @@ MainMenu.prototype = {
 			this.player.frame = 0;
 		}
 
+
+		////////////////////
+		//EMITTER PRACTICE//
+		////////////////////
+
 		// wide emitter with snow
-		// emitter = game.add.emitter(game.world.centerX, game.world.centerY);
-		// emitter.makeParticles(['star'], 0, 1);
-		// emitter.start(false, 1000000, 1);
-		// //emitter.setYSpeed(1000, 1000);
-		// let gravity = new Phaser.Point(0,0);
-		// emitter.gravity = gravity;
-		// emitter.setAlpha(0.25, 1);
-		// let area = new Phaser.Rectangle(game.world.centerX, 0, 500, 1);
-		// emitter.area = area;
+		emitter = game.add.emitter(game.world.centerX, game.world.centerY);
+		emitter.makeParticles(['feather'], 0, 1);
+		emitter.start(true, 1000, 1);
+		//emitter.setYSpeed(1000, 1000);
+		let gravity = new Phaser.Point(0,0);
+		emitter.gravity = gravity;
+		emitter.setAlpha(0.25, 1);
 
 	}
 }
