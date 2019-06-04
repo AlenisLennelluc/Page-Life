@@ -92,24 +92,24 @@ Play.prototype = {
 		this.nests = game.add.group();
 		this.nests.physicsBodyType = Phaser.Physics.P2JS;
 		this.nests.enableBody = true;
-		this.nests.create(2670, 14160, 'sNest'); //first nest
-		this.nests.create(1640,13245, 'sNest'); //above the first steps
-		this.nests.create(4760, 12755, 'sNest'); //above B block
-		this.nests.create(3810, 9564, 'sNest');
-		this.nests.create(8777, 9727, 'sNest');
-		this.nests.create(4960, 4572, 'sNest');
-		this.nests.create(5325, 7070, 'sNest');
-		this.nests.create(3060, 7150, 'sNest');
-		this.nests.create(3475, 5160, 'sNest');
-		this.nests.create(7072, 2396, 'sNest');
-		this.nests.create(5585, 5025, 'sNest');
-		this.nests.create(7970, 2910, 'sNest');
-		this.nests.create(5260, 2750, 'sNest');
-		this.nests.create(980, 2470, 'sNest');
-		this.nests.create(3810, 9564, 'sNest');
-		this.nests.create(2230, 783, 'sNest');
-		this.nests.create(4054, 1410, 'sNest');
-		this.nests.create(6020, 670, 'sNest');
+		this.nests.create(2670, 14160, 'sprites', 'sNest'); //first nest
+		this.nests.create(1640,13245, 'sprites', 'sNest'); //above the first steps
+		this.nests.create(4760, 12755, 'sprites', 'sNest'); //above B block
+		this.nests.create(3810, 9564, 'sprites', 'sNest');
+		this.nests.create(8777, 9727, 'sprites', 'sNest');
+		this.nests.create(4960, 4572, 'sprites', 'sNest');
+		this.nests.create(5325, 7070, 'sprites', 'sNest');
+		this.nests.create(3060, 7150, 'sprites', 'sNest');
+		this.nests.create(3475, 5160, 'sprites', 'sNest');
+		this.nests.create(7072, 2396, 'sprites', 'sNest');
+		this.nests.create(5585, 5025, 'sprites', 'sNest');
+		this.nests.create(7970, 2910, 'sprites', 'sNest');
+		this.nests.create(5260, 2750, 'sprites', 'sNest');
+		this.nests.create(980, 2470, 'sprites', 'sNest');
+		this.nests.create(3810, 9564, 'sprites', 'sNest');
+		this.nests.create(2230, 783, 'sprites', 'sNest');
+		this.nests.create(4054, 1410, 'sprites', 'sNest');
+		this.nests.create(6020, 670, 'sprites', 'sNest');
 
 		this.nests.forEach(setupNest, this);
 
@@ -120,7 +120,7 @@ Play.prototype = {
 		//this.saveY = 9616;
 
 		// Egg of the player, bring to star to win
-		this.egg = game.add.sprite(400, game.world.height - 400, 'egg'); // debug
+		this.egg = game.add.sprite(400, game.world.height - 400, 'sprites', 'egg'); // debug
 		game.physics.p2.enable(this.egg);
 		this.egg.body.setCircle(20);
 
@@ -128,7 +128,7 @@ Play.prototype = {
 		// SPRING EFFECT //
 		///////////////////
 
-		this.mouse = game.add.sprite(200,game.world.height - 450, 'star');
+		this.mouse = game.add.sprite(200,game.world.height - 450, 'sprites', 'star');
 		game.physics.p2.enable(this.mouse);
 		this.mouse.body.static = true;
 		this.mouse.body.setCircle(10);
@@ -149,7 +149,7 @@ Play.prototype = {
 		this.tears.physicsBodyType = Phaser.Physics.P2JS;
 		this.tears.enableBody = true;
 		for (var i = 0; i < 100; i ++) {
-			var tear = this.tears.create(8400, 5200 - i * 300, 'tear');
+			var tear = this.tears.create(8400, 5200 - i * 300, 'sprites', 'tear');
 			tear.body.static = true;
 			tear.body.clearShapes();
 			tear.body.addRectangle(64, 64, 0, 29);
@@ -199,7 +199,7 @@ Play.prototype = {
 		////////////////////////
 
 		// Star for player to touch and win the game
-		this.home = game.add.sprite(game.world.width - 400, 400, 'nest');
+		this.home = game.add.sprite(game.world.width - 400, 400, 'sprites', 'nest');
 		game.physics.p2.enable(this.home);
 		this.home.body.data.shapes[0].sensor = true;
 		this.home.body.static = true;

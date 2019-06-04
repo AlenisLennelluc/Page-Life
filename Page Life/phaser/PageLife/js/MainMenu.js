@@ -16,6 +16,7 @@ MainMenu.prototype = {
 		game.load.image('tear', 'assets/img/Tear.png');
 		game.load.image('sNest', 'assets/img/nest-copy.png');
 		game.load.spritesheet('noCollusion', 'assets/img/collision.PNG', 32, 32);
+		game.load.atlas('sprites', 'assets/img/sprites.png', 'assets/img/sprites.json');
 
 
 		// load tilemap data (key, url, data, format)
@@ -57,7 +58,7 @@ MainMenu.prototype = {
 		this.text = game.add.text(600,100, 'Page Life\n\n' +
 			'Drag the egg with the mouse.\n' +
 			'Drop it off the side.', { fontSize: '32px', fill: '#000'});
-		this.egg = game.add.sprite(170, game.world.height - 250, 'egg');
+		this.egg = game.add.sprite(170, game.world.height - 250, 'sprites', 'egg');
 		this.egg.inputEnabled = true;
 		this.egg.input.enableDrag(true);
 		game.physics.arcade.enable(this.egg);
@@ -72,7 +73,7 @@ MainMenu.prototype = {
 		this.player.animations.add('jump', [4,5], 10, true);
 		this.player.anchor.setTo(0.5, 0.5);
 
-		this.nest = game.add.sprite(0, game.world.height - 200, 'nest');
+		this.nest = game.add.sprite(0, game.world.height - 200, 'sprites', 'nest');
 		game.physics.arcade.enable(this.nest);
 		this.nest.body.immovable = true;
 	},
