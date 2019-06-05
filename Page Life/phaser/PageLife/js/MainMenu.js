@@ -2,6 +2,10 @@
 var MainMenu = function(game) {};
 MainMenu.prototype = {
 
+	///////////
+	//PRELOAD//
+	///////////
+
 	preload() {
 		// console.log('MainMenu: Preload');
 
@@ -43,7 +47,8 @@ MainMenu.prototype = {
 
 		// add button if fullscreen is supported
 		if(game.scale.compatibility.supportsFullScreen) {
-			this.button = game.add.button(32, 32, 'star', buttonClick, this);
+			var star = game.add.sprite(32,32,'sprites', 'star');
+			this.button = game.add.button(32, 32, 'star', scale, this);
 			this.button.anchor.setTo(0.5, 0.5);
 		}
 
@@ -202,16 +207,7 @@ function startDragMenu() {
 	this.egg.body.moves = false;
 }
 
-// Once player lets go of box, re-engage physics
+// Once player lets go of egg, re-engage physics
 function stopDragMenu() {
 	this.egg.body.moves = true;
 }
-
-//fullscreen slides
-function buttonClick() {
-		if(!game.scale.isFullScreen) {
-			game.scale.startFullScreen();
-		} else {
-			game.scale.stopFullScreen();
-		}
-	}

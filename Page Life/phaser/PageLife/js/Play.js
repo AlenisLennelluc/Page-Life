@@ -23,7 +23,7 @@ Play.prototype = {
 
 		// add button if fullscreen is supported
 		if(game.scale.compatibility.supportsFullScreen) {
-			this.button = game.add.button(32, 32, 'star', buttonClick, this);
+			this.button = game.add.button(32, 32, 'star', scale, this);
 			this.button.fixedToCamera = true;
 		}
 
@@ -74,7 +74,7 @@ Play.prototype = {
 		this.sword = game.physics.p2.createBody(7194, 8834, 0); //, null, [-851, -781, 851, 781]);
 		this.sword.addRectangle(2311, 10);
 		this.sword.angle = 42.5455;
-		this.sword.debug = true;
+		this.sword.debug = false;
 		game.physics.p2.addBody(this.sword);
 		// game.physics.p2.enable(this.background, true);
 		// this.background.body.static = true;
@@ -494,6 +494,12 @@ function connectEggToNest(eggBody, eggData, nestShape, eggShape) {
 			//game.camera.deadzone = new Phaser.Rectangle(0, 0, game.camera.width, game.camera.height);
 			this.egg.body.mass = 0.1;
 		}
+		emitter = game.add.emitter(0, 0, 100);
+
+		emitter.makeParticles('feather');
+		emitter.gravity = 200;
+
+		pNestBurst(nestShape);
 	}
 }
 
@@ -522,12 +528,7 @@ function setSave(nest, egg) {
 		this.saveY = nest.y;
 		//console.log("set save to: " + this.saveX + ", " + this.saveY);
 
-		emitter = game.add.emitter(0, 0, 100);
 
-		emitter.makeParticles('feather');
-		emitter.gravity = 200;
-
-		pNestBurst();
 	}
 }
 

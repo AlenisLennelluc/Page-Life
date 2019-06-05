@@ -18,16 +18,16 @@ function particleBurst(pointer) {
 
 //Code taken from https://phaser.io/examples/v2/particles/click-burst
 //FOR USE IN NEST SAVING
-function pNestBurst() {
+function pNestBurst(nestShape) {
 
   //  Position the emitter where the mouse/touch event was
-  emitter.x = nest.x;
-  emitter.y = nest.y;
+  emitter.x = nestShape.body.parent.x;
+  emitter.y = nestShape.body.parent.y;
 
   emitter.start(true, 2000, null, 10);
 
   //  And 2 seconds later we'll destroy the emitter
-  game.time.events.add(2000, destroyEmitter, this);
+  game.time.events.add(20000, destroyEmitter, this);
 
 }
 

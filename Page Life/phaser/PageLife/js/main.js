@@ -40,6 +40,15 @@ function pauseGame() {
 	game.paused ? game.paused = false : game.paused = true;
 }
 
+//fullscreen slides
+function scale() {
+		if(!game.scale.isFullScreen) {
+			game.scale.startFullScreen();
+		} else {
+			game.scale.stopFullScreen();
+		}
+	}
+
 /////////////////////
 //END OF PAUSE CODE//
 /////////////////////
