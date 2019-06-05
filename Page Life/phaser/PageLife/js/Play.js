@@ -2,6 +2,10 @@
 var Play = function(game) {var score;};
 Play.prototype = {
 
+	//////////
+	//CREATE//
+	//////////
+
 	create: function() {
 
 		/////////////
@@ -224,6 +228,7 @@ Play.prototype = {
 		// timers
 		this.jumpTimer = 0;
 		this.jumpState = 0;
+
 	},
 
 	//////////
@@ -516,6 +521,13 @@ function setSave(nest, egg) {
 		this.saveX = nest.x;
 		this.saveY = nest.y;
 		//console.log("set save to: " + this.saveX + ", " + this.saveY);
+
+		emitter = game.add.emitter(0, 0, 100);
+
+		emitter.makeParticles('feather');
+		emitter.gravity = 200;
+
+		pNestBurst();
 	}
 }
 
@@ -545,6 +557,8 @@ function checkIfCanJump(player) {
     }
     return result;
 }
+
+
 
 ///////////////////
 // END OF PLAY.js//
