@@ -17,6 +17,7 @@ MainMenu.prototype = {
 		game.load.spritesheet('noCollusion', 'assets/img/collision.PNG', 32, 32);
 		game.load.image('feather', 'assets/img/smolFeather.png');
 		game.load.image('LFeather', 'assets/img/feather.png');
+		game.load.image('star', 'assets/img/star.png');
 
 		//ATLAS AND TILEMAP
 		game.load.atlas('sprites', 'assets/img/sprites.png', 'assets/img/sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_TP_HASH);
@@ -48,7 +49,7 @@ MainMenu.prototype = {
 
 		// add button if fullscreen is supported
 		if(game.scale.compatibility.supportsFullScreen) {
-			var star = game.add.sprite(32,32,'sprites', 'star');
+			//var star = game.add.sprite(32,32,'sprites', 'star');
 			this.button = game.add.button(32, 32, 'star', scale, this);
 			this.button.anchor.setTo(0.5, 0.5);
 		}
