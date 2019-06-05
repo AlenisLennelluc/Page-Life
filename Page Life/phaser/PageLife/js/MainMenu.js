@@ -16,6 +16,7 @@ MainMenu.prototype = {
 		game.load.image('BGIMG', 'assets/img/pageLifeMap.png');
 		game.load.spritesheet('noCollusion', 'assets/img/collision.PNG', 32, 32);
 		game.load.image('feather', 'assets/img/smolFeather.png');
+		game.load.image('LFeather', 'assets/img/feather.png');
 
 		//ATLAS AND TILEMAP
 		game.load.atlas('sprites', 'assets/img/sprites.png', 'assets/img/sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_TP_HASH);
@@ -51,6 +52,20 @@ MainMenu.prototype = {
 			this.button = game.add.button(32, 32, 'star', scale, this);
 			this.button.anchor.setTo(0.5, 0.5);
 		}
+
+		emitter = game.add.emitter(game.world.centerX, 0, 100);
+
+    emitter.makeParticles('LFeather');
+
+    emitter.minParticleSpeed.setTo(-300, 30);
+    emitter.maxParticleSpeed.setTo(300, 100);
+    emitter.minParticleScale = 0.1;
+    emitter.maxParticleScale = 0.5;
+    emitter.gravity = 250;
+
+    //  This will emit a quantity of 5 particles every 500ms. Each particle will live for 2000ms.
+    //  The -1 means "run forever"
+    emitter.flow(2000, 500, 5, -1);
 
 		////////////
 		//GRAPHICS//
