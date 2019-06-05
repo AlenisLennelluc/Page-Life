@@ -97,7 +97,7 @@ Play.prototype = {
 		this.nests.physicsBodyType = Phaser.Physics.P2JS;
 		this.nests.enableBody = true;
 		this.nests.create(2670, 14160, 'sprites', 'sNest'); //first nest
-		this.nests.create(1640,13235, 'sprites', 'sNest');  //above the first steps
+		this.nests.create(1700,13235, 'sprites', 'sNest');  //above the first steps
 		this.nests.create(4760, 12755, 'sprites', 'sNest'); //above B block
 		this.nests.create(3810, 9564, 'sprites', 'sNest');	//Start of preschool block section
 		this.nests.create(8777, 9727, 'sprites', 'sNest');	//End of preschool block section
@@ -116,16 +116,21 @@ Play.prototype = {
 		this.nests.create(4054, 1410, 'sprites', 'sNest');	//
 		this.nests.create(6020, 670, 'sprites', 'sNest');		//
 
+		emitter = game.add.emitter(0, 0, 100);
+
+		emitter.makeParticles('feather');
+		emitter.gravity = 200;
+
 		this.nests.forEach(setupNest, this);
 
-		this.saveX = 400;
-		this.saveY = game.world.height - 400;
+		//this.saveX = 2670;
+		//this.saveY = 14160;
 
-		//this.saveX = 8046;
-		//this.saveY = 9616;
+		//this.saveX = game.world.width - 800;
+		//this.saveY = 400;
 
 		// Egg of the player, bring to star to win
-		this.egg = game.add.sprite(400, game.world.height - 400, 'sprites', 'egg'); // debug
+		this.egg = game.add.sprite(400, game.world.height - 250, 'sprites', 'egg'); // debug
 		game.physics.p2.enable(this.egg);
 		this.egg.body.setCircle(20);
 
@@ -180,7 +185,7 @@ Play.prototype = {
 
 		// Create the player
 		//this.player = game.add.sprite(200, game.world.height - 400, 'birb');
-		this.player = game.add.sprite(100, game.world.height - 1000, 'birb'); //debug
+		this.player = game.add.sprite(400, game.world.height - 700, 'birb'); //debug
 		game.physics.p2.enable(this.player); // Enable physics
 		this.player.body.fixedRotation = true;
 		this.player.body.clearShapes();
@@ -198,6 +203,7 @@ Play.prototype = {
 		this.player.animations.add('jump', [4,5], 10, true);
 		// 1 = Right, -1 = left, used for mirroring player animation
 		this.facing = 1;
+		this.playerJump = 650;
 
 		////////////////////////
 		//END OF GAME SEQUENCE//
@@ -213,6 +219,7 @@ Play.prototype = {
 
 		// Grab the arrowkey inputs
 		cursors = game.input.keyboard.createCursorKeys();
+		this.iKey = game.input.keyboard.addKey(Phaser.KeyCode.I);
 
 		/////////
 		//AUDIO//
@@ -228,6 +235,8 @@ Play.prototype = {
 		// timers
 		this.jumpTimer = 0;
 		this.jumpState = 0;
+
+		this.checkFunction = startCheck;
 
 	},
 
@@ -283,6 +292,15 @@ Play.prototype = {
 		//JUMPING//
 		///////////
 
+		if (this.iKey.justDown) {
+			if (this.playerJump == 650) {
+				this.playerJump = 2500;
+			}
+			else {
+				this.playerJump = 650;
+			}
+		}
+
 		// If up is down, move up
 		if ((cursors.up.isDown || game.input.keyboard.isDown(Phaser.KeyCode.W) ||
 			game.input.keyboard.isDown(Phaser.KeyCode.SPACEBAR)) && this.playerJumpTimer < 0 &&
@@ -293,7 +311,7 @@ Play.prototype = {
 			this.jumpTimer = 0;
 			// this.eggOnHead = false;
 			// Begin moving upwards immediately
-			this.player.body.moveUp(650);
+			this.player.body.moveUp(this.playerJump);
 			this.player.animations.play('jump');
 			this.playerJumpTimer = 0.5;
 			this.playerJumping = true;
@@ -355,25 +373,9 @@ Play.prototype = {
 			cameraFollowing(this);
 		}
 
-		// Calculate distance from birb to egg
-		var birbEggDistX = (this.egg.position.x - this.player.position.x);
-		var birbEggDistY = (this.egg.position.y - this.player.position.y);
+		this.checkFunction(this);
 
-		//console.log('Dist x: ' + birbEggDistX + ' y: ' + birbEggDistY);
 
-		var birbEggDist = Math.sqrt(Math.pow(birbEggDistX, 2) + Math.pow(birbEggDistY, 2));
-
-		//console.log('Total Dist: ' + birbEggDist + ' Being Dragged: ' + this.eggDragged);
-
-		if (!this.eggDragged && (birbEggDist > 1000 || !this.egg.inCamera))
-		{
-			console.log('Player resetting');
-			this.egg.body.x = this.saveX;
-			this.egg.body.y = this.saveY - 45;
-			this.egg.body.setZeroVelocity();
-			this.player.body.x = this.saveX;
-			this.player.body.y = this.saveY;
-		}
 		this.playerJumpTimer -= game.time.physicsElapsed;
 		this.tears.forEach(resetTears, this);
 	}
@@ -386,6 +388,24 @@ Play.prototype = {
 /////////////
 //FUNCTIONS//
 /////////////
+
+
+
+function startCheck(play) {
+	play.checkFunction = checkForReset;
+}
+
+function checkForReset(play) {
+	if (!play.egg.inCamera)
+	{
+		console.log('Player resetting');
+		play.egg.body.x = play.saveX;
+		play.egg.body.y = play.saveY + 45;
+		play.egg.body.setZeroVelocity();
+		play.player.body.x = play.saveX;
+		play.player.body.y = play.saveY;
+	}
+}
 
 function cameraFollowing(play) {
 	var destX = (play.player.x - play.egg.x) / -2 + play.player.x - game.camera.width / 2;
@@ -482,30 +502,21 @@ function disconnectEgg(play, playerBody) {
 }
 
 function connectEggToNest(eggBody, eggData, nestShape, eggShape) {
-	if (eggData === this.egg.body.data) {
-		//console.log("touched a save");
-		this.saveX = nestShape.body.parent.x;
-		this.saveY = nestShape.body.parent.y;
-		//console.log("set save to: " + this.saveX + ", " + this.saveY);
-		if (!this.eggDragged) {
-			disconnectEgg(this);
-			this.eggHead = game.physics.p2.createLockConstraint(
-				nestShape.body.parent, this.egg, [0, 0], 0, 100);
-			//game.camera.deadzone = new Phaser.Rectangle(0, 0, game.camera.width, game.camera.height);
-			this.egg.body.mass = 0.1;
-		}
-		emitter = game.add.emitter(0, 0, 100);
+	this.saveX = nestShape.body.parent.x;
+	this.saveY = nestShape.body.parent.y;
 
-		emitter.makeParticles('feather');
-		emitter.gravity = 200;
+	if (!this.eggDragged && eggData === this.egg.body.data) {
+		disconnectEgg(this);
+		this.eggHead = game.physics.p2.createLockConstraint(
+			nestShape.body.parent, this.egg, [0, 0], 0, 100);
 
-		pNestBurst(nestShape);
+		this.egg.body.mass = 0.1;
 	}
 }
 
 // When player steps on star, end the game
 function getHome(eggBody, eggData, nestShape, eggShape) {
-	if (eggBody === this.egg.body.data)
+	if (eggBody === this.egg.body)
 	{
 		this.pickup.play();
 		game.state.start('GameOver');
@@ -517,6 +528,7 @@ function setupNest(nest) {
 	nest.body.static = true;
 	nest.body.data.shapes[0].sensor = true;
 	nest.body.onBeginContact.add(connectEggToNest, this);
+	nest.body.onBeginContact.add(pNestBurst, this);
 	//console.log("setup a nest");
 }
 

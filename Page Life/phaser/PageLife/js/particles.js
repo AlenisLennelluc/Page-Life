@@ -18,7 +18,7 @@ function particleBurst(pointer) {
 
 //Code taken from https://phaser.io/examples/v2/particles/click-burst
 //FOR USE IN NEST SAVING
-function pNestBurst(nestShape) {
+function pNestBurst(otherBody, otherData, nestShape, otherShape) {
 
   //  Position the emitter where the mouse/touch event was
   emitter.x = nestShape.body.parent.x;

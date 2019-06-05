@@ -101,6 +101,7 @@ MainMenu.prototype = {
 		this.player.anchor.setTo(0.5, 0.5);
 
 		this.nest = game.add.sprite(-100, game.world.height - 150, 'sprites', 'nest');
+		
 		game.physics.arcade.enable(this.nest);
 		this.nest.body.immovable = true;
 
