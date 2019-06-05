@@ -26,4 +26,14 @@ function pNestBurst() {
 
   emitter.start(true, 2000, null, 10);
 
+  //  And 2 seconds later we'll destroy the emitter
+  game.time.events.add(2000, destroyEmitter, this);
+
+}
+
+
+function destroyEmitter() {
+
+    emitter.destroy();
+
 }

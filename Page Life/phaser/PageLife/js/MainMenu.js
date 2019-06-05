@@ -14,7 +14,7 @@ MainMenu.prototype = {
 		game.load.image('feather', 'assets/img/smolFeather.png');
 
 		//ATLAS AND TILEMAP
-		game.load.atlas('sprites', 'assets/img/sprites.png', 'assets/img/sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_TP_ARRAY);
+		game.load.atlas('sprites', 'assets/img/sprites.png', 'assets/img/sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_TP_HASH);
 		game.load.tilemap('level', 'assets/img/pageLifeMap.json', null, Phaser.Tilemap.TILED_JSON);
 
 		// Load audio
