@@ -185,25 +185,12 @@ MainMenu.prototype = {
 			this.player.animations.stop();
 			this.player.frame = 0;
 		}
-
-
-		////////////////////
-		//EMITTER PRACTICE//
-		////////////////////
-
-		// wide emitter with snow
-		// emitter = game.add.emitter(game.world.centerX, game.world.centerY);
-		// emitter.makeParticles(['feather'], 0, 1);
-		// emitter.start(true, 1000, 1);
-		// //emitter.setYSpeed(1000, 1000);
-		// let gravity = new Phaser.Point(0,0);
-		// emitter.gravity = gravity;
-		// emitter.setAlpha(0.25, 1);
-
-
-
 	}
 }
+
+/////////////////////////////
+//END OF PROTOTYPE FUNCTION//
+/////////////////////////////
 
 /////////////
 //FUNCTIONS//
