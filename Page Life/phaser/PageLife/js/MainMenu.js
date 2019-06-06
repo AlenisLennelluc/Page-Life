@@ -147,7 +147,6 @@ MainMenu.prototype = {
 		//"No" Particles//
 		//////////////////
 
-//random comment to bring to p2-physics
 
 
 		////////////
