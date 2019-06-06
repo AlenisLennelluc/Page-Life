@@ -149,7 +149,7 @@ Play.prototype = {
 
 		// Egg of the player, bring to star to win
 		this.egg = game.add.sprite(400, game.world.height - 250, 'sprites', 'egg'); // debug
-		game.physics.p2.enable(this.egg, true);
+		game.physics.p2.enable(this.egg, false);
 		this.egg.body.setCircle(25);
 
 		///////////////////
@@ -204,7 +204,7 @@ Play.prototype = {
 		// Create the player
 		//this.player = game.add.sprite(200, game.world.height - 400, 'birb');
 		this.player = game.add.sprite(400, game.world.height - 700, 'birb'); //debug
-		game.physics.p2.enable(this.player, true); // Enable physics
+		game.physics.p2.enable(this.player, false); // Enable physics
 		this.player.body.fixedRotation = true;
 		this.player.body.clearShapes();
 		//PLAYER PHYSISCS
