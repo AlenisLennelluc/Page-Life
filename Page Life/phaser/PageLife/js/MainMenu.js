@@ -54,19 +54,49 @@ MainMenu.prototype = {
 			this.button.anchor.setTo(0.5, 0.5);
 		}
 
-		emitter = game.add.emitter(game.world.centerX, 0, 100);
 
-    emitter.makeParticles('LFeather');
+		///////////////////////
+		//LEAF PARTICLES FLOW//
+		///////////////////////
 
-    emitter.minParticleSpeed.setTo(-300, 30);
-    emitter.maxParticleSpeed.setTo(300, 100);
-    emitter.minParticleScale = 0.1;
-    emitter.maxParticleScale = 0.5;
-    emitter.gravity = 100;
+		// emitter = game.add.emitter(game.world.centerX, 0, 100);
+		//
+    // emitter.makeParticles('LFeather');
+		//
+    // emitter.minParticleSpeed.setTo(-300, 30);
+    // emitter.maxParticleSpeed.setTo(300, 100);
+    // emitter.minParticleScale = 0.1;
+    // emitter.maxParticleScale = 0.5;
+    // emitter.gravity = 100;
+		//
+    // //  This will emit a quantity of 5 particles every 500ms. Each particle will live for 2000ms.
+    // //  The -1 means "run forever"
+    // emitter.flow(3000, 500, 3, -1);
 
-    //  This will emit a quantity of 5 particles every 500ms. Each particle will live for 2000ms.
-    //  The -1 means "run forever"
-    emitter.flow(3000, 500, 3, -1);
+		//////////////////
+		//STAR PARTICLES//
+		//////////////////
+
+		//	Emitters have a center point and a width/height, which extends from their center point to the left/right and up/down
+    emitter = game.add.emitter(game.world.centerX, 200, 200);
+
+    //	This emitter will have a width of 800px, so a particle can emit from anywhere in the range emitter.x += emitter.width / 2
+    emitter.width = 800;
+		emitter.height = 800;
+
+    emitter.makeParticles('star');
+
+    emitter.minParticleSpeed.set(0, .1);
+    emitter.maxParticleSpeed.set(0, .2);
+
+    emitter.setRotation(0, 0);
+    emitter.setAlpha(0.1, 0.8);
+    emitter.setScale(1, 1, 1, 1);
+    emitter.gravity = 10;
+
+    //	false means don't explode all the sprites at once, but instead release at a rate of one particle per 100ms
+    //	The 5000 value is the lifespan of each particle before it's killed
+    emitter.start(false, 10000, 700);
 
 		////////////
 		//GRAPHICS//
@@ -101,7 +131,7 @@ MainMenu.prototype = {
 		this.player.anchor.setTo(0.5, 0.5);
 
 		this.nest = game.add.sprite(-100, game.world.height - 150, 'sprites', 'nest');
-		
+
 		game.physics.arcade.enable(this.nest);
 		this.nest.body.immovable = true;
 
