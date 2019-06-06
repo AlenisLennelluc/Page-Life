@@ -8,7 +8,7 @@ MainMenu.prototype = {
 
 	preload() {
 		// console.log('MainMenu: Preload');
-
+		game.load.image('title', 'assets/img/Title screen.png');
 		// preload assets
 		game.load.image('background', 'assets/img/background.png');
 		game.load.spritesheet('birb', 'assets/img/birb_walk_cycle.png', 75, 95);
@@ -23,6 +23,7 @@ MainMenu.prototype = {
 		game.load.image('bat', 'assets/img/bat.png');
 		game.load.image('star', 'assets/img/star.png');
 		game.load.image('cover', 'assets/img/EndMask.png');
+		game.load.image('endImg', 'assets/img/Sleeping_bird.png');
 
 		//ATLAS AND TILEMAP
 		game.load.atlas('sprites', 'assets/img/sprites.png', 'assets/img/sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_TP_HASH);
@@ -211,7 +212,12 @@ MainMenu.prototype = {
 
 
 		game.input.onDown.add(particleBurst, this);
-
+		this.canvas = game.add.sprite(0,0, 'cover');
+		this.title = game.add.sprite(0, -400, 'title');
+		this.title.scale.x = 0.5;
+		this.title.scale.y = 0.5;
+		game.add.tween(this.title).to({alpha: 0}, 5000, Phaser.Easing.Linear.None, true);
+		game.add.tween(this.canvas).to({alpha: 0}, 5000, Phaser.Easing.Linear.None, true);
 	},
 
 	//////////

@@ -51,6 +51,7 @@ Play.prototype = {
     // A Tilemap Layer is a set of map data combined with a tileset
     this.mapLayer = this.map.createLayer('collision');
 		this.map.layers[0].visible = false;
+		this.mapLayer.alpha = 0;
 
     // set the world size to match the size of the Tilemap layer
     this.mapLayer.resizeWorld();
@@ -71,8 +72,8 @@ Play.prototype = {
 		game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
 
-		this.sword = game.physics.p2.createBody(7194, 8834, 0); //, null, [-851, -781, 851, 781]);
-		this.sword.addRectangle(2311, 10);
+		this.sword = game.physics.p2.createBody(7194, 8840, 0); //, null, [-851, -781, 851, 781]);
+		this.sword.addRectangle(2285, 10);
 		this.sword.angle = 42.5455;
 		this.sword.debug = false;
 		game.physics.p2.addBody(this.sword);
@@ -88,6 +89,39 @@ Play.prototype = {
 		// midX: 7194
 		// midY: 8834
 		// rotation: -0.742559
+
+		this.handle = game.physics.p2.createBody(2862, 6018, 0);
+		this.handle.addRectangle(1500, 10);
+		this.handle.angle = -42.1844;
+		this.handle.debug = false;
+		game.physics.p2.addBody(this.handle);
+
+		//x2400, y6432
+		//x3424, y5504
+
+		//x1024, y-928
+
+		//midX2912 midY5968
+
+		//length: 1382
+		//rotation: -42.1844
+
+		this.wing = game.physics.p2.createBody(5632, 7653, 0);
+		this.wing.addRectangle(1176, 10);
+		this.wing.angle = 45;
+		this.wing.debug = false;
+		game.physics.p2.addBody(this.wing);
+
+		//x5216, y7232
+		//x6048, y8064
+
+		//x832	y832
+
+		//midpoints
+		//x5632, y7648
+
+		//length: 1176
+		//rotation: 45
 
 		///////////
 		// NESTS //
@@ -149,7 +183,7 @@ Play.prototype = {
 
 		// Egg of the player, bring to star to win
 		this.egg = game.add.sprite(400, game.world.height - 250, 'sprites', 'egg'); // debug
-		game.physics.p2.enable(this.egg, true);
+		game.physics.p2.enable(this.egg, false);
 		this.egg.body.setCircle(25);
 
 		///////////////////
@@ -204,7 +238,7 @@ Play.prototype = {
 		// Create the player
 		//this.player = game.add.sprite(200, game.world.height - 400, 'birb');
 		this.player = game.add.sprite(400, game.world.height - 700, 'birb'); //debug
-		game.physics.p2.enable(this.player, true); // Enable physics
+		game.physics.p2.enable(this.player, false); // Enable physics
 		this.player.body.fixedRotation = true;
 		this.player.body.clearShapes();
 		//PLAYER PHYSISCS
@@ -233,6 +267,7 @@ Play.prototype = {
 		this.numbers = game.input.keyboard.addKeys({'one': Phaser.KeyCode.ONE, 'two': Phaser.KeyCode.TWO,
 			'thr': Phaser.KeyCode.THREE, 'fou': Phaser.KeyCode.FOUR,'fiv': Phaser.KeyCode.FIVE, 'six': Phaser.KeyCode.SIX,
 			'sev': Phaser.KeyCode.SEVEN, 'eig': Phaser.KeyCode.EIGHT,'nin': Phaser.KeyCode.NINE, 'zer': Phaser.KeyCode.ZERO,});
+			this.mKey = game.input.keyboard.addKey(Phaser.KeyCode.M);
 
 		/////////
 		//AUDIO//
@@ -240,7 +275,7 @@ Play.prototype = {
 
 		// Add the audio
 		this.jump = game.add.audio('jump');
-		this.pickup = game.add.audio('pickup');
+		this.pickup = game.add.audio('pickup', 0.1);
 		this.song = game.add.audio('backgroundSong');
 		this.checkPointAudio = game.add.audio('checkpoint', 0.2);
 
@@ -652,6 +687,15 @@ function normalUpdate() {
 		game.camera.x = this.saveX;
 		game.camera.y = this.saveY;
 	}
+
+	if (this.mKey.justDown) {
+		if (this.mapLayer.alpha == 0) {
+			this.mapLayer.alpha = 1;;
+		}
+		else {
+			this.mapLayer.alpha = 0;
+		}
+	}
 }
 
 function endUpdate() {
@@ -817,6 +861,13 @@ function setupNest(nest) {
 	nest.body.onBeginContact.add(connectEggToNest, this);
 	nest.body.onBeginContact.add(pNestBurst, this);
 	//console.log("setup a nest");
+}
+
+function setSave(nest, egg) {
+	if (egg === this.egg.body.data) {
+		this.saveX = nest.x;
+		this.saveY = nest.y;
+	}
 }
 
 // Mouse movement
