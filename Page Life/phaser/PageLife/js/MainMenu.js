@@ -44,8 +44,6 @@ MainMenu.prototype = {
 			this.button = game.add.button(32, 32, 'star', buttonClick, this);
 			this.button.anchor.setTo(0.5, 0.5);
 		}
-<<<<<<< Updated upstream
-=======
 
 		///////////////////////
 		//LEAF PARTICLES FLOW//
@@ -153,7 +151,6 @@ MainMenu.prototype = {
 		//GRAPHICS//
 		////////////
 
->>>>>>> Stashed changes
 		// Add the background and make it properly cover the canvas
 		var sky = game.add.tileSprite(0,0, game.world.width, game.world.height, 'background');
 
