@@ -124,6 +124,7 @@ Play.prototype = {
 		this.nests.forEach(setupNest, this);
 
 		this.saveX = 2670;
+		this.saveY = 14160;
 
 		//this.saveX = game.world.width - 800;
 		//this.saveY = 400;
