@@ -124,9 +124,27 @@ Play.prototype = {
 		this.nests.forEach(setupNest, this);
 
 		this.saveX = 2670;
+		this.saveY = 14160;
 
-		//this.saveX = game.world.width - 800;
-		//this.saveY = 400;
+		this.saveX = game.world.width - 800;
+		this.saveY = 400;
+
+		////////////////////////
+		//END OF GAME SEQUENCE//
+		////////////////////////
+
+		// Star for player to touch and win the game
+		this.home = game.add.sprite(game.world.width - 400, 450, 'sprites', 'nest');
+
+		this.endStar = game.add.sprite(game.world.width - 300, 450, 'star');
+		game.physics.p2.enable(this.endStar);
+		this.endStar.body.data.shapes[0].sensor = true;
+		this.endStar.body.static = true;
+		this.endStar.body.onBeginContact.add(getHome, this);
+
+		/////////
+		// EGG //
+		/////////
 
 		// Egg of the player, bring to star to win
 		this.egg = game.add.sprite(400, game.world.height - 250, 'sprites', 'egg'); // debug
@@ -175,9 +193,6 @@ Play.prototype = {
 		this.mask = game.add.sprite(0, 720, 'mask');
 		this.mask.anchor.setTo(0.5, 0.5);
 
-		// Insert background
-		game.add.tileSprite(0,0, game.world.width, game.world.height, 'background');
-
 		//////////
 		//PLAYER//
 		//////////
@@ -204,17 +219,12 @@ Play.prototype = {
 		this.facing = 1;
 		this.playerJump = 650;
 
-		////////////////////////
-		//END OF GAME SEQUENCE//
-		////////////////////////
+		// Insert end game fadeout
+		this.endMask = game.add.sprite(game.camera.x, game.camera.y, 'cover');
+		this.endMask.alpha = 0;
 
-		// Star for player to touch and win the game
-		this.home = game.add.sprite(game.world.width - 400, 400, 'sprites', 'nest');
-		game.physics.p2.enable(this.home);
-		this.home.body.data.shapes[0].sensor = true;
-		this.home.body.static = true;
-		this.home.body.onBeginContact.add(getHome, this);
-
+		// Insert blue lines background
+		game.add.tileSprite(0,0, game.world.width, game.world.height, 'background');
 
 		// Grab the arrowkey inputs
 		cursors = game.input.keyboard.createCursorKeys();
@@ -237,8 +247,10 @@ Play.prototype = {
 		// timers
 		this.jumpTimer = 0;
 		this.jumpState = 0;
+		this.endTimer = 0;
 
 		this.checkFunction = startCheck;
+		this.updateFunc = normalUpdate;
 
 	},
 
@@ -248,193 +260,195 @@ Play.prototype = {
 
 	update: function() {
 
-		////////////
-		//MOVEMENT//
-		////////////
+		this.updateFunc.call(this);
 
-		if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.KeyCode.A))
-		{ // If left key down, move player left
-			this.player.body.moveLeft(300);
-			if (!this.playerJumping && checkIfCanJump(this.player))
-			{
-				this.player.animations.play('walk');
-			}
-			// Enable mirroring
-			if (this.player.scale.x > 0)
-			{
-				this.facing = -1;
-				this.player.scale.x *= -1;
-			}
-		}
-		else if (cursors.right.isDown || game.input.keyboard.isDown(Phaser.KeyCode.D))
-		{ // If right key down, move playerr right
-			this.player.body.moveRight(300);
-			if (!this.playerJumping && checkIfCanJump(this.player))
-			{
-				this.player.animations.play('walk');
-			}
-			// disable mirroring
-			if (this.player.scale.x < 0)
-			{
-				this.facing = 1;
-				this.player.scale.x *= -1;
-			}
-		}
-		else
-		{ // Else stop the player
-			this.player.body.velocity.x = 0;
-			if (!this.playerJumping && checkIfCanJump(this.player))
-			{
-				this.player.animations.stop();
-				this.player.frame = 0;
-			}
-		}
-
-		///////////
-		//JUMPING//
-		///////////
-
-		if (this.iKey.justDown) {
-			if (this.playerJump == 650) {
-				this.playerJump = 2500;
-			}
-			else {
-				this.playerJump = 650;
-			}
-		}
-
-		// If up is down, move up
-		if ((cursors.up.isDown || game.input.keyboard.isDown(Phaser.KeyCode.W) ||
-			game.input.keyboard.isDown(Phaser.KeyCode.SPACEBAR)) && this.playerJumpTimer < 0 &&
-			checkIfCanJump(this.player))
-		{
-			// Start jump animation
-			this.jumpState = 1;
-			this.jumpTimer = 0;
-			// this.eggOnHead = false;
-			// Begin moving upwards immediately
-			this.player.body.moveUp(this.playerJump);
-			this.player.animations.play('jump');
-			this.playerJumpTimer = 0.5;
-			this.playerJumping = true;
-			//this.jump.play();
-		}
-
-		// Shorten birb
-		if (this.jumpState == 1) {
-			// Increase timer by time elapsed * 8
-			this.jumpTimer += game.time.physicsElapsed * 4;
-			// this.jumpTimer = magnitude, this.facing = direction
-			this.player.scale.y -= this.jumpTimer;
-			if (this.jumpTimer > 0.2) {
-				// Move to phase 3
-				this.jumpState = 2;
-				this.jumpTimer = 0;
-			}
-		}
-
-		// Widen birb
-		if (this.jumpState == 2) {
-			// Increase timer by time elapsed * 2
-			this.jumpTimer += game.time.physicsElapsed;
-			// this.jumpTimer = magnitude, this.facing = direction
-			this.player.scale.x += this.jumpTimer * this.facing;
-			if (this.jumpTimer > 0.05) {
-				// Move to phase 2
-				this.jumpState = 3;
-				this.jumpTimer = 0;
-			}
-		}
-
-		// Normalize birb
-		if (this.jumpState == 3) {
-			// Increase timer by time elapsed * 8
-			this.jumpTimer += game.time.physicsElapsed;
-			// this.jumpTimer = magnitude, this.facing = direction
-			this.player.scale.x -= this.jumpTimer * this.facing;
-			// this.jumpTimer = magnitude, this.facing = direction
-			this.player.scale.y += this.jumpTimer * 2;
-			if (this.jumpTimer > 0.05) {
-				// Normalize and end jump
-				this.jumpState = 0;
-				this.jumpTimer = 0;
-				this.player.scale.y = 1;
-				this.player.scale.x = this.facing;
-				this.playerJumping = false;
-			}
-		}
-
-		//update mask
-		this.mask.position = this.player.position;
-
-		/////////////
-		//BIRD MATH//
-		/////////////
-
-		if (!this.eggDragged) {
-			cameraFollowing(this);
-		}
-
-		this.checkFunction(this);
-
-
-		this.playerJumpTimer -= game.time.physicsElapsed;
-		this.tears.forEach(resetTears, this);
-
-		/////////
-		//DEBUG//
-		/////////
-
-		if (this.numbers.one.justDown) {
-			setSave.call(this, this.nests.children[0], this.egg.body.data);
-			game.camera.x = this.saveX;
-			game.camera.y = this.saveY;
-		}
-		else if (this.numbers.two.justDown) {
-			setSave.call(this, this.nests.children[1], this.egg.body.data);
-			game.camera.x = this.saveX;
-			game.camera.y = this.saveY;
-		}
-		else if (this.numbers.thr.justDown) {
-			setSave.call(this, this.nests.children[2], this.egg.body.data);
-			game.camera.x = this.saveX;
-			game.camera.y = this.saveY;
-		}
-		else if (this.numbers.fou.justDown) {
-			setSave.call(this, this.nests.children[3], this.egg.body.data);
-			game.camera.x = this.saveX;
-			game.camera.y = this.saveY;
-		}
-		else if (this.numbers.fiv.justDown) {
-			setSave.call(this, this.nests.children[4], this.egg.body.data);
-			game.camera.x = this.saveX;
-			game.camera.y = this.saveY;
-		}
-		else if (this.numbers.six.justDown) {
-			setSave.call(this, this.nests.children[5], this.egg.body.data);
-			game.camera.x = this.saveX;
-			game.camera.y = this.saveY;
-		}
-		else if (this.numbers.sev.justDown) {
-			setSave.call(this, this.nests.children[6], this.egg.body.data);
-			game.camera.x = this.saveX;
-			game.camera.y = this.saveY;
-		}
-		else if (this.numbers.eig.justDown) {
-			setSave.call(this, this.nests.children[7], this.egg.body.data);
-			game.camera.x = this.saveX;
-			game.camera.y = this.saveY;
-		}
-		else if (this.numbers.nin.justDown) {
-			setSave.call(this, this.nests.children[8], this.egg.body.data);
-			game.camera.x = this.saveX;
-			game.camera.y = this.saveY;
-		}
-		else if (this.numbers.zer.justDown) {
-			setSave.call(this, this.nests.children[9], this.egg.body.data);
-			game.camera.x = this.saveX;
-			game.camera.y = this.saveY;
-		}
+		// ////////////
+		// //MOVEMENT//
+		// ////////////
+		//
+		// if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.KeyCode.A))
+		// { // If left key down, move player left
+		// 	this.player.body.moveLeft(300);
+		// 	if (!this.playerJumping && checkIfCanJump(this.player))
+		// 	{
+		// 		this.player.animations.play('walk');
+		// 	}
+		// 	// Enable mirroring
+		// 	if (this.player.scale.x > 0)
+		// 	{
+		// 		this.facing = -1;
+		// 		this.player.scale.x *= -1;
+		// 	}
+		// }
+		// else if (cursors.right.isDown || game.input.keyboard.isDown(Phaser.KeyCode.D))
+		// { // If right key down, move playerr right
+		// 	this.player.body.moveRight(300);
+		// 	if (!this.playerJumping && checkIfCanJump(this.player))
+		// 	{
+		// 		this.player.animations.play('walk');
+		// 	}
+		// 	// disable mirroring
+		// 	if (this.player.scale.x < 0)
+		// 	{
+		// 		this.facing = 1;
+		// 		this.player.scale.x *= -1;
+		// 	}
+		// }
+		// else
+		// { // Else stop the player
+		// 	this.player.body.velocity.x = 0;
+		// 	if (!this.playerJumping && checkIfCanJump(this.player))
+		// 	{
+		// 		this.player.animations.stop();
+		// 		this.player.frame = 0;
+		// 	}
+		// }
+		//
+		// ///////////
+		// //JUMPING//
+		// ///////////
+		//
+		// if (this.iKey.justDown) {
+		// 	if (this.playerJump == 650) {
+		// 		this.playerJump = 2500;
+		// 	}
+		// 	else {
+		// 		this.playerJump = 650;
+		// 	}
+		// }
+		//
+		// // If up is down, move up
+		// if ((cursors.up.isDown || game.input.keyboard.isDown(Phaser.KeyCode.W) ||
+		// 	game.input.keyboard.isDown(Phaser.KeyCode.SPACEBAR)) && this.playerJumpTimer < 0 &&
+		// 	checkIfCanJump(this.player))
+		// {
+		// 	// Start jump animation
+		// 	this.jumpState = 1;
+		// 	this.jumpTimer = 0;
+		// 	// this.eggOnHead = false;
+		// 	// Begin moving upwards immediately
+		// 	this.player.body.moveUp(this.playerJump);
+		// 	this.player.animations.play('jump');
+		// 	this.playerJumpTimer = 0.5;
+		// 	this.playerJumping = true;
+		// 	//this.jump.play();
+		// }
+		//
+		// // Shorten birb
+		// if (this.jumpState == 1) {
+		// 	// Increase timer by time elapsed * 8
+		// 	this.jumpTimer += game.time.physicsElapsed * 4;
+		// 	// this.jumpTimer = magnitude, this.facing = direction
+		// 	this.player.scale.y -= this.jumpTimer;
+		// 	if (this.jumpTimer > 0.2) {
+		// 		// Move to phase 3
+		// 		this.jumpState = 2;
+		// 		this.jumpTimer = 0;
+		// 	}
+		// }
+		//
+		// // Widen birb
+		// if (this.jumpState == 2) {
+		// 	// Increase timer by time elapsed * 2
+		// 	this.jumpTimer += game.time.physicsElapsed;
+		// 	// this.jumpTimer = magnitude, this.facing = direction
+		// 	this.player.scale.x += this.jumpTimer * this.facing;
+		// 	if (this.jumpTimer > 0.05) {
+		// 		// Move to phase 2
+		// 		this.jumpState = 3;
+		// 		this.jumpTimer = 0;
+		// 	}
+		// }
+		//
+		// // Normalize birb
+		// if (this.jumpState == 3) {
+		// 	// Increase timer by time elapsed * 8
+		// 	this.jumpTimer += game.time.physicsElapsed;
+		// 	// this.jumpTimer = magnitude, this.facing = direction
+		// 	this.player.scale.x -= this.jumpTimer * this.facing;
+		// 	// this.jumpTimer = magnitude, this.facing = direction
+		// 	this.player.scale.y += this.jumpTimer * 2;
+		// 	if (this.jumpTimer > 0.05) {
+		// 		// Normalize and end jump
+		// 		this.jumpState = 0;
+		// 		this.jumpTimer = 0;
+		// 		this.player.scale.y = 1;
+		// 		this.player.scale.x = this.facing;
+		// 		this.playerJumping = false;
+		// 	}
+		// }
+		//
+		// //update mask
+		// this.mask.position = this.player.position;
+		//
+		// /////////////
+		// //BIRD MATH//
+		// /////////////
+		//
+		// if (!this.eggDragged) {
+		// 	cameraFollowing(this);
+		// }
+		//
+		// this.checkFunction(this);
+		//
+		//
+		// this.playerJumpTimer -= game.time.physicsElapsed;
+		// this.tears.forEach(resetTears, this);
+		//
+		// /////////
+		// //DEBUG//
+		// /////////
+		//
+		// if (this.numbers.one.justDown) {
+		// 	setSave.call(this, this.nests.children[0], this.egg.body.data);
+		// 	game.camera.x = this.saveX;
+		// 	game.camera.y = this.saveY;
+		// }
+		// else if (this.numbers.two.justDown) {
+		// 	setSave.call(this, this.nests.children[1], this.egg.body.data);
+		// 	game.camera.x = this.saveX;
+		// 	game.camera.y = this.saveY;
+		// }
+		// else if (this.numbers.thr.justDown) {
+		// 	setSave.call(this, this.nests.children[2], this.egg.body.data);
+		// 	game.camera.x = this.saveX;
+		// 	game.camera.y = this.saveY;
+		// }
+		// else if (this.numbers.fou.justDown) {
+		// 	setSave.call(this, this.nests.children[3], this.egg.body.data);
+		// 	game.camera.x = this.saveX;
+		// 	game.camera.y = this.saveY;
+		// }
+		// else if (this.numbers.fiv.justDown) {
+		// 	setSave.call(this, this.nests.children[4], this.egg.body.data);
+		// 	game.camera.x = this.saveX;
+		// 	game.camera.y = this.saveY;
+		// }
+		// else if (this.numbers.six.justDown) {
+		// 	setSave.call(this, this.nests.children[5], this.egg.body.data);
+		// 	game.camera.x = this.saveX;
+		// 	game.camera.y = this.saveY;
+		// }
+		// else if (this.numbers.sev.justDown) {
+		// 	setSave.call(this, this.nests.children[6], this.egg.body.data);
+		// 	game.camera.x = this.saveX;
+		// 	game.camera.y = this.saveY;
+		// }
+		// else if (this.numbers.eig.justDown) {
+		// 	setSave.call(this, this.nests.children[7], this.egg.body.data);
+		// 	game.camera.x = this.saveX;
+		// 	game.camera.y = this.saveY;
+		// }
+		// else if (this.numbers.nin.justDown) {
+		// 	setSave.call(this, this.nests.children[8], this.egg.body.data);
+		// 	game.camera.x = this.saveX;
+		// 	game.camera.y = this.saveY;
+		// }
+		// else if (this.numbers.zer.justDown) {
+		// 	setSave.call(this, this.nests.children[9], this.egg.body.data);
+		// 	game.camera.x = this.saveX;
+		// 	game.camera.y = this.saveY;
+		// }
 	}
 }
 
@@ -447,6 +461,204 @@ Play.prototype = {
 /////////////
 
 
+
+function normalUpdate() {
+	////////////
+	//MOVEMENT//
+	////////////
+
+	if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.KeyCode.A))
+	{ // If left key down, move player left
+		this.player.body.moveLeft(300);
+		if (!this.playerJumping && checkIfCanJump(this.player))
+		{
+			this.player.animations.play('walk');
+		}
+		// Enable mirroring
+		if (this.player.scale.x > 0)
+		{
+			this.facing = -1;
+			this.player.scale.x *= -1;
+		}
+	}
+	else if (cursors.right.isDown || game.input.keyboard.isDown(Phaser.KeyCode.D))
+	{ // If right key down, move playerr right
+		this.player.body.moveRight(300);
+		if (!this.playerJumping && checkIfCanJump(this.player))
+		{
+			this.player.animations.play('walk');
+		}
+		// disable mirroring
+		if (this.player.scale.x < 0)
+		{
+			this.facing = 1;
+			this.player.scale.x *= -1;
+		}
+	}
+	else
+	{ // Else stop the player
+		this.player.body.velocity.x = 0;
+		if (!this.playerJumping && checkIfCanJump(this.player))
+		{
+			this.player.animations.stop();
+			this.player.frame = 0;
+		}
+	}
+
+	///////////
+	//JUMPING//
+	///////////
+
+	if (this.iKey.justDown) {
+		if (this.playerJump == 650) {
+			this.playerJump = 2500;
+		}
+		else {
+			this.playerJump = 650;
+		}
+	}
+
+	// If up is down, move up
+	if ((cursors.up.isDown || game.input.keyboard.isDown(Phaser.KeyCode.W) ||
+		game.input.keyboard.isDown(Phaser.KeyCode.SPACEBAR)) && this.playerJumpTimer < 0 &&
+		checkIfCanJump(this.player))
+	{
+		// Start jump animation
+		this.jumpState = 1;
+		this.jumpTimer = 0;
+		// this.eggOnHead = false;
+		// Begin moving upwards immediately
+		this.player.body.moveUp(this.playerJump);
+		this.player.animations.play('jump');
+		this.playerJumpTimer = 0.5;
+		this.playerJumping = true;
+		//this.jump.play();
+	}
+
+	// Shorten birb
+	if (this.jumpState == 1) {
+		// Increase timer by time elapsed * 8
+		this.jumpTimer += game.time.physicsElapsed * 4;
+		// this.jumpTimer = magnitude, this.facing = direction
+		this.player.scale.y -= this.jumpTimer;
+		if (this.jumpTimer > 0.2) {
+			// Move to phase 3
+			this.jumpState = 2;
+			this.jumpTimer = 0;
+		}
+	}
+
+	// Widen birb
+	if (this.jumpState == 2) {
+		// Increase timer by time elapsed * 2
+		this.jumpTimer += game.time.physicsElapsed;
+		// this.jumpTimer = magnitude, this.facing = direction
+		this.player.scale.x += this.jumpTimer * this.facing;
+		if (this.jumpTimer > 0.05) {
+			// Move to phase 2
+			this.jumpState = 3;
+			this.jumpTimer = 0;
+		}
+	}
+
+	// Normalize birb
+	if (this.jumpState == 3) {
+		// Increase timer by time elapsed * 8
+		this.jumpTimer += game.time.physicsElapsed;
+		// this.jumpTimer = magnitude, this.facing = direction
+		this.player.scale.x -= this.jumpTimer * this.facing;
+		// this.jumpTimer = magnitude, this.facing = direction
+		this.player.scale.y += this.jumpTimer * 2;
+		if (this.jumpTimer > 0.05) {
+			// Normalize and end jump
+			this.jumpState = 0;
+			this.jumpTimer = 0;
+			this.player.scale.y = 1;
+			this.player.scale.x = this.facing;
+			this.playerJumping = false;
+		}
+	}
+
+	//update mask
+	this.mask.position = this.player.position;
+
+	/////////////
+	//BIRD MATH//
+	/////////////
+
+	if (!this.eggDragged) {
+		cameraFollowing(this);
+	}
+
+	this.checkFunction(this);
+
+
+	this.playerJumpTimer -= game.time.physicsElapsed;
+	this.tears.forEach(resetTears, this);
+
+	/////////
+	//DEBUG//
+	/////////
+
+	if (this.numbers.one.justDown) {
+		setSave.call(this, this.nests.children[0], this.egg.body.data);
+		game.camera.x = this.saveX;
+		game.camera.y = this.saveY;
+	}
+	else if (this.numbers.two.justDown) {
+		setSave.call(this, this.nests.children[1], this.egg.body.data);
+		game.camera.x = this.saveX;
+		game.camera.y = this.saveY;
+	}
+	else if (this.numbers.thr.justDown) {
+		setSave.call(this, this.nests.children[2], this.egg.body.data);
+		game.camera.x = this.saveX;
+		game.camera.y = this.saveY;
+	}
+	else if (this.numbers.fou.justDown) {
+		setSave.call(this, this.nests.children[3], this.egg.body.data);
+		game.camera.x = this.saveX;
+		game.camera.y = this.saveY;
+	}
+	else if (this.numbers.fiv.justDown) {
+		setSave.call(this, this.nests.children[4], this.egg.body.data);
+		game.camera.x = this.saveX;
+		game.camera.y = this.saveY;
+	}
+	else if (this.numbers.six.justDown) {
+		setSave.call(this, this.nests.children[5], this.egg.body.data);
+		game.camera.x = this.saveX;
+		game.camera.y = this.saveY;
+	}
+	else if (this.numbers.sev.justDown) {
+		setSave.call(this, this.nests.children[6], this.egg.body.data);
+		game.camera.x = this.saveX;
+		game.camera.y = this.saveY;
+	}
+	else if (this.numbers.eig.justDown) {
+		setSave.call(this, this.nests.children[7], this.egg.body.data);
+		game.camera.x = this.saveX;
+		game.camera.y = this.saveY;
+	}
+	else if (this.numbers.nin.justDown) {
+		setSave.call(this, this.nests.children[8], this.egg.body.data);
+		game.camera.x = this.saveX;
+		game.camera.y = this.saveY;
+	}
+	else if (this.numbers.zer.justDown) {
+		setSave.call(this, this.nests.children[9], this.egg.body.data);
+		game.camera.x = this.saveX;
+		game.camera.y = this.saveY;
+	}
+}
+
+function endUpdate() {
+	this.endTimer += game.time.physicsElapsed;
+
+	if (this.endTimer > 10) {
+		game.state.start('GameOver');
+	}
+}
 
 function startCheck(play) {
 	play.checkFunction = checkForReset;
@@ -577,7 +789,16 @@ function getHome(eggBody, eggData, nestShape, eggShape) {
 	if (eggBody === this.egg.body)
 	{
 		this.pickup.play();
-		game.state.start('GameOver');
+		this.updateFunc = endUpdate;
+
+		this.endMask.position = game.camera.position;
+
+		game.add.tween(this.endMask).to({alpha: 1}, 10000, Phaser.Easing.Linear.None, true);
+		stopDrag();
+		this.eggHead = game.physics.p2.createLockConstraint(
+			nestShape.body.parent, this.egg, [0, 0], 0, 100);
+
+		game.input.onDown.removeAll();
 	}
 }
 
