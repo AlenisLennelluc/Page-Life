@@ -32,6 +32,7 @@ MainMenu.prototype = {
 		game.load.audio('jump', 'assets/audio/BirbJump.wav');
 		game.load.audio('pickup', 'assets/audio/BirbPickup.wav');
 		game.load.audio('backgroundSong', 'assets/audio/WorldMap.mp3');
+		game.load.audio('checkpoint', ['assets/audio/checkpoint.mp3', 'assets/audio.checkpoint.ogg']);
 	},
 
 	//////////

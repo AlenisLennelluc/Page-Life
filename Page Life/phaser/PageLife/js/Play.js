@@ -124,7 +124,7 @@ Play.prototype = {
 		this.nests.forEach(setupNest, this);
 
 		this.saveX = 2670;
-		this.saveY = 14160;
+		this.saveY = 14159;
 
 		this.saveX = game.world.width - 800;
 		this.saveY = 400;
@@ -135,8 +135,9 @@ Play.prototype = {
 
 		// Star for player to touch and win the game
 		this.home = game.add.sprite(game.world.width - 400, 450, 'sprites', 'nest');
+		this.home.anchor.setTo(0.5, 0.5);
 
-		this.endStar = game.add.sprite(game.world.width - 300, 450, 'star');
+		this.endStar = game.add.sprite(game.world.width - 375, 400, 'star');
 		game.physics.p2.enable(this.endStar);
 		this.endStar.body.data.shapes[0].sensor = true;
 		this.endStar.body.static = true;
@@ -148,8 +149,8 @@ Play.prototype = {
 
 		// Egg of the player, bring to star to win
 		this.egg = game.add.sprite(400, game.world.height - 250, 'sprites', 'egg'); // debug
-		game.physics.p2.enable(this.egg);
-		this.egg.body.setCircle(20);
+		game.physics.p2.enable(this.egg, true);
+		this.egg.body.setCircle(25);
 
 		///////////////////
 		// SPRING EFFECT //
@@ -193,6 +194,9 @@ Play.prototype = {
 		this.mask = game.add.sprite(0, 720, 'mask');
 		this.mask.anchor.setTo(0.5, 0.5);
 
+		// Insert blue lines background
+		game.add.tileSprite(0,0, game.world.width, game.world.height, 'background');
+
 		//////////
 		//PLAYER//
 		//////////
@@ -200,7 +204,7 @@ Play.prototype = {
 		// Create the player
 		//this.player = game.add.sprite(200, game.world.height - 400, 'birb');
 		this.player = game.add.sprite(400, game.world.height - 700, 'birb'); //debug
-		game.physics.p2.enable(this.player); // Enable physics
+		game.physics.p2.enable(this.player, true); // Enable physics
 		this.player.body.fixedRotation = true;
 		this.player.body.clearShapes();
 		//PLAYER PHYSISCS
@@ -217,14 +221,11 @@ Play.prototype = {
 		this.player.animations.add('jump', [4,5], 10, true);
 		// 1 = Right, -1 = left, used for mirroring player animation
 		this.facing = 1;
-		this.playerJump = 650;
+		this.playerJump = 700;
 
 		// Insert end game fadeout
 		this.endMask = game.add.sprite(game.camera.x, game.camera.y, 'cover');
 		this.endMask.alpha = 0;
-
-		// Insert blue lines background
-		game.add.tileSprite(0,0, game.world.width, game.world.height, 'background');
 
 		// Grab the arrowkey inputs
 		cursors = game.input.keyboard.createCursorKeys();
@@ -241,6 +242,7 @@ Play.prototype = {
 		this.jump = game.add.audio('jump');
 		this.pickup = game.add.audio('pickup');
 		this.song = game.add.audio('backgroundSong');
+		this.checkPointAudio = game.add.audio('checkpoint', 0.2);
 
 		this.song.play('', 0, 0.10, true);
 
@@ -510,11 +512,11 @@ function normalUpdate() {
 	///////////
 
 	if (this.iKey.justDown) {
-		if (this.playerJump == 650) {
+		if (this.playerJump == 700) {
 			this.playerJump = 2500;
 		}
 		else {
-			this.playerJump = 650;
+			this.playerJump = 700;
 		}
 	}
 
@@ -772,8 +774,12 @@ function disconnectEgg(play, playerBody) {
 }
 
 function connectEggToNest(eggBody, eggData, nestShape, eggShape) {
-	this.saveX = nestShape.body.parent.x;
-	this.saveY = nestShape.body.parent.y;
+	if (this.saveX != nestShape.body.parent.x || this.saveY != nestShape.body.parent.y) {
+		console.log("playing tune");
+		this.saveX = nestShape.body.parent.x;
+		this.saveY = nestShape.body.parent.y;
+		this.checkPointAudio.play();
+	}
 
 	if (!this.eggDragged && eggData === this.egg.body.data) {
 		disconnectEgg(this);
@@ -784,7 +790,7 @@ function connectEggToNest(eggBody, eggData, nestShape, eggShape) {
 	}
 }
 
-// When player steps on star, end the game
+// When egg touches star, end the game
 function getHome(eggBody, eggData, nestShape, eggShape) {
 	if (eggBody === this.egg.body)
 	{
@@ -793,12 +799,14 @@ function getHome(eggBody, eggData, nestShape, eggShape) {
 
 		this.endMask.position = game.camera.position;
 
-		game.add.tween(this.endMask).to({alpha: 1}, 10000, Phaser.Easing.Linear.None, true);
-		stopDrag();
+		game.add.tween(this.endMask).to({alpha: 1}, 7000, Phaser.Easing.Linear.None, true);
+
+		game.input.onDown.removeAll();
+		stopDrag.call(this);
 		this.eggHead = game.physics.p2.createLockConstraint(
 			nestShape.body.parent, this.egg, [0, 0], 0, 100);
 
-		game.input.onDown.removeAll();
+		this.endStar.body.onBeginContact.removeAll();
 	}
 }
 
@@ -809,18 +817,6 @@ function setupNest(nest) {
 	nest.body.onBeginContact.add(connectEggToNest, this);
 	nest.body.onBeginContact.add(pNestBurst, this);
 	//console.log("setup a nest");
-}
-
-// When player touches a nest, log the save Point
-function setSave(nest, egg) {
-	if (egg === this.egg.body.data) {
-		//console.log("touched a save");
-		this.saveX = nest.x;
-		this.saveY = nest.y;
-		//console.log("set save to: " + this.saveX + ", " + this.saveY);
-
-
-	}
 }
 
 // Mouse movement
