@@ -1,10 +1,7 @@
 //scale.js
 
 function scaleWindow(){
-		/////////////
-		// SCALING //
-		/////////////
-
+  
 		//Code taken from scaling lecture
 		//set scale
 		// show entire game display while maintaining aspect ratio

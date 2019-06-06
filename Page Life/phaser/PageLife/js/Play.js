@@ -343,7 +343,7 @@ function normalUpdate() {
 	//JUMPING//
 	///////////
 
-	if (this.jKey.justDown) {
+	if (this.iKey.justDown) {
 		if (this.playerJump == 700) {
 			this.playerJump = 2500;
 		}
