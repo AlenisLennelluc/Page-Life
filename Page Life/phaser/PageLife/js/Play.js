@@ -123,8 +123,7 @@ Play.prototype = {
 
 		this.nests.forEach(setupNest, this);
 
-		//this.saveX = 2670;
-		//this.saveY = 14160;
+		this.saveX = 2670;
 
 		//this.saveX = game.world.width - 800;
 		//this.saveY = 400;
@@ -460,12 +459,9 @@ function checkForReset(play) {
 		play.egg.body.x = play.saveX;
 		play.egg.body.y = play.saveY;
 		play.egg.body.setZeroVelocity();
+		play.player.body.setZeroVelocity();
 		play.player.body.x = play.saveX;
 		play.player.body.y = play.saveY - 50;
-		play.player.body.velocity.x = 0;
-		play.player.body.velocity.y = 0;
-		play.egg.body.velocity.x = 0;
-		play.egg.body.velocity.y = 0;
 	}
 }
 
