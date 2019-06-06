@@ -6,7 +6,7 @@ GameOver.prototype = {
 		//game.add.tileSprite(0,0, game.world.width, game.world.height, 'background');
 
 		// Add GameOver text
-		this.endText = game.add.text(16,16, 'You Won!' + '\nPress Space To Restart', { fontSize: '32px', fill: '#000'});
+		this.endText = game.add.text(16,16, 'Fin' + '\nPress Space To Restart', { fontSize: '32px', fill: '#000'});
 		this.endText.alpha = 0;
 	},
 	create: function() {

@@ -17,10 +17,10 @@ MainMenu.prototype = {
 		game.load.spritesheet('noCollusion', 'assets/img/collision.PNG', 32, 32);
 		game.load.image('feather', 'assets/img/smolFeather.png');
 		game.load.image('LFeather', 'assets/img/feather.png');
-		game.load.image('line','assets/img/Line1.PNG');
-		game.load.image('seagull', 'assets/img/seagull1.png');
-		game.load.image('seagull2', 'assets/img/seagull2.png');
-		game.load.image('bat', 'assets/img/bat.png');
+		//game.load.image('line','assets/img/Line1.PNG');
+		//game.load.image('seagull', 'assets/img/seagull1.png');
+		//game.load.image('seagull2', 'assets/img/seagull2.png');
+		//game.load.image('bat', 'assets/img/bat.png');
 		game.load.image('star', 'assets/img/star.png');
 		game.load.image('cover', 'assets/img/EndMask.png');
 		game.load.image('endImg', 'assets/img/Sleeping_bird.png');
