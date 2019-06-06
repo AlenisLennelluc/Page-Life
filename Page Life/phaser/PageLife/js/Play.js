@@ -1,4 +1,5 @@
 // The Play state and its methods
+// Rando Comment
 var Play = function(game) {var score;};
 Play.prototype = {
 
