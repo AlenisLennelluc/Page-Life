@@ -17,6 +17,10 @@ MainMenu.prototype = {
 		game.load.spritesheet('noCollusion', 'assets/img/collision.PNG', 32, 32);
 		game.load.image('feather', 'assets/img/smolFeather.png');
 		game.load.image('LFeather', 'assets/img/feather.png');
+		game.load.image('line','assets/img/Line1.PNG');
+		game.load.image('seagull', 'assets/img/seagull1.png');
+		game.load.image('seagull2', 'assets/img/seagull2.png');
+		game.load.image('bat', 'assets/img/bat.png');
 		game.load.image('star', 'assets/img/star.png');
 		game.load.image('cover', 'assets/img/EndMask.png');
 
@@ -68,6 +72,65 @@ MainMenu.prototype = {
     //  This will emit a quantity of 5 particles every 500ms. Each particle will live for 2000ms.
     //  The -1 means "run forever"
     emitter.flow(3000, 500, 3, -1);
+
+		///////////////////////////
+		//WATERFALL TWEEN ATTEMPT//
+		///////////////////////////
+
+		//SOURCE CODE: https://phaser.io/examples/v2/particles/tweened-emitter
+		// emitter = game.add.emitter(game.world.centerX, 32, 250);
+		//
+	  // emitter.width = 800;
+		//
+    // emitter.makeParticles('line');
+		//
+    // emitter.setXSpeed(0, 0);
+    // emitter.setYSpeed(200, 200);
+		//
+    // emitter.bringToTop = true;
+    // emitter.setRotation(0, 0);
+    // emitter.setAlpha(0.1, 1, 5000);
+    // emitter.setScale(0.1, 2, 0.1, 2, 4000);
+    // emitter.gravity = 1000;
+		//
+		//
+		//
+    // emitter.start(false, 5000, 50);
+		//
+    // emitter.emitX = 200;
+		//
+    // //game.add.tween(emitter).to( { emitX: 700 }, 2000, Phaser.Easing.Sinusoidal.InOut, true, 0, Number.MAX_VALUE, true);
+    // game.add.tween(emitter).to( { emitX: 600 }, 2000, Phaser.Easing.Back.InOut, true, 0, Number.MAX_VALUE, true);
+
+		////////////
+		//SEAGULLS//
+		////////////
+
+		// emitter = game.add.emitter(game.world.centerX, 200, 200);
+		//
+    // //	This emitter will have a width of 800px, so a particle can emit from anywhere in the range emitter.x += emitter.width / 2
+    // emitter.width = 1200;
+		//
+    // emitter.makeParticles(['seagull' , 'seagull2']);
+		//
+    // emitter.minParticleSpeed.set(0, 300);
+    // emitter.maxParticleSpeed.set(0, 400);
+		//
+    // emitter.setRotation(0, 0);
+    // emitter.setAlpha(0.3, 0.8);
+    // emitter.setScale(0.5, 0.5, 1, 1);
+    // emitter.gravity = -200;
+		//
+    // //	false means don't explode all the sprites at once, but instead release at a rate of one particle per 100ms
+    // //	The 5000 value is the lifespan of each particle before it's killed
+    // emitter.start(false, 5000, 2500);
+
+
+		//////////////////
+		//"No" Particles//
+		//////////////////
+
+
 
 		////////////
 		//GRAPHICS//
