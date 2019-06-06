@@ -220,6 +220,9 @@ Play.prototype = {
 		// Grab the arrowkey inputs
 		cursors = game.input.keyboard.createCursorKeys();
 		this.iKey = game.input.keyboard.addKey(Phaser.KeyCode.I);
+		this.numbers = game.input.keyboard.addKeys({'one': Phaser.KeyCode.ONE, 'two': Phaser.KeyCode.TWO,
+			'thr': Phaser.KeyCode.THREE, 'fou': Phaser.KeyCode.FOUR,'fiv': Phaser.KeyCode.FIVE, 'six': Phaser.KeyCode.SIX,
+			'sev': Phaser.KeyCode.SEVEN, 'eig': Phaser.KeyCode.EIGHT,'nin': Phaser.KeyCode.NINE, 'zer': Phaser.KeyCode.ZERO,});
 
 		/////////
 		//AUDIO//
@@ -378,6 +381,61 @@ Play.prototype = {
 
 		this.playerJumpTimer -= game.time.physicsElapsed;
 		this.tears.forEach(resetTears, this);
+
+		/////////
+		//DEBUG//
+		/////////
+
+		if (this.numbers.one.justDown) {
+			setSave.call(this, this.nests.children[0], this.egg.body.data);
+			game.camera.x = this.saveX;
+			game.camera.y = this.saveY;
+		}
+		else if (this.numbers.two.justDown) {
+			setSave.call(this, this.nests.children[1], this.egg.body.data);
+			game.camera.x = this.saveX;
+			game.camera.y = this.saveY;
+		}
+		else if (this.numbers.thr.justDown) {
+			setSave.call(this, this.nests.children[2], this.egg.body.data);
+			game.camera.x = this.saveX;
+			game.camera.y = this.saveY;
+		}
+		else if (this.numbers.fou.justDown) {
+			setSave.call(this, this.nests.children[3], this.egg.body.data);
+			game.camera.x = this.saveX;
+			game.camera.y = this.saveY;
+		}
+		else if (this.numbers.fiv.justDown) {
+			setSave.call(this, this.nests.children[4], this.egg.body.data);
+			game.camera.x = this.saveX;
+			game.camera.y = this.saveY;
+		}
+		else if (this.numbers.six.justDown) {
+			setSave.call(this, this.nests.children[5], this.egg.body.data);
+			game.camera.x = this.saveX;
+			game.camera.y = this.saveY;
+		}
+		else if (this.numbers.sev.justDown) {
+			setSave.call(this, this.nests.children[6], this.egg.body.data);
+			game.camera.x = this.saveX;
+			game.camera.y = this.saveY;
+		}
+		else if (this.numbers.eig.justDown) {
+			setSave.call(this, this.nests.children[7], this.egg.body.data);
+			game.camera.x = this.saveX;
+			game.camera.y = this.saveY;
+		}
+		else if (this.numbers.nin.justDown) {
+			setSave.call(this, this.nests.children[8], this.egg.body.data);
+			game.camera.x = this.saveX;
+			game.camera.y = this.saveY;
+		}
+		else if (this.numbers.zer.justDown) {
+			setSave.call(this, this.nests.children[9], this.egg.body.data);
+			game.camera.x = this.saveX;
+			game.camera.y = this.saveY;
+		}
 	}
 }
 
@@ -400,10 +458,14 @@ function checkForReset(play) {
 	{
 		console.log('Player resetting');
 		play.egg.body.x = play.saveX;
-		play.egg.body.y = play.saveY + 45;
+		play.egg.body.y = play.saveY;
 		play.egg.body.setZeroVelocity();
 		play.player.body.x = play.saveX;
-		play.player.body.y = play.saveY;
+		play.player.body.y = play.saveY - 50;
+		play.player.body.velocity.x = 0;
+		play.player.body.velocity.y = 0;
+		play.egg.body.velocity.x = 0;
+		play.egg.body.velocity.y = 0;
 	}
 }
 
