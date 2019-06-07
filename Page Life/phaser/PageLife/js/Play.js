@@ -143,9 +143,9 @@ Play.prototype = {
 
 		this.saveX = 2670;
 		this.saveY = 14159;
-
-		this.saveX = game.world.width - 800;
-		this.saveY = 400;
+		//
+		// this.saveX = game.world.width - 800;
+		// this.saveY = 400;
 
 		////////////////////////
 		//END OF GAME SEQUENCE//
@@ -221,33 +221,13 @@ Play.prototype = {
 
 		// Create the player
 		//this.player = game.add.sprite(200, game.world.height - 400, 'birb');
-		this.player = game.add.sprite(400, game.world.height - 700, 'birb'); //debug
-		game.physics.p2.enable(this.player, false); // Enable physics
-		this.player.body.fixedRotation = true;
-		this.player.body.clearShapes();
-		//PLAYER PHYSISCS
-		this.player.body.addRectangle(45, 90, 0, -1);
-		this.player.body.addCircle(45 / 2, 0, -45);
-		this.player.body.data.shapes[1].sensor = true;
-		this.player.body.onBeginContact.add(eggEnteredHead, this);
-		this.player.body.onEndContact.add(eggLeftHead, this);
-		//PLAYER JUMP
-		this.playerJumpTimer = 0;
-		this.playerJumping = false;
-		//PLAYER ANIMATION
-		this.player.animations.add('walk', [ 0, 1, 2, 3], 10, true);
-		this.player.animations.add('jump', [4,5], 10, true);
-		// 1 = Right, -1 = left, used for mirroring player animation
-		this.facing = 1;
-		this.playerJump = 700;
+		this.player = new Player(game, 'birb', 400, game.world.height - 700, this.egg, this);
+		game.add.existing(this.player);
 
 		// Insert end game fadeout
 		this.endMask = game.add.sprite(game.camera.x, game.camera.y, 'cover');
 		this.endMask.alpha = 0;
 
-		// Grab the arrowkey inputs
-		cursors = game.input.keyboard.createCursorKeys();
-		this.jKey = game.input.keyboard.addKey(Phaser.KeyCode.J);
 		this.numbers = game.input.keyboard.addKeys({'one': Phaser.KeyCode.ONE, 'two': Phaser.KeyCode.TWO,
 			'thr': Phaser.KeyCode.THREE, 'fou': Phaser.KeyCode.FOUR,'fiv': Phaser.KeyCode.FIVE, 'six': Phaser.KeyCode.SIX,
 			'sev': Phaser.KeyCode.SEVEN, 'eig': Phaser.KeyCode.EIGHT,'nin': Phaser.KeyCode.NINE, 'zer': Phaser.KeyCode.ZERO,});
@@ -268,8 +248,6 @@ Play.prototype = {
 		this.song.play('', 0, 0.10, true);
 
 		// timers
-		this.jumpTimer = 0;
-		this.jumpState = 0;
 		this.endTimer = 0;
 
 		this.checkFunction = startCheck;
@@ -309,122 +287,6 @@ Play.prototype = {
 
 
 function normalUpdate() {
-	////////////
-	//MOVEMENT//
-	////////////
-
-	if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.KeyCode.A))
-	{ // If left key down, move player left
-		this.player.body.moveLeft(300);
-		if (!this.playerJumping && checkIfCanJump(this.player))
-		{
-			this.player.animations.play('walk');
-		}
-		// Enable mirroring
-		if (this.player.scale.x > 0)
-		{
-			this.facing = -1;
-			this.player.scale.x *= -1;
-		}
-	}
-	else if (cursors.right.isDown || game.input.keyboard.isDown(Phaser.KeyCode.D))
-	{ // If right key down, move playerr right
-		this.player.body.moveRight(300);
-		if (!this.playerJumping && checkIfCanJump(this.player))
-		{
-			this.player.animations.play('walk');
-		}
-		// disable mirroring
-		if (this.player.scale.x < 0)
-		{
-			this.facing = 1;
-			this.player.scale.x *= -1;
-		}
-	}
-	else
-	{ // Else stop the player
-		this.player.body.velocity.x = 0;
-		if (!this.playerJumping && checkIfCanJump(this.player))
-		{
-			this.player.animations.stop();
-			this.player.frame = 0;
-		}
-	}
-
-	///////////
-	//JUMPING//
-	///////////
-
-	if (this.jKey.justDown) {
-		if (this.playerJump == 700) {
-			this.playerJump = 2500;
-		}
-		else {
-			this.playerJump = 700;
-		}
-	}
-
-	// If up is down, move up
-	if ((cursors.up.isDown || game.input.keyboard.isDown(Phaser.KeyCode.W) ||
-		game.input.keyboard.isDown(Phaser.KeyCode.SPACEBAR)) && this.playerJumpTimer < 0 &&
-		checkIfCanJump(this.player))
-	{
-		// Start jump animation
-		this.jumpState = 1;
-		this.jumpTimer = 0;
-		// this.eggOnHead = false;
-		// Begin moving upwards immediately
-		this.player.body.moveUp(this.playerJump);
-		this.player.animations.play('jump');
-		this.playerJumpTimer = 0.5;
-		this.playerJumping = true;
-		//this.jump.play();
-	}
-
-	// Shorten birb
-	if (this.jumpState == 1) {
-		// Increase timer by time elapsed * 8
-		this.jumpTimer += game.time.physicsElapsed * 4;
-		// this.jumpTimer = magnitude, this.facing = direction
-		this.player.scale.y -= this.jumpTimer;
-		if (this.jumpTimer > 0.2) {
-			// Move to phase 3
-			this.jumpState = 2;
-			this.jumpTimer = 0;
-		}
-	}
-
-	// Widen birb
-	if (this.jumpState == 2) {
-		// Increase timer by time elapsed * 2
-		this.jumpTimer += game.time.physicsElapsed;
-		// this.jumpTimer = magnitude, this.facing = direction
-		this.player.scale.x += this.jumpTimer * this.facing;
-		if (this.jumpTimer > 0.05) {
-			// Move to phase 2
-			this.jumpState = 3;
-			this.jumpTimer = 0;
-		}
-	}
-
-	// Normalize birb
-	if (this.jumpState == 3) {
-		// Increase timer by time elapsed * 8
-		this.jumpTimer += game.time.physicsElapsed;
-		// this.jumpTimer = magnitude, this.facing = direction
-		this.player.scale.x -= this.jumpTimer * this.facing;
-		// this.jumpTimer = magnitude, this.facing = direction
-		this.player.scale.y += this.jumpTimer * 2;
-		if (this.jumpTimer > 0.05) {
-			// Normalize and end jump
-			this.jumpState = 0;
-			this.jumpTimer = 0;
-			this.player.scale.y = 1;
-			this.player.scale.x = this.facing;
-			this.playerJumping = false;
-		}
-	}
-
 	//update mask
 	this.mask.position = this.player.position;
 
@@ -438,8 +300,6 @@ function normalUpdate() {
 
 	this.checkFunction(this);
 
-
-	this.playerJumpTimer -= game.time.physicsElapsed;
 	this.tears.forEach(resetTears, this);
 
 	/////////
@@ -571,7 +431,7 @@ function startDrag(pointer) {
 		this.eggDragged = true;
 		//game.camera.follow(null);
 		if (this.eggHead) {
-			disconnectEgg(this);
+			disconnectEgg.call(this);
 		}
 	}
 }
@@ -585,47 +445,12 @@ function stopDrag() {
 		//game.camera.follow(this.player, 0, 0.1, 0.1);
 		//game.camera.deadzone = new Phaser.Rectangle(0, 0, game.camera.width, game.camera.height);
 		if (this.eggOnHead) {
-			connectEggToHead(this);
+			connectEggToHead.call(this.player);
 		}
 	}
 }
 
-// Keep egg on head
-function eggEnteredHead(eggBody, eggData, playerShape, eggShape) {
-	if (eggBody === this.egg.body && playerShape.sensor)
-	{
-		this.eggOnHead = true;
-		connectEggToHead(this);
-	}
-}
-
-// if egg falls off head
-function eggLeftHead(eggBody, eggData, playerShape, eggShape) {
-	if (playerShape.sensor && eggData != null && this.egg.body != null && eggData === this.egg.body.data)
-	{
-		disconnectEgg(this, this.player.body.data);
-		this.eggOnHead = false;
-	}
-}
-
-function connectEggToHead(play) {
-	if (play.eggHead == null && !play.eggDragged) {
-		play.eggHead = game.physics.p2.createLockConstraint(
-			play.player, play.egg, [0,0], 0, 10);
-		//game.camera.deadzone = new Phaser.Rectangle(game.camera.width / 2, game.camera.height / 2, 0, 0);
-		play.egg.body.mass = 0.1;
-	}
-}
-
-function disconnectEgg(play, playerBody) {
-	if (play.eggHead != null && (playerBody == null || playerBody === play.eggHead.bodyA)) {
-		game.physics.p2.removeConstraint(play.eggHead);
-		play.eggHead = null;
-		//game.camera.deadzone = new Phaser.Rectangle(0, 0, game.camera.width, game.camera.height);
-		play.egg.body.mass = 1;
-	}
-}
-
+// Something touched a checkpoint nest
 function connectEggToNest(eggBody, eggData, nestShape, eggShape) {
 	if (this.saveX != nestShape.body.parent.x || this.saveY != nestShape.body.parent.y) {
 		console.log("playing tune");
@@ -695,28 +520,6 @@ function move(pointer, x, y, isDown) {
 	this.mouse.body.x = x + game.camera.x;
 	this.mouse.body.y = y + game.camera.y;
 }
-
-
-// http://phaser.io/examples/v2/p2-physics/tilemap-gravity
-function checkIfCanJump(player) {
-
-    var yAxis = p2.vec2.fromValues(0, 1);
-    var result = false;
-
-    for (var i = 0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++)
-    {
-        var c = game.physics.p2.world.narrowphase.contactEquations[i];
-
-        if (c.bodyA === player.body.data || c.bodyB === player.body.data)
-        {
-            var d = p2.vec2.dot(c.normalA, yAxis); // Normal dot Y-axis
-            if (c.bodyA === player.body.data) d *= -1;
-            if (d > 0.5) result = true;
-        }
-    }
-    return result;
-}
-
 
 
 ///////////////////
