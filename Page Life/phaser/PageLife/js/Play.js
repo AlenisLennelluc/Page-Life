@@ -262,7 +262,8 @@ Play.prototype = {
 		featherClick();
 		leafParticles();
 		seagullParticles();
-
+		//waterfallParticles();
+		starParticleEND();
 
 	},
 

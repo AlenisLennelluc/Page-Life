@@ -1,4 +1,5 @@
 //Load.js
+//Local storage code gained from Paddle Parkour Redux
 
 var Load = function(game) {};
 Load.prototype = {
@@ -22,6 +23,7 @@ Load.prototype = {
 		game.load.image('endImg', 'Sleeping_bird.png');
 		game.load.image('gull1','Seagull1.PNG');
 		game.load.image('gull2','Seagull2.PNG');
+		game.load.image('line', 'Line1.PNG');
     //ATLAS AND TILEMAP
     game.load.atlas('sprites', 'sprites.png', 'sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_TP_HASH);
     game.load.tilemap('level', 'pageLifeMap.json', null, Phaser.Tilemap.TILED_JSON);

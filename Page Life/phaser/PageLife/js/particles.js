@@ -64,11 +64,11 @@ function starParticleEND(){
 //////////////////
 
 //	Emitters have a center point and a width/height, which extends from their center point to the left/right and up/down
-starsE = game.add.emitter(game.world.width - 500, 450, 200);
+starsE = game.add.emitter(8880, 370, 600);
 
 //	This emitter will have a width of 800px, so a particle can emit from anywhere in the range emitter.x += emitter.width / 2
-starsE.width = 800;
-starsE.height = 800;
+starsE.width = 5000;
+starsE.height = 1500;
 
 starsE.makeParticles('star');
 
@@ -76,13 +76,13 @@ starsE.minParticleSpeed.set(0, .1);
 starsE.maxParticleSpeed.set(0, .1);
 
 starsE.setRotation(0, 0);
-starsE.setAlpha(0.1, 0.8);
+starsE.setAlpha(0.1, 0.5);
 starsE.setScale(1, 1, 1, 1);
 starsE.gravity = 3;
 
 //	false means don't explode all the sprites at once, but instead release at a rate of one particle per 100ms
 //	The 5000 value is the lifespan of each particle before it's killed
-starsE.start(false, 10000, 700);
+starsE.start(false, 20000, 400);
 }
 
 function leafParticles(){
@@ -114,29 +114,29 @@ function waterfallParticles(){
   ///////////////////////////
 
   //SOURCE CODE: https://phaser.io/examples/v2/particles/tweened-emitter
-  emitter = game.add.emitter(game.world.centerX, 32, 250);
+  fall = game.add.emitter(5600, 10730, 250);
 
-  emitter.width = 800;
+  fall.width = 800;
 
-  emitter.makeParticles('line');
+  fall.makeParticles('line');
 
-  emitter.setXSpeed(0, 0);
-  emitter.setYSpeed(200, 200);
+  fall.setXSpeed(50, 0);
+  fall.setYSpeed(200, 200);
 
-  emitter.bringToTop = true;
-  emitter.setRotation(0, 0);
-  emitter.setAlpha(0.1, 1, 5000);
-  emitter.setScale(0.1, 2, 0.1, 2, 4000);
-  emitter.gravity = 1000;
+  fall.bringToTop = true;
+  fall.setRotation(0, 0);
+  fall.setAlpha(0.1, 1, 5000);
+  fall.setScale(0.1, 2, 0.1, 2, 4000);
+  fall.gravity = 1000;
 
 
 
-  emitter.start(false, 5000, 50);
+  fall.start(false, 5000, 50);
 
-  emitter.emitX = 200;
+  fall.emitX = 200;
 
   //game.add.tween(emitter).to( { emitX: 700 }, 2000, Phaser.Easing.Sinusoidal.InOut, true, 0, Number.MAX_VALUE, true);
-  game.add.tween(emitter).to( { emitX: 600 }, 2000, Phaser.Easing.Back.InOut, true, 0, Number.MAX_VALUE, true);
+  game.add.tween(fall).to( { emitX: 600 }, 2000, Phaser.Easing.Back.InOut, true, 0, Number.MAX_VALUE, true);
 
 }
 
