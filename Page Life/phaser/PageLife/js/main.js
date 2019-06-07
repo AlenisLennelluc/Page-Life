@@ -10,9 +10,6 @@ https://github.com/AlenisLennelluc/Page-Life
 
 var game = new Phaser.Game(1080, 550, Phaser.AUTO);
 
-// Global Variables
-var cursors;
-
 // Setup game states
 game.state.add('MainMenu', MainMenu);
 game.state.add('Play', Play);
