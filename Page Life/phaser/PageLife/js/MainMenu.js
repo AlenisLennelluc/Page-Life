@@ -81,9 +81,10 @@ MainMenu.prototype = {
 		/////////////////
 
 		// Add instruction text
-		this.text = game.add.text(450,100, 'Page Life\n\n' +
+		game.add.text(450, 100, 'Page Life\n\n' +
 			'Drag the egg with the mouse.\n' +
 			'Drop it off the side.', { fontSize: '32px', fill: '#000'});
+
 		this.egg = game.add.sprite(140, game.world.height - 250, 'sprites', 'egg');
 		this.egg.inputEnabled = true;
 		this.egg.input.enableDrag(true);
@@ -107,6 +108,12 @@ MainMenu.prototype = {
 		//Click to blow up feathers, located in particles.js
 		featherClick();
 
+		this.canvas = game.add.sprite(0,0, 'cover');
+		this.title = game.add.sprite(0, -400, 'title');
+		this.title.scale.x = 0.5;
+		this.title.scale.y = 0.5;
+		var tween = game.add.tween(this.title).to({alpha: 0}, 5000, Phaser.Easing.Linear.None, true);
+		tween.onComplete.add(backTween, this);
 	},
 
 	//////////
@@ -131,11 +138,11 @@ MainMenu.prototype = {
 			this.player.body.bounce.y = 0.1;
 
 			//Text
-			this.text.setText('Page Life\n\n' +
-				'Drag the egg with the mouse.\n' +
-				'Drop it off the side.\n\n' +
-				'WASD or arrow keys to move.\n' +
-				'Space or W to jump.\nGo save your egg!');
+			var text = game.add.text(450, 300, 'WASD or arrow keys to move.\n' +
+				'Space or W to jump.\nGo save your egg!', { fontSize: '32px', fill: '#000'});
+
+			text.alpha = 0;
+			game.add.tween(text).to({alpha: 1}, 2000, Phaser.Easing.Linear.None, true);
 		}
 
 		//Prep song for play state
@@ -203,4 +210,8 @@ function startDragMenu() {
 // Once player lets go of egg, re-engage physics
 function stopDragMenu() {
 	this.egg.body.moves = true;
+}
+
+function backTween() {
+	game.add.tween(this.canvas).to({alpha: 0}, 5000, Phaser.Easing.Linear.None, true);
 }

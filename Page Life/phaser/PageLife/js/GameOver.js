@@ -19,12 +19,17 @@ GameOver.prototype = {
 		game.add.tween(this.end).to({alpha: 1}, 5000, Phaser.Easing.Linear.None, true);
 		game.add.tween(this.endText).to({alpha: 1}, 5000, Phaser.Easing.Linear.None, true);
 
-
-
-	},
-	update: function() {
-		// Check for spacebar to go back to Play state
-		if (game.input.keyboard.isDown(Phaser.KeyCode.SPACEBAR))
-			game.state.start('Play');
+		game.time.events.add(10000, tweenOut, this);
 	}
+}
+
+function tweenOut() {
+	var tween = game.add.tween(this.end).to({alpha: 0}, 5000, Phaser.Easing.Linear.None, true);
+	game.add.tween(this.endText).to({alpha: 0}, 5000, Phaser.Easing.Linear.None, true);
+
+	tween.onComplete.add(exit);
+}
+
+function exit() {
+	game.state.start('MainMenu');
 }

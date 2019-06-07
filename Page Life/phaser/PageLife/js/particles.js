@@ -12,13 +12,6 @@ emitter.gravity = 200;
 
 
 game.input.onDown.add(particleBurst, this);
-this.canvas = game.add.sprite(0,0, 'cover');
-this.title = game.add.sprite(0, -400, 'title');
-this.title.scale.x = 0.5;
-this.title.scale.y = 0.5;
-game.add.tween(this.title).to({alpha: 0}, 5000, Phaser.Easing.Linear.None, true);
-game.add.tween(this.canvas).to({alpha: 0}, 5000, Phaser.Easing.Linear.None, true);
-
 }
 
 //Code taken from https://phaser.io/examples/v2/particles/click-burst

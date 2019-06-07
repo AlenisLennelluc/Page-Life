@@ -247,7 +247,7 @@ Play.prototype = {
 
 		// Grab the arrowkey inputs
 		cursors = game.input.keyboard.createCursorKeys();
-		this.iKey = game.input.keyboard.addKey(Phaser.KeyCode.I);
+		this.jKey = game.input.keyboard.addKey(Phaser.KeyCode.J);
 		this.numbers = game.input.keyboard.addKeys({'one': Phaser.KeyCode.ONE, 'two': Phaser.KeyCode.TWO,
 			'thr': Phaser.KeyCode.THREE, 'fou': Phaser.KeyCode.FOUR,'fiv': Phaser.KeyCode.FIVE, 'six': Phaser.KeyCode.SIX,
 			'sev': Phaser.KeyCode.SEVEN, 'eig': Phaser.KeyCode.EIGHT,'nin': Phaser.KeyCode.NINE, 'zer': Phaser.KeyCode.ZERO,});
@@ -343,7 +343,7 @@ function normalUpdate() {
 	//JUMPING//
 	///////////
 
-	if (this.iKey.justDown) {
+	if (this.jKey.justDown) {
 		if (this.playerJump == 700) {
 			this.playerJump = 2500;
 		}
@@ -648,7 +648,15 @@ function getHome(eggBody, eggData, nestShape, eggShape) {
 			nestShape.body.parent, this.egg, [0, 0], 0, 100);
 
 		this.endStar.body.onBeginContact.removeAll();
+
+		this.fadeMusic = game.add.tween(this.song).to({volume: 0}, 7000, Phaser.Easing.Linear.None, true);
+    this.fadeMusic.onComplete.add(fadeComplete, this.song);
 	}
+}
+
+function fadeComplete(song) {
+	song.volume = 0;
+	song.stop();
 }
 
 // set nests as savepoints
