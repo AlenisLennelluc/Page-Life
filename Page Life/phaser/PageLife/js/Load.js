@@ -20,6 +20,8 @@ Load.prototype = {
     game.load.image('star', 'star.png');
 		game.load.image('cover', 'EndMask.png');
 		game.load.image('endImg', 'Sleeping_bird.png');
+		game.load.image('gull1','Seagull1.PNG');
+		game.load.image('gull2','Seagull2.PNG');
     //ATLAS AND TILEMAP
     game.load.atlas('sprites', 'sprites.png', 'sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_TP_HASH);
     game.load.tilemap('level', 'pageLifeMap.json', null, Phaser.Tilemap.TILED_JSON);
@@ -30,6 +32,7 @@ Load.prototype = {
     game.load.audio('backgroundSong', ['background.mp3', 'background.ogg']);
     game.load.audio('checkpoint', ['checkpoint.mp3', 'checkpoint.ogg']);
     game.load.audio('jump', ['jump.mp3', 'jump.ogg']);
+		game.load.audio('amb1Birbs', ['birds1.mp3', 'birds1.ogg']);
     game.load.audio('end', ['ending.mp3', 'ending.ogg']);
 	},
 	create() {

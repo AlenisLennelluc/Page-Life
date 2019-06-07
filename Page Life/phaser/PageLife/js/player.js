@@ -1,8 +1,5 @@
 //player.js
 function Player(game, key, x, y, egg, play) {
-  //////////////
-  // CREATION //
-  //////////////
 
   Phaser.Sprite.call(this, game, x, y, key);
   //PLAYER PHYSICS
@@ -112,7 +109,9 @@ Player.prototype.update = function() {
     this.body.moveUp(this.playerJump);
     this.playerJumpTimer = 0.5;
     this.playerJumping = true;
-    //this.jump.play();
+    //Jump audio
+    this.jump = game.add.audio('jump');
+    this.jump.play('', 0, 1, false);
   }
 
   // Shorten birb

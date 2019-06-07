@@ -5,10 +5,10 @@ function featherClick(){
 //CREATE PARTICLES TEST//
 /////////////////////////
 
-emitter = game.add.emitter(0, 0, 100);
+fclick = game.add.emitter(0, 0, 100);
 
-emitter.makeParticles('feather');
-emitter.gravity = 200;
+fclick.makeParticles('feather');
+fclick.gravity = 200;
 
 
 game.input.onDown.add(particleBurst, this);
@@ -18,14 +18,14 @@ game.input.onDown.add(particleBurst, this);
 function particleBurst(pointer) {
 
   //  Position the emitter where the mouse/touch event was
-  emitter.x = pointer.x;
-  emitter.y = pointer.y;
+  fclick.x = pointer.x;
+  fclick.y = pointer.y;
 
   //  The first parameter sets the effect to "explode" which means all particles are emitted at once
   //  The second gives each particle a 2000ms lifespan
   //  The third is ignored when using burst/explode mode
   //  The final parameter (10) is how many particles will be emitted in this single burst
-  emitter.start(true, 2000, null, 10);
+  fclick.start(true, 2000, null, 10);
 
 }
 
@@ -91,12 +91,12 @@ function leafParticles(){
 //LEAF PARTICLES FLOW//
 ///////////////////////
 
-emitter = game.add.emitter(game.world.centerX, 0, 100);
+emitter = game.add.emitter(500, 13500, 1500);
 
 emitter.makeParticles('LFeather');
-
 emitter.minParticleSpeed.setTo(-300, 30);
 emitter.maxParticleSpeed.setTo(300, 100);
+emitter.setAlpha(0.1, 0.4);
 emitter.minParticleScale = 0.1;
 emitter.maxParticleScale = 0.5;
 emitter.gravity = 100;
@@ -146,24 +146,24 @@ function seagullParticles(){
 //SEAGULLS//
 ////////////
 
-emitter = game.add.emitter(game.world.centerX, 200, 200);
+Gull = game.add.emitter(2500, 12200, 2000);
 
 //	This emitter will have a width of 800px, so a particle can emit from anywhere in the range emitter.x += emitter.width / 2
-emitter.width = 1200;
+Gull.width = 1200;
 
-emitter.makeParticles(['seagull' , 'seagull2']);
+Gull.makeParticles(['gull1' , 'gull2']);
 
-emitter.minParticleSpeed.set(0, 300);
-emitter.maxParticleSpeed.set(0, 400);
+Gull.minParticleSpeed.set(0, 300);
+Gull.maxParticleSpeed.set(0, 400);
 
-emitter.setRotation(0, 0);
-emitter.setAlpha(0.3, 0.8);
-emitter.setScale(0.5, 0.5, 1, 1);
-emitter.gravity = -200;
+Gull.setRotation(0, 0);
+Gull.setAlpha(0.3, 0.5);
+Gull.setScale(0.5, 0.5, 1, 1);
+Gull.gravity = -200;
 
 //	false means don't explode all the sprites at once, but instead release at a rate of one particle per 100ms
 //	The 5000 value is the lifespan of each particle before it's killed
-emitter.start(false, 5000, 2500);
+Gull.start(false, 5000, 2500);
 
 }
 
@@ -181,10 +181,10 @@ function noParticles(){
 function pNestBurst(otherBody, otherData, nestShape, otherShape) {
 
   //  Position the emitter where the mouse/touch event was
-  emitter.x = nestShape.body.parent.x;
-  emitter.y = nestShape.body.parent.y;
+  fclick.x = nestShape.body.parent.x;
+  fclick.y = nestShape.body.parent.y;
 
-  emitter.start(true, 2000, null, 10);
+  fclick.start(true, 2000, null, 10);
 
   //  And 2 seconds later we'll destroy the emitter
   //game.time.events.add(20000, destroyEmitter, this);

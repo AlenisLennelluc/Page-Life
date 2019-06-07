@@ -239,12 +239,13 @@ Play.prototype = {
 		/////////
 
 		// Add the audio
-		this.jump = game.add.audio('jump');
 		this.pickup = game.add.audio('pickup', 0.1);
 		this.song = game.add.audio('backgroundSong');
 		this.checkPointAudio = game.add.audio('checkpoint', 0.2);
+		this.amb1Birbs = game.add.audio('amb1Birbs', 0.5);
 
 		this.song.play('', 0, 0.10, true);
+		this.amb1Birbs.play('', 0, 0.10, false)
 
 		// timers
 		this.endTimer = 0;
@@ -258,6 +259,9 @@ Play.prototype = {
 		//PARTICLES//
 		/////////////
 
+		featherClick();
+		leafParticles();
+		seagullParticles();
 
 
 	},
@@ -457,7 +461,7 @@ function connectEggToNest(eggBody, eggData, nestShape, eggShape) {
 		console.log("playing tune");
 		this.saveX = nestShape.body.parent.x;
 		this.saveY = nestShape.body.parent.y;
-		this.checkPointAudio.play();
+		this.checkPointAudio.play('', 0, 0.10, false);
 
 		//ckptUPDATE();
 		//ckptTIME();
