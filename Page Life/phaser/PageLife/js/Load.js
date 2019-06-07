@@ -2,7 +2,7 @@
 
 var Load = function(game) {};
 Load.prototype = {
-	preload: function() {
+	preload() {
 
 		// load graphics assets
 		game.load.path = 'assets/img/';
@@ -32,14 +32,22 @@ Load.prototype = {
     game.load.audio('jump', ['jump.mp3', 'jump.ogg']);
     game.load.audio('end', ['ending.mp3', 'ending.ogg']);
 	},
-	create: function() {
+	create() {
 		// check for local storage browser support
 		if(window.localStorage) {
 			console.log('Local storage supported');
 		} else {
 			console.log('Local storage not supported');
 		}
-		// go to Title state
-		game.state.start('MainMenu');
+	},
+
+	update(){
+		if(this.cache.isSoundDecoded('backgroundSong')){
+			console.log('Background is decoded');
+			if(this.cache.isSoundDecoded('end')){
+			console.log('end is decoded');
+			this.state.start('MainMenu');
+		}
 	}
+}
 };

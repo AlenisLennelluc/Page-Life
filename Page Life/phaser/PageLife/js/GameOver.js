@@ -13,14 +13,16 @@ GameOver.prototype = {
 
 
 		this.end = game.add.sprite(200, 0, 'endImg');
+		this.endsong = game.add.audio('end');
 		this.end.scale.x = 0.3;
 		this.end.scale.y = 0.3;
 		this.end.alpha = 0;
 		game.add.tween(this.end).to({alpha: 1}, 5000, Phaser.Easing.Linear.None, true);
 		game.add.tween(this.endText).to({alpha: 1}, 5000, Phaser.Easing.Linear.None, true);
+		this.endsong.play('', 0, 1, false);
 
 		game.time.events.add(10000, tweenOut, this);
-		this.end.play('', 0, 0.10, true);
+
 	}
 }
 

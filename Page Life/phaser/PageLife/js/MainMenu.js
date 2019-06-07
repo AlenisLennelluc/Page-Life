@@ -2,38 +2,13 @@
 var MainMenu = function(game) {};
 MainMenu.prototype = {
 
-	///////////
-	//PRELOAD//
-	///////////
-
-	preload() {
-
-	},
+	preload(){},
 
 	//////////
 	//CREATE//
 	//////////
 
 	create() {
-
-		// ///////////
-		// //SCALING//
-		// ///////////
-		//
-		// //Code taken from scaling lecture
-		// //set scale
-		// // show entire game display while maintaining aspect ratio
-		// game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-		// //Full Screen
-		// // set scaling for fullscreen
-		// game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
-		//
-		// // add button if fullscreen is supported
-		// if(game.scale.compatibility.supportsFullScreen) {
-		// 	//var star = game.add.sprite(32,32,'sprites', 'star');
-		// 	this.button = game.add.button(32, 32, 'star', scale, this);
-		// 	this.button.anchor.setTo(0.5, 0.5);
-		// }
 
 	//Fullscreen, code located in scale.js
 	scaleWindow();
