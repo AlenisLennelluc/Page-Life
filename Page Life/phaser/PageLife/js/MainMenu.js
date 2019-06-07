@@ -17,6 +17,7 @@ MainMenu.prototype = {
 		game.load.spritesheet('noCollusion', 'assets/img/collision.PNG', 32, 32);
 		game.load.image('feather', 'assets/img/smolFeather.png');
 		game.load.image('LFeather', 'assets/img/feather.png');
+		game.load.image('scale', 'assets/img/FS.PNG');
 		//game.load.image('line','assets/img/Line1.PNG');
 		//game.load.image('seagull', 'assets/img/seagull1.png');
 		//game.load.image('seagull2', 'assets/img/seagull2.png');
@@ -121,6 +122,9 @@ MainMenu.prototype = {
 	//////////
 
 	update() {
+
+		//scaleUPDATE located in scale.js
+		scaleUPDATE();
 
 		//Physics
 		game.physics.arcade.collide(this.egg, this.nest);

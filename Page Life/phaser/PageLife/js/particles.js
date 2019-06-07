@@ -57,6 +57,34 @@ stars.gravity = 3;
 stars.start(false, 10000, 700);
 }
 
+function starParticleEND(){
+
+//////////////////
+//STAR PARTICLES//
+//////////////////
+
+//	Emitters have a center point and a width/height, which extends from their center point to the left/right and up/down
+starsE = game.add.emitter(game.world.width - 500, 450, 200);
+
+//	This emitter will have a width of 800px, so a particle can emit from anywhere in the range emitter.x += emitter.width / 2
+starsE.width = 800;
+starsE.height = 800;
+
+starsE.makeParticles('star');
+
+starsE.minParticleSpeed.set(0, .1);
+starsE.maxParticleSpeed.set(0, .1);
+
+starsE.setRotation(0, 0);
+starsE.setAlpha(0.1, 0.8);
+starsE.setScale(1, 1, 1, 1);
+starsE.gravity = 3;
+
+//	false means don't explode all the sprites at once, but instead release at a rate of one particle per 100ms
+//	The 5000 value is the lifespan of each particle before it's killed
+starsE.start(false, 10000, 700);
+}
+
 function leafParticles(){
 
 ///////////////////////

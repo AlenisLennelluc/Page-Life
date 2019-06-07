@@ -114,23 +114,25 @@ Play.prototype = {
 		this.nests = game.add.group();
 		this.nests.physicsBodyType = Phaser.Physics.P2JS;
 		this.nests.enableBody = true;
-		this.nests.create(2670, 14161, 'sprites', 'sNest'); // first nest
-		this.nests.create(1700,13232, 'sprites', 'sNest');  // above the first steps
-		this.nests.create(4760, 12754, 'sprites', 'sNest'); // above B block
-		this.nests.create(3810, 9551, 'sprites', 'sNest');	// Start of preschool block section
-		this.nests.create(8747, 9714, 'sprites', 'sNest');	// End of preschool block section
-		this.nests.create(3630, 11087, 'sprites', 'sNest'); // Start of high school climb
-		this.nests.create(5010, 4680, 'sprites', 'sNest');  // Start of the gallery
-		this.nests.create(5580, 2745, 'sprites', 'sNest');  // In the gallery corner
-		this.nests.create(3060, 7151, 'sprites', 'sNest');	// On bird leg
+		this.nests.create(2670, 14160, 'sprites', 'sNest'); //first nest
+		this.nests.create(1700,13233, 'sprites', 'sNest');  //above the first steps
+		this.nests.create(4760, 12755, 'sprites', 'sNest'); //above B block
+		this.nests.create(3810, 9564, 'sprites', 'sNest');	//Start of preschool block section
+		this.nests.create(8777, 9727, 'sprites', 'sNest');	//End of preschool block section
+		this.nests.create(3600, 11100, 'sprites', 'sNest'); //Start of high school climb
+		this.nests.create(4960, 4600, 'sprites', 'sNest');  //Start of the gallery
+		this.nests.create(5330, 2840, 'sprites', 'sNest');  //In the gallery corner
+		this.nests.create(3060, 7150, 'sprites', 'sNest');	//
 		this.nests.create(3475, 5160, 'sprites', 'sNest');	//
-		this.nests.create(7072, 2536, 'sprites', 'sNest');	//
-		this.nests.create(5585, 5011, 'sprites', 'sNest');	//
-		this.nests.create(7970, 2890, 'sprites', 'sNest');	//
-		this.nests.create(980, 2460, 'sprites', 'sNest');		//
-		this.nests.create(2210, 773, 'sprites', 'sNest');		//
-		this.nests.create(4054, 1570, 'sprites', 'sNest');	//
-		this.nests.create(5930, 615, 'sprites', 'sNest');		//
+		this.nests.create(7072, 2396, 'sprites', 'sNest');	//
+		this.nests.create(5585, 5025, 'sprites', 'sNest');	//
+		this.nests.create(7970, 2910, 'sprites', 'sNest');	//
+		this.nests.create(5260, 2750, 'sprites', 'sNest');	//
+		this.nests.create(980, 2470, 'sprites', 'sNest');		//
+		this.nests.create(3810, 9564, 'sprites', 'sNest');	//
+		this.nests.create(2230, 783, 'sprites', 'sNest');		//
+		this.nests.create(4054, 1410, 'sprites', 'sNest');	//
+		this.nests.create(6020, 670, 'sprites', 'sNest');		//
 
 		emitter = game.add.emitter(0, 0, 100);
 
@@ -150,10 +152,10 @@ Play.prototype = {
 		////////////////////////
 
 		// Star for player to touch and win the game
-		this.home = game.add.sprite(game.world.width - 400, 450, 'sprites', 'nest');
+		this.home = game.add.sprite(game.world.width - 650, 450, 'sprites', 'nest');
 		this.home.anchor.setTo(0.5, 0.5);
 
-		this.endStar = game.add.sprite(game.world.width - 375, 300, 'star');
+		this.endStar = game.add.sprite(game.world.width - 650, 300, 'star');
 		game.physics.p2.enable(this.endStar);
 		this.endStar.body.data.shapes[0].sensor = true;
 		this.endStar.body.static = true;
@@ -271,6 +273,12 @@ Play.prototype = {
 		this.checkFunction = startCheck;
 		this.updateFunc = normalUpdate;
 
+		/////////////
+		//PARTICLES//
+		/////////////
+
+
+
 	},
 
 	//////////
@@ -278,7 +286,9 @@ Play.prototype = {
 	//////////
 
 	update: function() {
-		console.log('player x/y: ' + this.player.x + '/' + this.player.y);
+
+		scaleUPDATE();
+
 		this.updateFunc.call(this);
 
 	}
