@@ -85,7 +85,7 @@ MainMenu.prototype = {
 			'Drag the egg with the mouse.\n' +
 			'Drop it off the side.', { fontSize: '32px', fill: '#000'});
 
-		this.egg = game.add.sprite(140, game.world.height - 250, 'sprites', 'egg');
+		this.egg = game.add.sprite(140, 200, 'sprites', 'egg');
 		this.egg.inputEnabled = true;
 		this.egg.input.enableDrag(true);
 		game.physics.arcade.enable(this.egg);
@@ -100,7 +100,7 @@ MainMenu.prototype = {
 		this.player.animations.add('jump', [4,5], 10, true);
 		this.player.anchor.setTo(0.5, 0.5);
 
-		this.nest = game.add.sprite(-100, game.world.height - 150, 'sprites', 'nest');
+		this.nest = game.add.sprite(-100, 400, 'sprites', 'nest');
 
 		game.physics.arcade.enable(this.nest);
 		this.nest.body.immovable = true;
@@ -127,7 +127,7 @@ MainMenu.prototype = {
 		game.physics.arcade.collide(this.player, this.nest);
 
 		//Egg
-		if (this.egg.position.y > game.world.height + 100)
+		if (this.egg.position.y > 650)
 		{
 			this.egg.position.y = -200;
 			this.egg.body.gravity.y = 0;
@@ -146,7 +146,7 @@ MainMenu.prototype = {
 		}
 
 		//Prep song for play state
-		if (this.player.position.y > game.world.height + 100) {
+		if (this.player.position.y > 650) {
 			if(this.cache.isSoundDecoded('backgroundSong')){
 				this.state.start('Play');
 			}

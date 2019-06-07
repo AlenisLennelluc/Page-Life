@@ -115,7 +115,7 @@ Play.prototype = {
 		this.nests.physicsBodyType = Phaser.Physics.P2JS;
 		this.nests.enableBody = true;
 		this.nests.create(2670, 14160, 'sprites', 'sNest'); //first nest
-		this.nests.create(1700,13235, 'sprites', 'sNest');  //above the first steps
+		this.nests.create(1700,13233, 'sprites', 'sNest');  //above the first steps
 		this.nests.create(4760, 12755, 'sprites', 'sNest'); //above B block
 		this.nests.create(3810, 9564, 'sprites', 'sNest');	//Start of preschool block section
 		this.nests.create(8777, 9727, 'sprites', 'sNest');	//End of preschool block section
