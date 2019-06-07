@@ -427,7 +427,7 @@ function startDrag(pointer) {
 		this.eggDragged = true;
 		//game.camera.follow(null);
 		if (this.eggHead) {
-			disconnectEgg(this);
+			disconnectEgg.call(this);
 		}
 	}
 }
@@ -441,7 +441,7 @@ function stopDrag() {
 		//game.camera.follow(this.player, 0, 0.1, 0.1);
 		//game.camera.deadzone = new Phaser.Rectangle(0, 0, game.camera.width, game.camera.height);
 		if (this.eggOnHead) {
-			connectEggToHead(this);
+			connectEggToHead.call(this.player);
 		}
 	}
 }
