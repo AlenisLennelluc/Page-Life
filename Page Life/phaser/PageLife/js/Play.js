@@ -262,6 +262,8 @@ Play.prototype = {
 		this.pickup = game.add.audio('pickup', 0.1);
 		this.song = game.add.audio('backgroundSong');
 		this.checkPointAudio = game.add.audio('checkpoint', 0.2);
+		this.end = game.add.audio('end');
+		
 
 		this.song.play('', 0, 0.10, true);
 
@@ -272,6 +274,8 @@ Play.prototype = {
 
 		this.checkFunction = startCheck;
 		this.updateFunc = normalUpdate;
+
+		//ckptCREATE();
 
 		/////////////
 		//PARTICLES//
@@ -628,6 +632,9 @@ function connectEggToNest(eggBody, eggData, nestShape, eggShape) {
 		this.saveX = nestShape.body.parent.x;
 		this.saveY = nestShape.body.parent.y;
 		this.checkPointAudio.play();
+
+		//ckptUPDATE();
+		//ckptTIME();
 	}
 
 	if (!this.eggDragged && eggData === this.egg.body.data) {

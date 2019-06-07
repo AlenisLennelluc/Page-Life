@@ -20,6 +20,7 @@ GameOver.prototype = {
 		game.add.tween(this.endText).to({alpha: 1}, 5000, Phaser.Easing.Linear.None, true);
 
 		game.time.events.add(10000, tweenOut, this);
+		this.end.play('', 0, 0.10, true);
 	}
 }
 

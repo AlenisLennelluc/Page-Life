@@ -7,34 +7,7 @@ MainMenu.prototype = {
 	///////////
 
 	preload() {
-		// console.log('MainMenu: Preload');
-		game.load.image('title', 'assets/img/Title screen.png');
-		// preload assets
-		game.load.image('background', 'assets/img/background.png');
-		game.load.spritesheet('birb', 'assets/img/birb_walk_cycle.png', 75, 95);
-		game.load.image('mask', 'assets/img/mask.png');
-		game.load.image('BGIMG', 'assets/img/pageLifeMap.png');
-		game.load.spritesheet('noCollusion', 'assets/img/collision.PNG', 32, 32);
-		game.load.image('feather', 'assets/img/smolFeather.png');
-		game.load.image('LFeather', 'assets/img/feather.png');
-		game.load.image('scale', 'assets/img/FS.PNG');
-		//game.load.image('line','assets/img/Line1.PNG');
-		//game.load.image('seagull', 'assets/img/seagull1.png');
-		//game.load.image('seagull2', 'assets/img/seagull2.png');
-		//game.load.image('bat', 'assets/img/bat.png');
-		game.load.image('star', 'assets/img/star.png');
-		game.load.image('cover', 'assets/img/EndMask.png');
-		game.load.image('endImg', 'assets/img/Sleeping_bird.png');
 
-		//ATLAS AND TILEMAP
-		game.load.atlas('sprites', 'assets/img/sprites.png', 'assets/img/sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_TP_HASH);
-		game.load.tilemap('level', 'assets/img/pageLifeMap.json', null, Phaser.Tilemap.TILED_JSON);
-
-		// Load audio
-		game.load.audio('jump', 'assets/audio/BirbJump.wav');
-		game.load.audio('pickup', 'assets/audio/BirbPickup.wav');
-		game.load.audio('backgroundSong', 'assets/audio/WorldMap.mp3');
-		game.load.audio('checkpoint', ['assets/audio/checkpoint.mp3', 'assets/audio.checkpoint.ogg']);
 	},
 
 	//////////
@@ -115,6 +88,9 @@ MainMenu.prototype = {
 		this.title.scale.y = 0.5;
 		var tween = game.add.tween(this.title).to({alpha: 0}, 5000, Phaser.Easing.Linear.None, true);
 		tween.onComplete.add(backTween, this);
+
+		//ckptCREATE in scale.js
+		//ckptCREATE();
 	},
 
 	//////////
@@ -125,6 +101,10 @@ MainMenu.prototype = {
 
 		//scaleUPDATE located in scale.js
 		scaleUPDATE();
+
+		//ckptUPDATE in scale.js
+		//ckptUPDATE();
+		//ckptTIME();
 
 		//Physics
 		game.physics.arcade.collide(this.egg, this.nest);

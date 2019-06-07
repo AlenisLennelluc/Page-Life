@@ -34,3 +34,38 @@ function scaleUPDATE(){
     this.button.scale.setTo(1, 1);
   }
 }
+
+// function ckptCREATE(){
+//   console.log('ckptCREATE is being run');
+//
+//   ckptTimer = game.time.create();
+//   ckptTimerEnd = game.time.create();
+//
+//   this.checkpoint = game.add.sprite(1045, 32, 'ckpt');
+//   this.checkpoint.anchor.setTo(0.5, 0.5);
+//   this.checkpoint.scale.setTo(0.5, 0.5);
+//   this.checkpoint.alpha = 0;
+//
+//   //one-shot event(delay,callback,context,arguements)
+//   ckptTimer.add(8000, function(){
+//   ckptTWEEN = game.add.tween(checkpoint).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0, 1000, true);
+//   ckptTimerEnd.start();
+//   console.log('ckptTIMER is being run');
+//   });
+//
+//   ckptTimerEnd.add(2000, function(){
+//     this.ckptTWEEN.end();
+//     console.log('ckptTimerEnd is being run');
+//   })
+//
+//
+//   ckptTimer.start();
+// }
+//
+// function ckptUPDATE(){
+//   		this.checkpoint.angle -= 10;
+// }
+
+// function ckptTIME(){
+//   ckptTimer.start();
+// }
