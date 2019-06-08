@@ -11,7 +11,7 @@ MainMenu.prototype = {
 	create() {
 
 	//Fullscreen, code located in scale.js
-	scaleWindow();
+	scaleWindow.call(this);
 
 	//Particles for stars, located in particles.js
 	starParticle();
@@ -56,6 +56,7 @@ MainMenu.prototype = {
 
 		//Click to blow up feathers, located in particles.js
 		featherClick.call(this);
+		creditsSetup.call(this);
 
 		this.canvas = game.add.sprite(0,0, 'cover');
 		this.title = game.add.sprite(0, -400, 'title');
@@ -73,13 +74,6 @@ MainMenu.prototype = {
 	//////////
 
 	update() {
-
-		//scaleUPDATE located in scale.js
-		scaleUPDATE();
-
-		//ckptUPDATE in scale.js
-		//ckptUPDATE();
-		//ckptTIME();
 
 		//Physics
 		game.physics.arcade.collide(this.egg, this.nest);
@@ -110,8 +104,6 @@ MainMenu.prototype = {
 				this.state.start('Play');
 			}
 		}
-
-		//this.button.rotation += .1;
 
 		////////////
 		//MOVEMENT//
