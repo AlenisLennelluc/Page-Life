@@ -275,10 +275,6 @@ Play.prototype = {
 
 	update: function() {
 
-		//console.log('player x/y: ' + this.player.x + '/' + this.player.y);
-
-		scaleUPDATE.call(this);
-
 		this.updateFunc.call(this);
 
 	}

@@ -34,6 +34,11 @@ MainMenu.prototype = {
 			'Drag the egg with the mouse.\n' +
 			'Drop it off the side.', { fontSize: '32px', fill: '#000'});
 
+		this.nest = game.add.sprite(-100, 400, 'sprites', 'nest');
+		game.physics.arcade.enable(this.nest);
+		this.nest.body.immovable = true;
+		this.nest.body.setSize(400, 300, 0, 25);
+
 		this.egg = game.add.sprite(140, 200, 'sprites', 'egg');
 		this.egg.inputEnabled = true;
 		this.egg.input.enableDrag(true);
@@ -48,11 +53,6 @@ MainMenu.prototype = {
 		this.player.animations.add('walk', [ 0, 1, 2, 3], 10, true);
 		this.player.animations.add('jump', [4,5], 10, true);
 		this.player.anchor.setTo(0.5, 0.5);
-
-		this.nest = game.add.sprite(-100, 400, 'sprites', 'nest');
-		game.physics.arcade.enable(this.nest);
-		this.nest.body.immovable = true;
-		this.nest.body.setSize(400, 300, 0, 25);
 
 		//Click to blow up feathers, located in particles.js
 		featherClick.call(this);
