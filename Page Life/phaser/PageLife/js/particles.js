@@ -5,10 +5,10 @@ function featherClick(){
 //CREATE PARTICLES TEST//
 /////////////////////////
 
-fclick = game.add.emitter(0, 0, 100);
+this.fclick = game.add.emitter(0, 0, 100);
 
-fclick.makeParticles('feather');
-fclick.gravity = 200;
+this.fclick.makeParticles('feather');
+this.fclick.gravity = 200;
 
 
 game.input.onDown.add(particleBurst, this);
@@ -18,14 +18,14 @@ game.input.onDown.add(particleBurst, this);
 function particleBurst(pointer) {
 
   //  Position the emitter where the mouse/touch event was
-  fclick.x = pointer.x;
-  fclick.y = pointer.y;
+  this.fclick.x = pointer.x + game.camera.x;
+  this.fclick.y = pointer.y + game.camera.y;
 
   //  The first parameter sets the effect to "explode" which means all particles are emitted at once
   //  The second gives each particle a 2000ms lifespan
   //  The third is ignored when using burst/explode mode
   //  The final parameter (10) is how many particles will be emitted in this single burst
-  fclick.start(true, 2000, null, 10);
+  this.fclick.start(true, 2000, null, 10);
 
 }
 
@@ -181,10 +181,10 @@ function noParticles(){
 function pNestBurst(otherBody, otherData, nestShape, otherShape) {
 
   //  Position the emitter where the mouse/touch event was
-  fclick.x = nestShape.body.parent.x;
-  fclick.y = nestShape.body.parent.y;
+  this.fclick.x = nestShape.body.parent.x;
+  this.fclick.y = nestShape.body.parent.y;
 
-  fclick.start(true, 2000, null, 10);
+  this.fclick.start(true, 2000, null, 10);
 
   //  And 2 seconds later we'll destroy the emitter
   //game.time.events.add(20000, destroyEmitter, this);

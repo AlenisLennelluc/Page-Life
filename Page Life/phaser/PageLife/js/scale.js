@@ -16,7 +16,6 @@ function scaleWindow(){
 			this.button = game.add.button(37, 32, 'scale', scale, this);
       this.button.alpha = 0.5;
 			this.button.fixedToCamera = true;
-      this.button.anchor.setTo(0.5, 0.5);
 
       this.button.inputEnabled = true;
 
@@ -35,37 +34,21 @@ function scaleUPDATE(){
   }
 }
 
-// function ckptCREATE(){
-//   console.log('ckptCREATE is being run');
-//
-//   ckptTimer = game.time.create();
-//   ckptTimerEnd = game.time.create();
-//
-//   this.checkpoint = game.add.sprite(1045, 32, 'ckpt');
-//   this.checkpoint.anchor.setTo(0.5, 0.5);
-//   this.checkpoint.scale.setTo(0.5, 0.5);
-//   this.checkpoint.alpha = 0;
-//
-//   //one-shot event(delay,callback,context,arguements)
-//   ckptTimer.add(8000, function(){
-//   ckptTWEEN = game.add.tween(checkpoint).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0, 1000, true);
-//   ckptTimerEnd.start();
-//   console.log('ckptTIMER is being run');
-//   });
-//
-//   ckptTimerEnd.add(2000, function(){
-//     this.ckptTWEEN.end();
-//     console.log('ckptTimerEnd is being run');
-//   })
-//
-//
-//   ckptTimer.start();
-// }
-//
-// function ckptUPDATE(){
-//   		this.checkpoint.angle -= 10;
-// }
+function ckptCREATE(){
+  console.log('ckptCREATE is being run');
 
-// function ckptTIME(){
-//   ckptTimer.start();
-// }
+  this.ckpt = game.add.sprite(1045, 32, 'ckpt');
+	this.ckpt.anchor.setTo(0.5, 0.5);
+	this.ckpt.scale.x = 0.5;
+	this.ckpt.scale.y = 0.5;
+	this.ckpt.fixedToCamera = true;
+  this.ckpt.alpha = 0;
+}
+
+// create .to({properties}, <duration>, <ease>, <autoStart>, <delay>, <repeat>, <yoyo>)
+// -1 repeat = infinite
+// setting yoyo to true makes it loop back and forth
+function ckptActivate() {
+	var ckptTween = game.add.tween(this.ckpt);
+	ckptTween.to({ alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0, 4, true);
+}

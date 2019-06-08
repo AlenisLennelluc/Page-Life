@@ -55,7 +55,7 @@ MainMenu.prototype = {
 		this.nest.body.immovable = true;
 
 		//Click to blow up feathers, located in particles.js
-		featherClick();
+		featherClick.call(this);
 
 		this.canvas = game.add.sprite(0,0, 'cover');
 		this.title = game.add.sprite(0, -400, 'title');

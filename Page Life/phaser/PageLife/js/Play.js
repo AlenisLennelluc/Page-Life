@@ -9,7 +9,7 @@ Play.prototype = {
 	create: function() {
 
 		//scaleWindow located in scale.js
-		scaleWindow();
+		scaleWindow.call(this);
 
 		//SET WORLD COLOR
 		game.stage.setBackgroundColor('#fff');
@@ -138,14 +138,14 @@ Play.prototype = {
 
 		this.nests.forEach(setupNest, this);
 
-		this.saveX = 5930;
-		this.saveY = 615;
+		// this.saveX = 5930;
+		// this.saveY = 615;
 
 		// this.saveX = 2670;
 		// this.saveY = 14159;
 
-		// this.saveX = game.world.width - 800;
-		// this.saveY = 400;
+		this.saveX = game.world.width - 800;
+		this.saveY = 400;
 
 		////////////////////////
 		//END OF GAME SEQUENCE//
@@ -253,13 +253,13 @@ Play.prototype = {
 		this.checkFunction = startCheck;
 		this.updateFunc = normalUpdate;
 
-		//ckptCREATE();
+		ckptCREATE.call(this);
 
 		/////////////
 		//PARTICLES//
 		/////////////
 
-		featherClick();
+		featherClick.call(this);
 		leafParticles();
 		seagullParticles();
 		//waterfallParticles();
@@ -275,7 +275,7 @@ Play.prototype = {
 
 		//console.log('player x/y: ' + this.player.x + '/' + this.player.y);
 
-		scaleUPDATE();
+		scaleUPDATE.call(this);
 
 		this.updateFunc.call(this);
 
@@ -464,8 +464,7 @@ function connectEggToNest(eggBody, eggData, nestShape, eggShape) {
 		this.saveY = nestShape.body.parent.y;
 		this.checkPointAudio.play('', 0, 0.10, false);
 
-		//ckptUPDATE();
-		//ckptTIME();
+		ckptActivate.call(this);
 	}
 
 	if (!this.eggDragged && eggData === this.egg.body.data) {
