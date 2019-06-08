@@ -42,7 +42,7 @@ function scale() {
 		}
 	}
 
-function ckptCREATE(){
+function ckptCREATE() {
   console.log('ckptCREATE is being run');
 
   this.ckpt = game.add.sprite(1045, 32, 'ckpt');
@@ -93,6 +93,7 @@ function changeCredits() {
 	else {
   	this.credits.alpha = 0;
   }
+}
 
 //Function from particles example in phaser directory
 function scaleSort(a, b) {
