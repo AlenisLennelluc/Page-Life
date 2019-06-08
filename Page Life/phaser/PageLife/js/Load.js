@@ -3,12 +3,14 @@
 
 var Load = function(game) {};
 Load.prototype = {
-	preload() {
-
+	preload: function() {
+		game.stage.setBackgroundColor('#fff');
+		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		// load graphics assets
 		game.load.path = 'assets/img/';
-    game.load.image('title', 'Title screen.png');
+		game.load.image('loadTitle', 'BigTITLE.png');
 		// preload assets
+    game.load.image('miniTitle', 'smolTITLE.png');
 		game.load.image('background', 'background.png');
 		game.load.spritesheet('birb', 'birb_walk_cycle.png', 75, 95);
 		game.load.image('mask', 'mask.png');
@@ -40,7 +42,7 @@ Load.prototype = {
 		game.load.audio('amb1Birbs', ['birds1.mp3', 'birds1.ogg']);
     game.load.audio('end', ['ending.mp3', 'ending.ogg']);
 	},
-	create() {
+	create: function() {
 		// check for local storage browser support
 		if(window.localStorage) {
 			console.log('Local storage supported');
@@ -49,13 +51,19 @@ Load.prototype = {
 		}
 	},
 
-	update(){
+	update: function() {
 		if(this.cache.isSoundDecoded('backgroundSong')){
 			console.log('Background is decoded');
 			if(this.cache.isSoundDecoded('end')){
-			console.log('end is decoded');
-			this.state.start('MainMenu');
+				console.log('end is decoded');
+				this.state.start('MainMenu');
+			}
 		}
-	}
-}
+	},
+
+	loadUpdate: function(game) {
+		 	this.title = game.add.sprite(0, 0, 'loadTitle');
+			// set the preloadBar sprite as a loader sprite.
+		 	this.load.setPreloadSprite(this.title);
+	 }
 };

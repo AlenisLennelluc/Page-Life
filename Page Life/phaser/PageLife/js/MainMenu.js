@@ -29,9 +29,12 @@ MainMenu.prototype = {
 		//MAINMENU TEXT//
 		/////////////////
 
+		this.smallTitle = game.add.sprite(450, 100, 'miniTitle');
+		// this.smallTitle.scale.x = .3;
+		// this.smallTitle.scale.y = .3;
+
 		// Add instruction text
-		game.add.text(450, 100, 'Page Life\n\n' +
-			'Drag the egg with the mouse.\n' +
+		game.add.text(450, 200, 'Drag the egg with the mouse.\n' +
 			'Drop it off the side.', { fontSize: '32px', fill: '#000'});
 
 		this.nest = game.add.sprite(-100, 400, 'sprites', 'nest');
@@ -59,10 +62,10 @@ MainMenu.prototype = {
 		creditsSetup.call(this);
 
 		this.canvas = game.add.sprite(0,0, 'cover');
-		this.title = game.add.sprite(0, -400, 'title');
-		this.title.scale.x = 0.5;
-		this.title.scale.y = 0.5;
-		var tween = game.add.tween(this.title).to({alpha: 0}, 5000, Phaser.Easing.Linear.None, true);
+		this.title = game.add.sprite(0, 0, 'loadTitle');
+		// this.title.scale.x = 0.5;
+		// this.title.scale.y = 0.5;
+		var tween = game.add.tween(this.title).to({alpha: 0}, 5000, Phaser.Easing.Linear.None, true, 500);
 		tween.onComplete.add(backTween, this);
 
 		//ckptCREATE in scale.js
