@@ -5,7 +5,7 @@ function featherClick(){
 //CREATE PARTICLES TEST//
 /////////////////////////
 
-this.fclick = game.add.emitter(0, 0, 100);
+this.fclick = game.add.emitter(0, 0, 200);
 
 this.fclick.makeParticles('feather');
 this.fclick.gravity = 200;
@@ -103,7 +103,7 @@ emitter.gravity = 100;
 
 //  This will emit a quantity of 5 particles every 500ms. Each particle will live for 2000ms.
 //  The -1 means "run forever"
-emitter.flow(3000, 500, 3, -1);
+emitter.flow(6000, 500, 3, -1);
 
 }
 
@@ -229,6 +229,8 @@ function pNestBurst(otherBody, otherData, nestShape, otherShape) {
   this.fclick.y = nestShape.body.parent.y;
 
   this.fclick.start(true, 2000, null, 10);
+  //function, context, run particles on alive only
+  this.fclick.forEach(zeroAlpha, this, true);
 
   //  And 2 seconds later we'll destroy the emitter
   //game.time.events.add(20000, destroyEmitter, this);
