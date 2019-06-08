@@ -141,11 +141,11 @@ Play.prototype = {
 		// this.saveX = 5930;
 		// this.saveY = 615;
 
-		// this.saveX = 2670;
-		// this.saveY = 14159;
+		this.saveX = 2670;
+		this.saveY = 14159;
 
-		this.saveX = game.world.width - 800;
-		this.saveY = 400;
+		// this.saveX = game.world.width - 1000;
+		// this.saveY = 400;
 
 		////////////////////////
 		//END OF GAME SEQUENCE//
@@ -153,14 +153,16 @@ Play.prototype = {
 
 		// Star for player to touch and win the game
 		this.home = game.add.sprite(game.world.width - 650, 450, 'sprites', 'nest');
-		this.home.anchor.setTo(0.5, 0.5);
-		this.home.enableBody = true;
+		game.physics.p2.enable(this.home, true);
+		this.home.body.setRectangle(400, 160, -15, 15)
+		this.home.body.static = true;
 
 		this.endStar = game.add.sprite(game.world.width - 650, 300, 'star');
 		game.physics.p2.enable(this.endStar);
 		this.endStar.body.data.shapes[0].sensor = true;
 		this.endStar.body.static = true;
 		this.endStar.body.onBeginContact.add(getHome, this);
+		this.endStar.body.angularVelocity = 5;
 
 		/////////
 		// EGG //
@@ -482,6 +484,7 @@ function getHome(eggBody, eggData, nestShape, eggShape) {
 	{
 		this.pickup.play();
 		this.updateFunc = endUpdate;
+		this.player.canMove = false;
 
 		this.endMask.position = game.camera.position;
 

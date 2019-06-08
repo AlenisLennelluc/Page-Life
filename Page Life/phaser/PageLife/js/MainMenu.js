@@ -50,9 +50,9 @@ MainMenu.prototype = {
 		this.player.anchor.setTo(0.5, 0.5);
 
 		this.nest = game.add.sprite(-100, 400, 'sprites', 'nest');
-
 		game.physics.arcade.enable(this.nest);
 		this.nest.body.immovable = true;
+		this.nest.body.setSize(400, 300, 0, 25);
 
 		//Click to blow up feathers, located in particles.js
 		featherClick.call(this);

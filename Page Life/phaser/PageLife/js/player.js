@@ -26,6 +26,7 @@ function Player(game, key, x, y, egg, play) {
   this.play = play;
   this.jumpTimer = 0;
   this.jumpState = 0;
+  this.canMove = true;
 
   //HOTKEYS
   this.jKey = game.input.keyboard.addKey(Phaser.KeyCode.J);
@@ -37,129 +38,130 @@ Player.prototype.constructor = Player;
 
 
 Player.prototype.update = function() {
-////////////
-//MOVEMENT//
-////////////
+  if (this.canMove) {
+  ////////////
+  //MOVEMENT//
+  ////////////
 
-  if (this.cursors.left.isDown || this.game.input.keyboard.isDown(Phaser.KeyCode.A))
-  { // If left key down, move player left
-    this.body.moveLeft(300);
-    // Enable mirroring
-    if (this.scale.x > 0)
-    {
-      this.facing = -1;
-      this.scale.x *= -1;
+    if (this.cursors.left.isDown || this.game.input.keyboard.isDown(Phaser.KeyCode.A))
+    { // If left key down, move player left
+      this.body.moveLeft(300);
+      // Enable mirroring
+      if (this.scale.x > 0)
+      {
+        this.facing = -1;
+        this.scale.x *= -1;
+      }
     }
-  }
-  else if (this.cursors.right.isDown || this.game.input.keyboard.isDown(Phaser.KeyCode.D))
-  { // If right key down, move playerr right
-    this.body.moveRight(300);
-    // disable mirroring
-    if (this.scale.x < 0)
-    {
-      this.facing = 1;
-      this.scale.x *= -1;
+    else if (this.cursors.right.isDown || this.game.input.keyboard.isDown(Phaser.KeyCode.D))
+    { // If right key down, move playerr right
+      this.body.moveRight(300);
+      // disable mirroring
+      if (this.scale.x < 0)
+      {
+        this.facing = 1;
+        this.scale.x *= -1;
+      }
     }
-  }
-  else
-  { // Else stop the player
-    this.body.velocity.x = 0;
-  }
-
-  /////////////
-  //ANIMATION//
-  /////////////
-
-  if (checkIfCanJump(this)) {
-    if (this.body.velocity.x == 0) {
-      this.animations.stop();
-      this.frame = 0;
+    else
+    { // Else stop the player
+      this.body.velocity.x = 0;
     }
-    else {
-      this.animations.play('walk');
-    }
-  }
-  else {
-    this.animations.play('jump');
-  }
 
-  ///////////
-  //JUMPING//
-  ///////////
+    /////////////
+    //ANIMATION//
+    /////////////
 
-  if (this.jKey.justDown) {
-    if (this.playerJump == 700) {
-      this.playerJump = 2500;
+    if (checkIfCanJump(this)) {
+      if (this.body.velocity.x == 0) {
+        this.animations.stop();
+        this.frame = 0;
+      }
+      else {
+        this.animations.play('walk');
+      }
     }
     else {
-      this.playerJump = 700;
+      this.animations.play('jump');
     }
-  }
 
-  // If up is down, move up
-  if ((this.cursors.up.isDown || this.game.input.keyboard.isDown(Phaser.KeyCode.W) ||
-    this.game.input.keyboard.isDown(Phaser.KeyCode.SPACEBAR)) && this.playerJumpTimer < 0 &&
-    checkIfCanJump(this))
-  {
-    // Start jump animation
-    this.jumpState = 1;
-    this.jumpTimer = 0;
-    // this.eggOnHead = false;
-    // Begin moving upwards immediately
-    this.body.moveUp(this.playerJump);
-    this.playerJumpTimer = 0.5;
-    this.playerJumping = true;
-    //Jump audio
-    this.jump = game.add.audio('jump');
-    this.jump.play('', 0, 1, false);
-  }
+    ///////////
+    //JUMPING//
+    ///////////
 
-  // Shorten birb
-  if (this.jumpState == 1) {
-    // Increase timer by time elapsed * 8
-    this.jumpTimer += this.game.time.physicsElapsed * 4;
-    // this.jumpTimer = magnitude, this.facing = direction
-    this.scale.y -= this.jumpTimer;
-    if (this.jumpTimer > 0.2) {
-      // Move to phase 3
-      this.jumpState = 2;
+    if (this.jKey.justDown) {
+      if (this.playerJump == 700) {
+        this.playerJump = 2500;
+      }
+      else {
+        this.playerJump = 700;
+      }
+    }
+
+    // If up is down, move up
+    if ((this.cursors.up.isDown || this.game.input.keyboard.isDown(Phaser.KeyCode.W) ||
+      this.game.input.keyboard.isDown(Phaser.KeyCode.SPACEBAR)) && this.playerJumpTimer < 0 &&
+      checkIfCanJump(this))
+    {
+      // Start jump animation
+      this.jumpState = 1;
       this.jumpTimer = 0;
+      // this.eggOnHead = false;
+      // Begin moving upwards immediately
+      this.body.moveUp(this.playerJump);
+      this.playerJumpTimer = 0.5;
+      this.playerJumping = true;
+      //Jump audio
+      this.jump = game.add.audio('jump');
+      this.jump.play('', 0, 1, false);
     }
-  }
 
-  // Widen birb
-  if (this.jumpState == 2) {
-    // Increase timer by time elapsed * 2
-    this.jumpTimer += this.game.time.physicsElapsed;
-    // this.jumpTimer = magnitude, this.facing = direction
-    this.scale.x += this.jumpTimer * this.facing;
-    if (this.jumpTimer > 0.05) {
-      // Move to phase 2
-      this.jumpState = 3;
-      this.jumpTimer = 0;
+    // Shorten birb
+    if (this.jumpState == 1) {
+      // Increase timer by time elapsed * 8
+      this.jumpTimer += this.game.time.physicsElapsed * 4;
+      // this.jumpTimer = magnitude, this.facing = direction
+      this.scale.y -= this.jumpTimer;
+      if (this.jumpTimer > 0.2) {
+        // Move to phase 3
+        this.jumpState = 2;
+        this.jumpTimer = 0;
+      }
     }
-  }
 
-  // Normalize birb
-  if (this.jumpState == 3) {
-    // Increase timer by time elapsed * 8
-    this.jumpTimer += this.game.time.physicsElapsed;
-    // this.jumpTimer = magnitude, this.facing = direction
-    this.scale.x -= this.jumpTimer * this.facing;
-    // this.jumpTimer = magnitude, this.facing = direction
-    this.scale.y += this.jumpTimer * 2;
-    if (this.jumpTimer > 0.05) {
-      // Normalize and end jump
-      this.jumpState = 0;
-      this.jumpTimer = 0;
-      this.scale.y = 1;
-      this.scale.x = this.facing;
-      this.playerJumping = false;
+    // Widen birb
+    if (this.jumpState == 2) {
+      // Increase timer by time elapsed * 2
+      this.jumpTimer += this.game.time.physicsElapsed;
+      // this.jumpTimer = magnitude, this.facing = direction
+      this.scale.x += this.jumpTimer * this.facing;
+      if (this.jumpTimer > 0.05) {
+        // Move to phase 2
+        this.jumpState = 3;
+        this.jumpTimer = 0;
+      }
     }
+
+    // Normalize birb
+    if (this.jumpState == 3) {
+      // Increase timer by time elapsed * 8
+      this.jumpTimer += this.game.time.physicsElapsed;
+      // this.jumpTimer = magnitude, this.facing = direction
+      this.scale.x -= this.jumpTimer * this.facing;
+      // this.jumpTimer = magnitude, this.facing = direction
+      this.scale.y += this.jumpTimer * 2;
+      if (this.jumpTimer > 0.05) {
+        // Normalize and end jump
+        this.jumpState = 0;
+        this.jumpTimer = 0;
+        this.scale.y = 1;
+        this.scale.x = this.facing;
+        this.playerJumping = false;
+      }
+    }
+
+    this.playerJumpTimer -= this.game.time.physicsElapsed;
   }
-
-  this.playerJumpTimer -= this.game.time.physicsElapsed;
-
 }
 
 // Egg Touching Head Sensor

@@ -43,6 +43,10 @@ function ckptCREATE(){
 	this.ckpt.scale.y = 0.5;
 	this.ckpt.fixedToCamera = true;
   this.ckpt.alpha = 0;
+	game.physics.p2.enable(this.ckpt);
+	this.ckpt.body.static = true;
+	this.ckpt.body.data.shapes[0].sensor = true;
+	this.ckpt.body.angularVelocity = -5;
 }
 
 // create .to({properties}, <duration>, <ease>, <autoStart>, <delay>, <repeat>, <yoyo>)
