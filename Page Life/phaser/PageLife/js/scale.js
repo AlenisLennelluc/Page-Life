@@ -33,7 +33,6 @@ function scaleOut() {
   this.scaleButton.scale.setTo(1, 1);
 }
 
-
 //fullscreen slides
 function scale() {
 		if(!game.scale.isFullScreen) {
@@ -66,7 +65,6 @@ function ckptActivate() {
 	ckptTween.to({ alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0, 4, true);
 }
 
-
 function creditsSetup() {
 	this.credits = game.add.sprite(0,0, 'credits');
 	this.credits.alpha = 0;
@@ -95,4 +93,20 @@ function changeCredits() {
 	else {
   	this.credits.alpha = 0;
   }
+
+//Function from particles example in phaser directory
+function scaleSort(a, b) {
+
+    if (a.scale.x < b.scale.x)
+    {
+        return -1;
+    }
+    else if (a.scale.x > b.scale.x)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
 }

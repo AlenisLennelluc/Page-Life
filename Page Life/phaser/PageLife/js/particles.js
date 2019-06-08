@@ -169,10 +169,31 @@ Gull.start(false, 5000, 2500);
 
 function noParticles(){
 
-  		//////////////////
-  		//"No" Particles//
-  		//////////////////
+   //	Emitters have a center point and a width/height, which extends from their center point to the left/right and up/down
+   No = game.add.emitter(game.world.centerX, 400, 400);
 
+   //	This emitter will have a width of 800px, so a particle can emit from anywhere in the range emitter.x += emitter.width / 2
+   // emitter.width = 800;
+
+   No.makeParticles('No');
+
+   // emitter.minParticleSpeed.set(0, 300);
+   // emitter.maxParticleSpeed.set(0, 600);
+
+   No.setRotation(0, 0);
+   No.setAlpha(0.1, 1, 3000);
+   No.setScale(0.1, 1, 0.1, 1, 6000, Phaser.Easing.Quintic.Out);
+   No.gravity = -200;
+
+   No.start(false, 5000, 10);
+
+   No.emitX = 0;
+
+}
+
+function NoUPDATE(){
+
+  No.customSort(scaleSort, this);
 
 }
 
