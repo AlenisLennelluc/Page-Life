@@ -244,7 +244,7 @@ Play.prototype = {
 		this.pickup = game.add.audio('pickup', 0.1);
 		this.song = game.add.audio('backgroundSong');
 		this.checkPointAudio = game.add.audio('checkpoint', 0.2);
-		this.amb1Birbs = game.add.audio('amb1Birbs', 0.5);
+		this.amb1Birbs = game.add.audio('amb1Birbs', 0.2);
 
 		this.song.play('', 0, 0.10, true);
 		this.amb1Birbs.play('', 0, 0.10, false)

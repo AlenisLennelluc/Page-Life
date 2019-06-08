@@ -10,8 +10,8 @@ this.fclick = game.add.emitter(0, 0, 100);
 this.fclick.makeParticles('feather');
 this.fclick.gravity = 200;
 
-
 game.input.onDown.add(particleBurst, this);
+
 }
 
 //Code taken from https://phaser.io/examples/v2/particles/click-burst
@@ -26,7 +26,7 @@ function particleBurst(pointer) {
   //  The third is ignored when using burst/explode mode
   //  The final parameter (10) is how many particles will be emitted in this single burst
   this.fclick.start(true, 2000, null, 10);
-
+  this.fclick.forEach(zeroAlpha, this, true);
 }
 
 function starParticle(){
@@ -164,6 +164,29 @@ Gull.gravity = -200;
 //	false means don't explode all the sprites at once, but instead release at a rate of one particle per 100ms
 //	The 5000 value is the lifespan of each particle before it's killed
 Gull.start(false, 5000, 2500);
+
+}
+
+function galleryParticles(){
+
+  gallery = game.add.emitter(2500, 12200, 2000);
+
+  //	This emitter will have a width of 800px, so a particle can emit from anywhere in the range emitter.x += emitter.width / 2
+  gallery.width = 1200;
+
+  gallery.makeParticles(['gull1' , 'gull2']);
+
+  gallery.minParticleSpeed.set(0, 300);
+  gallery.maxParticleSpeed.set(0, 400);
+
+  gallery.setRotation(0, 0);
+  gallery.setAlpha(0.3, 0.5);
+  gallery.setScale(0.5, 0.5, 1, 1);
+  gallery.gravity = -200;
+
+  //	false means don't explode all the sprites at once, but instead release at a rate of one particle per 100ms
+  //	The 5000 value is the lifespan of each particle before it's killed
+  gallery.start(false, 5000, 2500);
 
 }
 
