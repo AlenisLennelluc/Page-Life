@@ -161,6 +161,7 @@ Player.prototype.update = function() {
     }
 
     this.playerJumpTimer -= this.game.time.physicsElapsed;
+    console.log(this.x + '/' + this.y);
   }
 }
 

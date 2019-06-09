@@ -59,12 +59,8 @@ Play.prototype = {
 		this.sword = game.physics.p2.createBody(7194, 8840, 0); //, null, [-851, -781, 851, 781]);
 		this.sword.addRectangle(2285, 10);
 		this.sword.angle = 42.5455;
-		this.sword.debug = false;
+		this.sword.debug = true;
 		game.physics.p2.addBody(this.sword);
-		// game.physics.p2.enable(this.background, true);
-		// this.background.body.static = true;
-		// this.background.body.removeShape();
-		// this.background.body.addLine(2311, 7194, 8834, -0.742559)
 
 		// 6343 - 8046 = 1703
 		// 8053 - 9616 = 1563
@@ -77,7 +73,7 @@ Play.prototype = {
 		this.handle = game.physics.p2.createBody(2862, 6018, 0);
 		this.handle.addRectangle(1500, 10);
 		this.handle.angle = -42.1844;
-		this.handle.debug = false;
+		this.handle.debug = true;
 		game.physics.p2.addBody(this.handle);
 
 		//x2400, y6432
@@ -93,7 +89,7 @@ Play.prototype = {
 		this.wing = game.physics.p2.createBody(5632, 7653, 0);
 		this.wing.addRectangle(1176, 10);
 		this.wing.angle = 45;
-		this.wing.debug = false;
+		this.wing.debug = true;
 		game.physics.p2.addBody(this.wing);
 
 		//x5216, y7232
@@ -106,6 +102,19 @@ Play.prototype = {
 
 		//length: 1176
 		//rotation: 45
+
+		this.hilt = game.physics.p2.createBody(6534, 7739, 0);
+		this.hilt.addRectangle(200, 10);
+		this.hilt.angle = 32;
+		this.hilt.debug = true;
+		game.physics.p2.addBody(this.hilt);
+
+		// 6615 - 6454 = 161 = 80 = 6534
+		// 7786 - 7668 = 118 = 59 = 7727
+
+		// length: 200
+		// rotation: 53.76
+
 
 		  ///////////
 		  // NESTS //
@@ -292,7 +301,8 @@ Play.prototype = {
 
 function normalUpdate() {
 	//update mask
-	this.mask.position = this.player.position;
+	this.mask.x = game.camera.centerX;
+	this.mask.y = game.camera.centerY;
 
 	/////////////
 	//BIRD MATH//
@@ -312,53 +322,33 @@ function normalUpdate() {
 
 	if (this.numbers.one.justDown) {
 		setSave.call(this, this.nests.children[0], this.egg.body.data);
-		game.camera.x = this.saveX;
-		game.camera.y = this.saveY;
 	}
 	else if (this.numbers.two.justDown) {
 		setSave.call(this, this.nests.children[1], this.egg.body.data);
-		game.camera.x = this.saveX;
-		game.camera.y = this.saveY;
 	}
 	else if (this.numbers.thr.justDown) {
 		setSave.call(this, this.nests.children[2], this.egg.body.data);
-		game.camera.x = this.saveX;
-		game.camera.y = this.saveY;
 	}
 	else if (this.numbers.fou.justDown) {
 		setSave.call(this, this.nests.children[3], this.egg.body.data);
-		game.camera.x = this.saveX;
-		game.camera.y = this.saveY;
 	}
 	else if (this.numbers.fiv.justDown) {
 		setSave.call(this, this.nests.children[4], this.egg.body.data);
-		game.camera.x = this.saveX;
-		game.camera.y = this.saveY;
 	}
 	else if (this.numbers.six.justDown) {
 		setSave.call(this, this.nests.children[5], this.egg.body.data);
-		game.camera.x = this.saveX;
-		game.camera.y = this.saveY;
 	}
 	else if (this.numbers.sev.justDown) {
 		setSave.call(this, this.nests.children[6], this.egg.body.data);
-		game.camera.x = this.saveX;
-		game.camera.y = this.saveY;
 	}
 	else if (this.numbers.eig.justDown) {
 		setSave.call(this, this.nests.children[7], this.egg.body.data);
-		game.camera.x = this.saveX;
-		game.camera.y = this.saveY;
 	}
 	else if (this.numbers.nin.justDown) {
 		setSave.call(this, this.nests.children[8], this.egg.body.data);
-		game.camera.x = this.saveX;
-		game.camera.y = this.saveY;
 	}
 	else if (this.numbers.zer.justDown) {
 		setSave.call(this, this.nests.children[9], this.egg.body.data);
-		game.camera.x = this.saveX;
-		game.camera.y = this.saveY;
 	}
 
 	if (this.mKey.justDown) {
