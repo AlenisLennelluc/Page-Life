@@ -62,7 +62,7 @@ function ckptCREATE() {
 // setting yoyo to true makes it loop back and forth
 function ckptActivate() {
 	var ckptTween = game.add.tween(this.ckpt);
-	ckptTween.to({ alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0, 4, true);
+	ckptTween.to({ alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0, 1, true);
 	ckptTween.onComplete.add(zeroAlpha, this, this.ckpt);
 }
 
