@@ -14,7 +14,7 @@ Load.prototype = {
 		game.load.path = 'assets/img/';
 		game.load.atlas('sprites', 'sprites.png', 'sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_TP_HASH);
 		game.load.tilemap('level', 'pageLifeMap.json', null, Phaser.Tilemap.TILED_JSON);
-		game.load.image('BGIMG', 'pageLifeMap.png');
+		game.load.images(['BGIMG', 'endImg'], ['pageLifeMap.png', 'Sleeping_bird.PNG']);
 
 		game.load.path = 'assets/img/charmask/';
     game.load.images(['miniTitle', 'background', 'mask', 'cover'], ['smolTITLE.png', 'background.png', 'mask.png', 'EndMask.png']);

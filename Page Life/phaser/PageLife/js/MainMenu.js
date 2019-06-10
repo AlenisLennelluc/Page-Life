@@ -34,13 +34,51 @@ MainMenu.prototype = {
 		// this.smallTitle.scale.y = .3;
 
 		// Add instruction text
-		game.add.text(450, 200, 'Drag the egg with the mouse.\n' +
-			'Drop it off the side.', { fontSize: '32px', fill: '#000'});
+		// game.add.text(450, 200, 'Drag the egg with the mouse.\n' +
+		// 	'Drop it off the side.', { fontSize: '32px', fill: '#000'});
 
 		this.nest = game.add.sprite(-100, 400, 'sprites', 'nest');
 		game.physics.arcade.enable(this.nest);
 		this.nest.body.immovable = true;
 		this.nest.body.setSize(400, 300, 0, 25);
+
+		this.drag = game.add.sprite(200, 320, 'sprites', 'Drag');
+		this.drag.scale.x = .8;
+		this.drag.scale.y = .8;
+
+		this.dArrow = game.add.sprite(200, 360, 'sprites', "ArrowLC");
+		this.dArrow.scale.x = 0.5;
+		this.dArrow.scale.y = 0.5;
+
+		this.drophere = game.add.sprite(520, 250, 'sprites', 'SmolDrop');
+		this.drophere.scale.x = .6;
+		this.drophere.scale.y = .6;
+		this.downArrow = game.add.sprite(560, 300, 'sprites', 'Arrow');
+		this.downArrow.scale.x = 0.3;
+		this.downArrow.scale.y = 0.3;
+
+		this.saveEgg = game.add.sprite(550, 250, 'sprites', 'Saveegg');
+		this.saveEgg.alpha = 0;
+
+		this.Jump = game.add.sprite(220, 210, 'sprites', 'jump');
+		this.Jump.scale.x = 1.5;
+		this.Jump.scale.y = 1.5;
+		this.Jump.alpha = 0;
+
+		this.Move = game.add.sprite(50, 200, 'sprites', 'move');
+		// this.Move.scale.x = 1.5;
+		// this.Move.scale.y = 1.5;
+		this.Move.alpha = 0;
+
+		this.pArrow = game.add.sprite(240, 280, 'sprites', 'ArrowDLL');
+		this.pArrow.scale.x = 0.3;
+		this.pArrow.scale.y = 0.3;
+		this.pArrow.alpha = 0;
+
+		this.pArrow2 = game.add.sprite(180, 280, 'sprites', 'ArrowDLL');
+		this.pArrow2.scale.x = 0.3 * -1;
+		this.pArrow2.scale.y = 0.3;
+		this.pArrow2.alpha = 0;
 
 		this.egg = game.add.sprite(140, 200, 'sprites', 'egg');
 		this.egg.inputEnabled = true;
@@ -94,11 +132,21 @@ MainMenu.prototype = {
 			this.player.body.bounce.y = 0.1;
 
 			//Text
-			var text = game.add.text(450, 300, 'WASD or arrow keys to move.\n' +
-				'Space or W to jump.\nGo save your egg!', { fontSize: '32px', fill: '#000'});
+			game.add.tween(this.drag).to({alpha:0}, 500, Phaser.Easing.Linear.None, true);
+			game.add.tween(this.drophere).to({alpha:0}, 500, Phaser.Easing.Linear.None, true);
+			game.add.tween(this.downArrow).to({alpha:0}, 500, Phaser.Easing.Linear.None, true);
+			game.add.tween(this.dArrow).to({alpha:0}, 500, Phaser.Easing.Linear.None, true);
+			game.add.tween(this.saveEgg).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
+			game.add.tween(this.Jump).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
+			game.add.tween(this.Move).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
+			game.add.tween(this.pArrow).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
+			game.add.tween(this.pArrow2).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
 
-			text.alpha = 0;
-			game.add.tween(text).to({alpha: 1}, 2000, Phaser.Easing.Linear.None, true);
+			// var text = game.add.text(450, 300, 'WASD or arrow keys to move.\n' +
+			// 	'Space or W to jump.\nGo save your egg!', { fontSize: '32px', fill: '#000'});
+
+			//text.alpha = 0;
+			//game.add.tween(text).to({alpha: 1}, 2000, Phaser.Easing.Linear.None, true);
 		}
 
 		//Prep song for play state
