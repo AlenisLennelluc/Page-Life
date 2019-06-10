@@ -245,7 +245,7 @@ function destroyEmitter() {
 }
 
 function particleUpdate() {
-  emitterCheck(this.fclick);
+  //emitterCheck(this.fclick);
   emitterCheck(this.no);
   emitterCheck(this.gallery);
   emitterCheck(this.gull);
