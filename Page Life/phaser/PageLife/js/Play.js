@@ -115,6 +115,12 @@ Play.prototype = {
 		// length: 200
 		// rotation: 53.76
 
+		this.tearAudio = game.physics.p2.createBody(8400, 4000, 0);
+		this.tearAudio.addRectangle(300, 300);
+		this.tearAudio.data.shapes[0].sensor = true;
+		game.physics.p2.addBody(this.tearAudio);
+		this.tearAudio.onBeginContact.add(tearAudioCheck, this);
+
 
 		  ///////////
 		  // NESTS //
@@ -222,7 +228,7 @@ Play.prototype = {
 		this.tears = game.add.group();
 		this.tears.physicsBodyType = Phaser.Physics.P2JS;
 		this.tears.enableBody = true;
-		for (var i = 0; i < 100; i ++) {
+		for (var i = 0; i < 10; i ++) {
 			var tear = this.tears.create(8400, 5200 - i * 300, 'tear');
 			tear.body.static = true;
 			tear.body.clearShapes();
@@ -270,6 +276,7 @@ Play.prototype = {
 		this.song = game.add.audio('backgroundSong');
 		this.checkPointAudio = game.add.audio('checkpoint', 0.2);
 		this.amb1Birbs = game.add.audio('amb1Birbs', 0.2);
+		this.galleryAmbient = game.add.audio('galleryAudio', 0.2);
 
 		this.song.play('', 0, 0.10, true);
 		this.amb1Birbs.play('', 0, 0.10, false)
@@ -533,6 +540,13 @@ function move(pointer, x, y, isDown) {
 	this.mouse.body.y = y + game.camera.y;
 }
 
+
+function tearAudioCheck(otherBody, otherData, thisShape, otherShape) {
+	if (otherBody === this.player.body) {
+		this.galleryAmbient.play();
+		thisShape.enabled = false;
+	}
+}
 
 // function checkCache(cacheX, cacheY) {
 // 	// check for save points in local storage

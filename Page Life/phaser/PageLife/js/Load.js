@@ -29,13 +29,15 @@ Load.prototype = {
 
 		// load audio assets
 		game.load.path = 'assets/audio/';
-    game.load.audio('jumpOld', 'BirbJump.wav');
     game.load.audio('pickup', 'BirbPickup.wav');
     game.load.audio('backgroundSong', ['background.mp3', 'background.ogg']);
     game.load.audio('checkpoint', ['checkpoint.mp3', 'checkpoint.ogg']);
     game.load.audio('jump', ['jump.mp3', 'jump.ogg']);
 		game.load.audio('amb1Birbs', ['birds1.mp3', 'birds1.ogg']);
     game.load.audio('end', ['ending.mp3', 'ending.ogg']);
+		game.load.audio('galleryAudio', ['gallery.mp3', 'gallery.ogg']);
+		game.load.audio('highschoolAudio', ['highschool.mp3', 'highschool.ogg']);
+		game.load.audio('knightAudio', ['knight.mp3', 'knight.ogg']);
 	},
 	create: function() {
 		// check for local storage browser support
