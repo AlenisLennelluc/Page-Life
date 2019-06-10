@@ -36,25 +36,25 @@ function starParticle(){
 //////////////////
 
 //	Emitters have a center point and a width/height, which extends from their center point to the left/right and up/down
-stars = game.add.emitter(game.world.centerX, 200, 200);
+this.stars = game.add.emitter(game.world.centerX, 200, 200);
 
 //	This emitter will have a width of 800px, so a particle can emit from anywhere in the range emitter.x += emitter.width / 2
-stars.width = 800;
-stars.height = 800;
+this.stars.width = 800;
+this.stars.height = 800;
 
-stars.makeParticles('star');
+this.stars.makeParticles('star');
 
-stars.minParticleSpeed.set(0, .1);
-stars.maxParticleSpeed.set(0, .1);
+this.stars.minParticleSpeed.set(0, .1);
+this.stars.maxParticleSpeed.set(0, .1);
 
-stars.setRotation(0, 0);
-stars.setAlpha(0.1, 0.8);
-stars.setScale(1, 1, 1, 1);
-stars.gravity = 3;
+this.stars.setRotation(0, 0);
+this.stars.setAlpha(0.1, 0.8);
+this.stars.setScale(1, 1, 1, 1);
+this.stars.gravity = 3;
 
 //	false means don't explode all the sprites at once, but instead release at a rate of one particle per 100ms
 //	The 5000 value is the lifespan of each particle before it's killed
-stars.start(false, 10000, 700);
+this.stars.start(false, 10000, 700);
 }
 
 function starParticleEND(){
@@ -64,25 +64,25 @@ function starParticleEND(){
 //////////////////
 
 //	Emitters have a center point and a width/height, which extends from their center point to the left/right and up/down
-starsE = game.add.emitter(8880, 370, 600);
+this.starsE = game.add.emitter(8880, 370, 600);
 
 //	This emitter will have a width of 800px, so a particle can emit from anywhere in the range emitter.x += emitter.width / 2
-starsE.width = 5000;
-starsE.height = 1500;
+this.starsE.width = 5000;
+this.starsE.height = 1500;
 
-starsE.makeParticles('star');
+this.starsE.makeParticles('star');
 
-starsE.minParticleSpeed.set(0, .1);
-starsE.maxParticleSpeed.set(0, .1);
+this.starsE.minParticleSpeed.set(0, .1);
+this.starsE.maxParticleSpeed.set(0, .1);
 
-starsE.setRotation(0, 0);
-starsE.setAlpha(0.1, 0.5);
-starsE.setScale(1, 1, 1, 1);
-starsE.gravity = 3;
+this.starsE.setRotation(0, 0);
+this.starsE.setAlpha(0.1, 0.5);
+this.starsE.setScale(1, 1, 1, 1);
+this.starsE.gravity = 3;
 
 //	false means don't explode all the sprites at once, but instead release at a rate of one particle per 100ms
 //	The 5000 value is the lifespan of each particle before it's killed
-starsE.start(false, 20000, 400);
+this.starsE.start(false, 20000, 400);
 }
 
 function leafParticles(){
@@ -91,19 +91,19 @@ function leafParticles(){
 //LEAF PARTICLES FLOW//
 ///////////////////////
 
-emitter = game.add.emitter(500, 13500, 1500);
+this.emitter = game.add.emitter(500, 13500, 1500);
 
-emitter.makeParticles('LFeather');
-emitter.minParticleSpeed.setTo(-300, 30);
-emitter.maxParticleSpeed.setTo(300, 100);
-emitter.setAlpha(0.1, 0.4);
-emitter.minParticleScale = 0.1;
-emitter.maxParticleScale = 0.5;
-emitter.gravity = 100;
+this.emitter.makeParticles('LFeather');
+this.emitter.minParticleSpeed.setTo(-300, 30);
+this.emitter.maxParticleSpeed.setTo(300, 100);
+this.emitter.setAlpha(0.1, 0.4);
+this.emitter.minParticleScale = 0.1;
+this.emitter.maxParticleScale = 0.5;
+this.emitter.gravity = 100;
 
 //  This will emit a quantity of 5 particles every 500ms. Each particle will live for 2000ms.
 //  The -1 means "run forever"
-emitter.flow(6000, 500, 3, -1);
+this.emitter.flow(6000, 500, 3, -1);
 
 }
 
@@ -114,29 +114,29 @@ function waterfallParticles(){
   ///////////////////////////
 
   //SOURCE CODE: https://phaser.io/examples/v2/particles/tweened-emitter
-  fall = game.add.emitter(5600, 10730, 250);
+  this.fall = game.add.emitter(5600, 10730, 250);
 
-  fall.width = 800;
+  this.fall.width = 800;
 
-  fall.makeParticles('line');
+  this.fall.makeParticles('line');
 
-  fall.setXSpeed(50, 0);
-  fall.setYSpeed(200, 200);
+  this.fall.setXSpeed(50, 0);
+  this.fall.setYSpeed(200, 200);
 
-  fall.bringToTop = true;
-  fall.setRotation(0, 0);
-  fall.setAlpha(0.1, 1, 5000);
-  fall.setScale(0.1, 2, 0.1, 2, 4000);
-  fall.gravity = 1000;
+  this.fall.bringToTop = true;
+  this.fall.setRotation(0, 0);
+  this.fall.setAlpha(0.1, 1, 5000);
+  this.fall.setScale(0.1, 2, 0.1, 2, 4000);
+  this.fall.gravity = 1000;
 
 
 
-  fall.start(false, 5000, 50);
+  this.fall.start(false, 5000, 50);
 
-  fall.emitX = 200;
+  this.fall.emitX = 200;
 
   //game.add.tween(emitter).to( { emitX: 700 }, 2000, Phaser.Easing.Sinusoidal.InOut, true, 0, Number.MAX_VALUE, true);
-  game.add.tween(fall).to( { emitX: 600 }, 2000, Phaser.Easing.Back.InOut, true, 0, Number.MAX_VALUE, true);
+  game.add.tween(this.fall).to( { emitX: 600 }, 2000, Phaser.Easing.Back.InOut, true, 0, Number.MAX_VALUE, true);
 
 }
 
@@ -146,77 +146,77 @@ function seagullParticles(){
 //SEAGULLS//
 ////////////
 
-Gull = game.add.emitter(2500, 12200, 2000);
+this.gull = game.add.emitter(2500, 12200, 2000);
 
 //	This emitter will have a width of 800px, so a particle can emit from anywhere in the range emitter.x += emitter.width / 2
-Gull.width = 1200;
+this.gull.width = 1200;
 
-Gull.makeParticles(['gull1' , 'gull2']);
+this.gull.makeParticles(['gull1' , 'gull2']);
 
-Gull.minParticleSpeed.set(0, 300);
-Gull.maxParticleSpeed.set(0, 400);
+this.gull.minParticleSpeed.set(0, 300);
+this.gull.maxParticleSpeed.set(0, 400);
 
-Gull.setRotation(0, 0);
-Gull.setAlpha(0.3, 0.5);
-Gull.setScale(0.5, 0.5, 1, 1);
-Gull.gravity = -200;
+this.gull.setRotation(0, 0);
+this.gull.setAlpha(0.3, 0.5);
+this.gull.setScale(0.5, 0.5, 1, 1);
+this.gull.gravity = -200;
 
 //	false means don't explode all the sprites at once, but instead release at a rate of one particle per 100ms
 //	The 5000 value is the lifespan of each particle before it's killed
-Gull.start(false, 5000, 2500);
+this.gull.start(false, 5000, 2500);
 
 }
 
 function galleryParticles(){
 
-  gallery = game.add.emitter(2500, 12200, 2000);
+  this.gallery = game.add.emitter(2500, 12200, 2000);
 
   //	This emitter will have a width of 800px, so a particle can emit from anywhere in the range emitter.x += emitter.width / 2
-  gallery.width = 1200;
+  this.gallery.width = 1200;
 
-  gallery.makeParticles(['gull1' , 'gull2']);
+  this.gallery.makeParticles(['gull1' , 'gull2']);
 
-  gallery.minParticleSpeed.set(0, 300);
-  gallery.maxParticleSpeed.set(0, 400);
+  this.gallery.minParticleSpeed.set(0, 300);
+  this.gallery.maxParticleSpeed.set(0, 400);
 
-  gallery.setRotation(0, 0);
-  gallery.setAlpha(0.3, 0.5);
-  gallery.setScale(0.5, 0.5, 1, 1);
-  gallery.gravity = -200;
+  this.gallery.setRotation(0, 0);
+  this.gallery.setAlpha(0.3, 0.5);
+  this.gallery.setScale(0.5, 0.5, 1, 1);
+  this.gallery.gravity = -200;
 
   //	false means don't explode all the sprites at once, but instead release at a rate of one particle per 100ms
   //	The 5000 value is the lifespan of each particle before it's killed
-  gallery.start(false, 5000, 2500);
+  this.gallery.start(false, 5000, 2500);
 
 }
 
 function noParticles(){
 
    //	Emitters have a center point and a width/height, which extends from their center point to the left/right and up/down
-   No = game.add.emitter(game.world.centerX, 400, 400);
+   this.no = game.add.emitter(game.world.centerX, 400, 400);
 
    //	This emitter will have a width of 800px, so a particle can emit from anywhere in the range emitter.x += emitter.width / 2
    // emitter.width = 800;
 
-   No.makeParticles('No');
+   this.no.makeParticles('No');
 
    // emitter.minParticleSpeed.set(0, 300);
    // emitter.maxParticleSpeed.set(0, 600);
 
-   No.setRotation(0, 0);
-   No.setAlpha(0.1, 1, 3000);
-   No.setScale(0.1, 1, 0.1, 1, 6000, Phaser.Easing.Quintic.Out);
-   No.gravity = -200;
+   this.no.setRotation(0, 0);
+   this.no.setAlpha(0.1, 1, 3000);
+   this.no.setScale(0.1, 1, 0.1, 1, 6000, Phaser.Easing.Quintic.Out);
+   this.no.gravity = -200;
 
-   No.start(false, 5000, 10);
+   this.no.start(false, 5000, 10);
 
-   No.emitX = 0;
+   this.no.emitX = 0;
 
 }
 
 function NoUPDATE(){
 
-  No.customSort(scaleSort, this);
+  this.no.customSort(scaleSort, this);
 
 }
 
@@ -242,4 +242,31 @@ function destroyEmitter() {
 
     emitter.destroy();
 
+}
+
+function particleUpdate() {
+  emitterCheck(this.fclick);
+  emitterCheck(this.no);
+  emitterCheck(this.gallery);
+  emitterCheck(this.gull);
+  emitterCheck(this.fall);
+  emitterCheck(this.emitter);
+  emitterCheck(this.starsE);
+  emitterCheck(this.stars);
+}
+
+function emitterCheck(emitter) {
+  if (emitter != null) {
+    if (
+      emitter.y > game.camera.y + game.camera.height ||
+      emitter.y + 3000 < game.camera.y ||
+      emitter.x - 2000 > game.camera.x + game.camera.width ||
+      emitter.x + 2000 < game.camera.x
+    ) {
+      emitter.on = false;
+    }
+    else {
+      emitter.on = true;
+    }
+  }
 }

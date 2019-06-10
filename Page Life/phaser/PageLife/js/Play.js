@@ -271,10 +271,10 @@ Play.prototype = {
 		/////////////
 
 		featherClick.call(this);
-		leafParticles();
-		seagullParticles();
+		leafParticles.call(this);
+		seagullParticles.call(this);
 		//waterfallParticles();
-		starParticleEND();
+		starParticleEND.call(this);
 
 	},
 
@@ -283,9 +283,9 @@ Play.prototype = {
 	//////////
 
 	update: function() {
-
+		particleUpdate.call(this);
 		this.updateFunc.call(this);
-		console.log(Phaser.Input.worldX + ' / ' + Phaser.Input.worldY);
+		//console.log(Phaser.Input.worldX + ' / ' + Phaser.Input.worldY);
 	}
 }
 
@@ -353,7 +353,7 @@ function normalUpdate() {
 
 	if (this.mKey.justDown) {
 		if (this.mapLayer.alpha == 0) {
-			this.mapLayer.alpha = 1;;
+			this.mapLayer.alpha = 0.5;
 		}
 		else {
 			this.mapLayer.alpha = 0;
