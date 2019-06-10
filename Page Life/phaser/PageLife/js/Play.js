@@ -285,7 +285,7 @@ Play.prototype = {
 	update: function() {
 
 		this.updateFunc.call(this);
-
+		console.log(Phaser.Input.worldX + ' / ' + Phaser.Input.worldY);
 	}
 }
 
@@ -456,7 +456,7 @@ function connectEggToNest(eggBody, eggData, nestShape, eggShape) {
 	}
 
 	if (!this.eggDragged && eggData === this.egg.body.data) {
-		disconnectEgg(this);
+		disconnectEgg.call(this);
 		this.eggHead = game.physics.p2.createLockConstraint(
 			nestShape.body.parent, this.egg, [0, 0], 0, 100);
 
