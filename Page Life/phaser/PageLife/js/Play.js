@@ -153,6 +153,22 @@ Play.prototype = {
 		this.saveX = 2670;
 		this.saveY = 14159;
 
+		// this.cacheX = null;
+		// this.cacheY = null;
+
+		var startX = 400;
+		var startY = game.world.height - 250;
+
+		// if (checkCache(this.cacheX, this.cacheY)) {
+		// 	this.saveX = this.cacheX;
+		// 	this.saveY = this.cacheY;
+		//
+		// 	startX = this.cacheX;
+		// 	startY = this.cacheY;
+		// }
+
+
+
 		// this.saveX = game.world.width - 1000;
 		// this.saveY = 400;
 
@@ -178,7 +194,7 @@ Play.prototype = {
 		/////////
 
 		// Egg of the player, bring to star to win
-		this.egg = game.add.sprite(400, game.world.height - 250, 'sprites', 'egg'); // debug
+		this.egg = game.add.sprite(startX, startY, 'sprites', 'egg'); // debug
 		game.physics.p2.enable(this.egg, false);
 		this.egg.body.setCircle(25);
 
@@ -233,7 +249,7 @@ Play.prototype = {
 
 		// Create the player
 		//this.player = game.add.sprite(200, game.world.height - 400, 'birb');
-		this.player = new Player(game, 'birb', 400, game.world.height - 700, this.egg, this);
+		this.player = new Player(game, 'birb', startX, startY - 300, this.egg, this);
 		game.add.existing(this.player);
 
 		// Insert end game fadeout
@@ -506,6 +522,8 @@ function setSave(nest, egg) {
 	if (egg === this.egg.body.data) {
 		this.saveX = nest.x;
 		this.saveY = nest.y;
+		// localStorage.setItem('pointX', this.saveX.toString());
+		// localStorage.setItem('pointY', this.saveY.toString());
 	}
 }
 
@@ -514,6 +532,24 @@ function move(pointer, x, y, isDown) {
 	this.mouse.body.x = x + game.camera.x;
 	this.mouse.body.y = y + game.camera.y;
 }
+
+
+// function checkCache(cacheX, cacheY) {
+// 	// check for save points in local storage
+//         if(localStorage.getItem('pointX') != null && localStorage.getItem('pointY') != null) {
+//             cacheX = parseInt(localStorage.getItem('pointX'));
+//             console.log('storedX: ' + cacheX);
+// 						cacheY = parseInt(localStorage.getItem('pointY'));
+// 						console.log('storedY: ' + cacheY);
+//
+// 						return true;
+//             }
+//         // create local storage is none exists
+//         else {
+//             console.log('No save state stored. Saving new birb.');
+// 						return false;
+//         }
+// }
 
 
 ///////////////////
