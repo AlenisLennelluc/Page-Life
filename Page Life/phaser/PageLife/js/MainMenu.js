@@ -152,7 +152,12 @@ MainMenu.prototype = {
 		//Prep song for play state
 		if (this.player.position.y > 650) {
 			if(this.cache.isSoundDecoded('backgroundSong')){
-				this.state.start('Play');
+				var tween = game.add.tween(this.canvas).to({alpha: 1}, 5000, Phaser.Easing.Linear.None, true);
+				tween.onComplete.add(goPlay, this);
+
+				this.player.position.y = -200;
+				this.player.body.gravity.y = 0;
+				this.player.body.velocity.y = 0;
 			}
 		}
 
@@ -216,4 +221,8 @@ function stopDragMenu() {
 
 function backTween() {
 	game.add.tween(this.canvas).to({alpha: 0}, 5000, Phaser.Easing.Linear.None, true);
+}
+
+function goPlay() {
+	game.state.start('Play');
 }
