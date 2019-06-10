@@ -131,8 +131,8 @@ Play.prototype = {
 		  this.nests.create(3630, 11087, 'sprites', 'sNest'); // Start of high school climb
 		  this.nests.create(5010, 4680, 'sprites', 'sNest');  // Start of the gallery
 		  this.nests.create(5580, 2745, 'sprites', 'sNest');  // In the gallery corner
-		  this.nests.create(3060, 7151, 'sprites', 'sNest');	// On bird leg
-		  this.nests.create(7072, 2536, 'sprites', 'sNest');	//
+			this.nests.create(4485, 6223, 'sprites', 'sNest');	// At peak of bird feather trail
+		  this.nests.create(3060, 7121, 'sprites', 'sNest');	// On bird leg
 		  this.nests.create(5585, 5011, 'sprites', 'sNest');	//
 		  this.nests.create(7970, 2890, 'sprites', 'sNest');	//
 		  this.nests.create(980, 2460, 'sprites', 'sNest');		//
@@ -186,7 +186,7 @@ Play.prototype = {
 		// SPRING EFFECT //
 		///////////////////
 
-		this.mouse = game.add.sprite(200,game.world.height - 450, 'sprites', 'star');
+		this.mouse = game.add.sprite(200,game.world.height - 450, 'star');
 		game.physics.p2.enable(this.mouse);
 		this.mouse.body.static = true;
 		this.mouse.body.setCircle(10);
@@ -207,7 +207,7 @@ Play.prototype = {
 		this.tears.physicsBodyType = Phaser.Physics.P2JS;
 		this.tears.enableBody = true;
 		for (var i = 0; i < 100; i ++) {
-			var tear = this.tears.create(8400, 5200 - i * 300, 'sprites', 'tear');
+			var tear = this.tears.create(8400, 5200 - i * 300, 'tear');
 			tear.body.static = true;
 			tear.body.clearShapes();
 			tear.body.addRectangle(64, 64, 0, 29);
