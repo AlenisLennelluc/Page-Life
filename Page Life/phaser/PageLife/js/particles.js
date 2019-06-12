@@ -256,6 +256,11 @@ function particleUpdate() {
   emitterCheck(this.emitter);
   emitterCheck(this.starsE);
   emitterCheck(this.stars);
+
+  if (this.gallery != null) {
+    this.gallery.emitX = this.player.x;
+    this.gallery.emitY = this.player.y;
+  }
 }
 
 function emitterCheck(emitter) {

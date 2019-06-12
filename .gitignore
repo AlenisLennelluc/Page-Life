@@ -24,7 +24,6 @@
 *.blend
 *.fbx
 *.dae
-*.json
 
 #all assets
 /assets

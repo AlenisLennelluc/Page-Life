@@ -115,13 +115,19 @@ Play.prototype = {
 		// length: 200
 		// rotation: 53.76
 
-		this.tearHS = game.physics.p2.createBody(5380, 11340, 0);
-		this.tearHS.addRectangle(300, 300);
-		this.tearHS.data.shapes[0].sensor = true;
-		game.physics.p2.addBody(this.tearHS);
-		this.tearHS.debug = true;
-		this.tearHS.onBeginContact.add(hsAudioCheck, this);
-		this.tearHS.onBeginContact.add(noParticles, this);
+		this.knightTrigger = game.physics.p2.createBody(6900, 9500, 0);
+		this.knightTrigger.addRectangle(300, 300);
+		this.knightTrigger.data.shapes[0].sensor = true;
+		game.physics.p2.addBody(this.knightTrigger);
+		this.knightTrigger.debug = true;
+		this.knightTrigger.onBeginContact.add(knightAudioCheck, this);
+
+		this.HSTrigger = game.physics.p2.createBody(5380, 11340, 0);
+		this.HSTrigger.addRectangle(300, 300);
+		this.HSTrigger.data.shapes[0].sensor = true;
+		game.physics.p2.addBody(this.HSTrigger);
+		this.HSTrigger.debug = true;
+		this.HSTrigger.onBeginContact.add(hsAudioCheck, this);
 
 
 		this.tearAudio = game.physics.p2.createBody(8400, 4000, 0);
@@ -288,7 +294,8 @@ Play.prototype = {
 		this.checkPointAudio = game.add.audio('checkpoint', 0.2);
 		this.amb1Birbs = game.add.audio('amb1Birbs', 0.2);
 		this.galleryAmbient = game.add.audio('galleryAudio', 0.2);
-		this.hsAmbient = game.add.audio('hsAmbient', 0.2);
+		this.hsAmbient = game.add.audio('hsAmbient', 1);
+		this.knightAmbient = game.add.audio('knightAudio', 0.2);
 
 		this.song.play('', 0, 0.10, true);
 		this.amb1Birbs.play('', 0, 0.10, false)
@@ -554,19 +561,28 @@ function move(pointer, x, y, isDown) {
 
 
 function tearAudioCheck(otherBody, otherData, thisShape, otherShape) {
-	if (otherBody === this.player.body) {
+	if (otherBody === this.player.body && otherShape.sensor) {
 		this.galleryAmbient.play();
-		thisShape.enabled = false;
+
+		thisShape.body.parent.clearShapes();
+	}
+}
+
+function knightAudioCheck(otherBody, otherData, thisShape, otherShape) {
+	if (otherBody === this.player.body && otherShape.sensor) {
+		this.knightAmbient.play();
+
+		thisShape.body.parent.clearShapes();
 	}
 }
 
 function hsAudioCheck(otherBody, otherData, thisShape, otherShape) {
-	if (otherBody === this.player.body) {
+	if (otherBody === this.player.body && otherShape.sensor) {
 		this.hsAmbient.play();
-		this.hsAmbient.volume = 0;
-		this.fadeMusic = game.add.tween(this.hsAmbient).to({volume: 1}, 5000, Phaser.Easing.Linear.None, true);
-
-		thisShape.enabled = false;
+		//this.hsAmbient.volume = 0;
+		//this.fadeMusic = game.add.tween(this.hsAmbient).to({volume: 1}, 5000, Phaser.Easing.Linear.None, true);
+		noParticles.call(this);
+		thisShape.body.parent.clearShapes();
 	}
 }
 
