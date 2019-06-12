@@ -15,7 +15,7 @@ MainMenu.prototype = {
 
 	//Particles for stars, located in particles.js
 	starParticle();
-
+	
 		////////////
 		//GRAPHICS//
 		////////////

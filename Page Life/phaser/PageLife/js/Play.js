@@ -115,6 +115,14 @@ Play.prototype = {
 		// length: 200
 		// rotation: 53.76
 
+		this.tearHS = game.physics.p2.createBody(5380, 11340, 0);
+		this.tearHS.addRectangle(300, 300);
+		this.tearHS.data.shapes[0].sensor = true;
+		game.physics.p2.addBody(this.tearHS);
+		this.tearHS.onBeginContact.add(hsAudioCheck, this);
+		this.tearHS.onBeginContact.add(noParticles, this);
+
+
 		this.tearAudio = game.physics.p2.createBody(8400, 4000, 0);
 		this.tearAudio.addRectangle(300, 300);
 		this.tearAudio.data.shapes[0].sensor = true;
@@ -184,7 +192,7 @@ Play.prototype = {
 
 		// Star for player to touch and win the game
 		this.home = game.add.sprite(game.world.width - 650, 450, 'sprites', 'nest');
-		game.physics.p2.enable(this.home, true);
+		game.physics.p2.enable(this.home, false);
 		this.home.body.setRectangle(400, 160, -15, 15)
 		this.home.body.static = true;
 
@@ -277,6 +285,7 @@ Play.prototype = {
 		this.checkPointAudio = game.add.audio('checkpoint', 0.2);
 		this.amb1Birbs = game.add.audio('amb1Birbs', 0.2);
 		this.galleryAmbient = game.add.audio('galleryAudio', 0.2);
+		this.hsAmbient = game.add.audio('hsAmbient', 0.2);
 
 		this.song.play('', 0, 0.10, true);
 		this.amb1Birbs.play('', 0, 0.10, false)
@@ -544,6 +553,16 @@ function move(pointer, x, y, isDown) {
 function tearAudioCheck(otherBody, otherData, thisShape, otherShape) {
 	if (otherBody === this.player.body) {
 		this.galleryAmbient.play();
+		thisShape.enabled = false;
+	}
+}
+
+function hsAudioCheck(otherBody, otherData, thisShape, otherShape) {
+	if (otherBody === this.player.body) {
+		this.hsAmbient.play();
+		this.hsAmbient.volume = 0;
+		this.fadeMusic = game.add.tween(this.hsAmbient).to({volume: 1}, 5000, Phaser.Easing.Linear.None, true);
+
 		thisShape.enabled = false;
 	}
 }

@@ -193,7 +193,7 @@ function galleryParticles(){
 function noParticles(){
 
    //	Emitters have a center point and a width/height, which extends from their center point to the left/right and up/down
-   this.no = game.add.emitter(game.world.centerX, 400, 400);
+   this.no = game.add.emitter(4625, 11150, 400);
 
    //	This emitter will have a width of 800px, so a particle can emit from anywhere in the range emitter.x += emitter.width / 2
    // emitter.width = 800;
@@ -204,7 +204,10 @@ function noParticles(){
    // emitter.maxParticleSpeed.set(0, 600);
 
    this.no.setRotation(0, 0);
-   this.no.setAlpha(0.1, 1, 3000);
+   this.no.setXSpeed(700, 0);
+   this.no.setYSpeed(200, 0);
+
+   this.no.setAlpha(0.1, 0.7, 3000);
    this.no.setScale(0.1, 1, 0.1, 1, 6000, Phaser.Easing.Quintic.Out);
    this.no.gravity = -200;
 
