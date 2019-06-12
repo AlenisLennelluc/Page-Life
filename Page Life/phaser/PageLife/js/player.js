@@ -89,14 +89,14 @@ Player.prototype.update = function() {
     //JUMPING//
     ///////////
 
-    // if (this.jKey.justDown) {
-    //   if (this.playerJump == 700) {
-    //     this.playerJump = 2500;
-    //   }
-    //   else {
-    //     this.playerJump = 700;
-    //   }
-    // }
+    if (this.jKey.justDown) {
+      if (this.playerJump == 700) {
+        this.playerJump = 2500;
+      }
+      else {
+        this.playerJump = 700;
+      }
+    }
 
     // If up is down, move up
     if ((this.cursors.up.isDown || this.game.input.keyboard.isDown(Phaser.KeyCode.W) ||

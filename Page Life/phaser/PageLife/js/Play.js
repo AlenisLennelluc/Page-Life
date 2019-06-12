@@ -119,6 +119,7 @@ Play.prototype = {
 		this.tearHS.addRectangle(300, 300);
 		this.tearHS.data.shapes[0].sensor = true;
 		game.physics.p2.addBody(this.tearHS);
+		this.tearHS.debug = true;
 		this.tearHS.onBeginContact.add(hsAudioCheck, this);
 		this.tearHS.onBeginContact.add(noParticles, this);
 
@@ -282,6 +283,8 @@ Play.prototype = {
 			'sev': Phaser.KeyCode.SEVEN, 'eig': Phaser.KeyCode.EIGHT,'nin': Phaser.KeyCode.NINE, 'zer': Phaser.KeyCode.ZERO,});
 			this.mKey = game.input.keyboard.addKey(Phaser.KeyCode.M);
 
+
+
 		/////////
 		//AUDIO//
 		/////////
@@ -360,45 +363,45 @@ function normalUpdate() {
 	//DEBUG//
 	/////////
 
-	// if (this.numbers.one.justDown) {
-	// 	setSave.call(this, this.nests.children[0], this.egg.body.data);
-	// }
-	// else if (this.numbers.two.justDown) {
-	// 	setSave.call(this, this.nests.children[1], this.egg.body.data);
-	// }
-	// else if (this.numbers.thr.justDown) {
-	// 	setSave.call(this, this.nests.children[2], this.egg.body.data);
-	// }
-	// else if (this.numbers.fou.justDown) {
-	// 	setSave.call(this, this.nests.children[3], this.egg.body.data);
-	// }
-	// else if (this.numbers.fiv.justDown) {
-	// 	setSave.call(this, this.nests.children[4], this.egg.body.data);
-	// }
-	// else if (this.numbers.six.justDown) {
-	// 	setSave.call(this, this.nests.children[5], this.egg.body.data);
-	// }
-	// else if (this.numbers.sev.justDown) {
-	// 	setSave.call(this, this.nests.children[6], this.egg.body.data);
-	// }
-	// else if (this.numbers.eig.justDown) {
-	// 	setSave.call(this, this.nests.children[7], this.egg.body.data);
-	// }
-	// else if (this.numbers.nin.justDown) {
-	// 	setSave.call(this, this.nests.children[8], this.egg.body.data);
-	// }
-	// else if (this.numbers.zer.justDown) {
-	// 	setSave.call(this, this.nests.children[9], this.egg.body.data);
-	// }
+	if (this.numbers.one.justDown) {
+		setSave.call(this, this.nests.children[0], this.egg.body.data);
+	}
+	else if (this.numbers.two.justDown) {
+		setSave.call(this, this.nests.children[1], this.egg.body.data);
+	}
+	else if (this.numbers.thr.justDown) {
+		setSave.call(this, this.nests.children[2], this.egg.body.data);
+	}
+	else if (this.numbers.fou.justDown) {
+		setSave.call(this, this.nests.children[3], this.egg.body.data);
+	}
+	else if (this.numbers.fiv.justDown) {
+		setSave.call(this, this.nests.children[4], this.egg.body.data);
+	}
+	else if (this.numbers.six.justDown) {
+		setSave.call(this, this.nests.children[5], this.egg.body.data);
+	}
+	else if (this.numbers.sev.justDown) {
+		setSave.call(this, this.nests.children[6], this.egg.body.data);
+	}
+	else if (this.numbers.eig.justDown) {
+		setSave.call(this, this.nests.children[7], this.egg.body.data);
+	}
+	else if (this.numbers.nin.justDown) {
+		setSave.call(this, this.nests.children[8], this.egg.body.data);
+	}
+	else if (this.numbers.zer.justDown) {
+		setSave.call(this, this.nests.children[9], this.egg.body.data);
+	}
 
-	// if (this.mKey.justDown) {
-	// 	if (this.mapLayer.alpha == 0) {
-	// 		this.mapLayer.alpha = 0.5;
-	// 	}
-	// 	else {
-	// 		this.mapLayer.alpha = 0;
-	// 	}
-	// }
+	if (this.mKey.justDown) {
+		if (this.mapLayer.alpha == 0) {
+			this.mapLayer.alpha = 0.5;
+		}
+		else {
+			this.mapLayer.alpha = 0;
+		}
+	}
 }
 
 function endUpdate() {
