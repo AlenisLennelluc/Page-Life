@@ -169,24 +169,25 @@ this.gull.start(false, 5000, 2500);
 
 function galleryParticles(){
 
-  this.gallery = game.add.emitter(2500, 12200, 2000);
+  this.gallery = game.add.emitter(7236, 2945, 15);
 
+  //2500, 12200
   //	This emitter will have a width of 800px, so a particle can emit from anywhere in the range emitter.x += emitter.width / 2
   this.gallery.width = 1200;
 
-  this.gallery.makeParticles(['gull1' , 'gull2']);
+  this.gallery.makeParticles(['Nice' , 'Lovely', 'Incredible', 'Emotional', 'Deep', 'Great', 'Relateable']);
 
   this.gallery.minParticleSpeed.set(0, 300);
   this.gallery.maxParticleSpeed.set(0, 400);
 
   this.gallery.setRotation(0, 0);
-  this.gallery.setAlpha(0.3, 0.5);
-  this.gallery.setScale(0.5, 0.5, 1, 1);
-  this.gallery.gravity = -200;
+  this.gallery.setAlpha(0.1, 0.4);
+  this.gallery.setScale(0.3, 0.3, 1, 1);
+  this.gallery.gravity = -250;
 
   //	false means don't explode all the sprites at once, but instead release at a rate of one particle per 100ms
   //	The 5000 value is the lifespan of each particle before it's killed
-  this.gallery.start(false, 5000, 2500);
+  this.gallery.start(false, 4000, 15);
 
 }
 

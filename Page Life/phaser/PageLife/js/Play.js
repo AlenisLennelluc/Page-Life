@@ -316,6 +316,7 @@ Play.prototype = {
 		featherClick.call(this);
 		leafParticles.call(this);
 		seagullParticles.call(this);
+		galleryParticles.call(this);
 		//waterfallParticles();
 		starParticleEND.call(this);
 
