@@ -122,6 +122,13 @@ Play.prototype = {
 		this.tearHS.onBeginContact.add(hsAudioCheck, this);
 		this.tearHS.onBeginContact.add(noParticles, this);
 
+		this.tearKnight = game.physics.p2.createBody(6455, 9530, 0);
+		this.tearKnight.addRectangle(300, 300);
+		this.tearKnight.data.shapes[0].sensor = true;
+		game.physics.p2.addBody(this.tearKnight);
+		this.tearKnight.onBeginContact.add(knightAudioCheck, this);
+		this.tearKnight.onBeginContact.add(noParticles, this);
+
 
 		this.tearAudio = game.physics.p2.createBody(8400, 4000, 0);
 		this.tearAudio.addRectangle(300, 300);
@@ -286,6 +293,7 @@ Play.prototype = {
 		this.amb1Birbs = game.add.audio('amb1Birbs', 0.2);
 		this.galleryAmbient = game.add.audio('galleryAudio', 0.2);
 		this.hsAmbient = game.add.audio('hsAmbient', 0.2);
+		this.knightAmbient = game.add.audio('knightAmbient', 0.2);
 
 		this.song.play('', 0, 0.10, true);
 		this.amb1Birbs.play('', 0, 0.10, false)
@@ -562,6 +570,16 @@ function hsAudioCheck(otherBody, otherData, thisShape, otherShape) {
 		this.hsAmbient.play();
 		this.hsAmbient.volume = 0;
 		this.fadeMusic = game.add.tween(this.hsAmbient).to({volume: 1}, 5000, Phaser.Easing.Linear.None, true);
+
+		thisShape.enabled = false;
+	}
+}
+
+function knightAudioCheck(otherBody, otherData, thisShape, otherShape) {
+	if (otherBody === this.player.body) {
+		this.knightAmbient.play();
+		this.knightAmbient.volume = 0;
+		this.fadeMusic = game.add.tween(this.knightAmbient).to({volume: 1}, 5000, Phaser.Easing.Linear.None, true);
 
 		thisShape.enabled = false;
 	}

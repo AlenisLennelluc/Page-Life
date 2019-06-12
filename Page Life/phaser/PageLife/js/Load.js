@@ -37,7 +37,7 @@ Load.prototype = {
     game.load.audio('end', ['ending.mp3', 'ending.ogg']);
 		game.load.audio('galleryAudio', ['gallery.mp3', 'gallery.ogg']);
 		game.load.audio('hsAmbient', ['highschool.mp3', 'highschool.ogg']);
-		game.load.audio('knightAudio', ['knight.mp3', 'knight.ogg']);
+		game.load.audio('knightAmbient', ['knight.mp3', 'knight.ogg']);
 	},
 	create: function() {
 		// check for local storage browser support
