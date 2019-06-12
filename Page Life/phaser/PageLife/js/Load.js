@@ -24,7 +24,7 @@ Load.prototype = {
 		game.load.spritesheet('noCollusion', 'collision.PNG', 32, 32);
 		game.load.images(['scale', 'ckpt', 'credits', 'creditsButton'], ['FS.PNG', 'checkpoint.PNG', 'credits.png', 'creditsBUTTON.png']);
 		game.load.path = 'assets/img/particles/';
-		game.load.images(['feather', 'LFeather', 'star', 'gull1', 'gull2', 'line', 'tear', "No"], ['smolFeather.png', 'feather.png', 'star.png', 'Seagull1.PNG', 'Seagull2.PNG', 'Line1.PNG', 'tear.PNG', "No1.PNG"]);
+		game.load.images(['feather', 'LFeather', 'star', 'gull1', 'gull2', 'line', 'tear', 'No', 'Nice', 'Lovely', 'Incredible', 'Relateable', 'Deep', 'Emotional', 'Great'], ['smolFeather.png', 'feather.png', 'star.png', 'Seagull1.PNG', 'Seagull2.PNG', 'Line1.PNG', 'tear.PNG', "No1.PNG", 'Nice.PNG', 'Lovely.PNG', 'Incredible.PNG', 'Relateable.PNG', 'Deep.PNG', 'Emotional.PNG', 'Great.PNG']);
 
 
 		// load audio assets
@@ -37,7 +37,7 @@ Load.prototype = {
     game.load.audio('end', ['ending.mp3', 'ending.ogg']);
 		game.load.audio('galleryAudio', ['gallery.mp3', 'gallery.ogg']);
 		game.load.audio('hsAmbient', ['highschool.mp3', 'highschool.ogg']);
-		game.load.audio('knightAudio', ['knight.mp3', 'knight.ogg']);
+		game.load.audio('knightAmbient', ['knight.mp3', 'knight.ogg']);
 	},
 	create: function() {
 		// check for local storage browser support

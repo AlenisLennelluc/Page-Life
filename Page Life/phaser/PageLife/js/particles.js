@@ -169,31 +169,32 @@ this.gull.start(false, 5000, 2500);
 
 function galleryParticles(){
 
-  this.gallery = game.add.emitter(2500, 12200, 2000);
+  this.gallery = game.add.emitter(7236, 2945, 15);
 
+  //2500, 12200
   //	This emitter will have a width of 800px, so a particle can emit from anywhere in the range emitter.x += emitter.width / 2
   this.gallery.width = 1200;
 
-  this.gallery.makeParticles(['gull1' , 'gull2']);
+  this.gallery.makeParticles(['Nice' , 'Lovely', 'Incredible', 'Emotional', 'Deep', 'Great', 'Relateable']);
 
   this.gallery.minParticleSpeed.set(0, 300);
   this.gallery.maxParticleSpeed.set(0, 400);
 
   this.gallery.setRotation(0, 0);
-  this.gallery.setAlpha(0.3, 0.5);
-  this.gallery.setScale(0.5, 0.5, 1, 1);
-  this.gallery.gravity = -200;
+  this.gallery.setAlpha(0.1, 0.4);
+  this.gallery.setScale(0.3, 0.3, 1, 1);
+  this.gallery.gravity = -250;
 
   //	false means don't explode all the sprites at once, but instead release at a rate of one particle per 100ms
   //	The 5000 value is the lifespan of each particle before it's killed
-  this.gallery.start(false, 5000, 2500);
+  this.gallery.start(false, 4000, 15);
 
 }
 
 function noParticles(){
 
    //	Emitters have a center point and a width/height, which extends from their center point to the left/right and up/down
-   this.no = game.add.emitter(4625, 11150, 400);
+   this.no = game.add.emitter(4650, 11150, 10);
 
    //	This emitter will have a width of 800px, so a particle can emit from anywhere in the range emitter.x += emitter.width / 2
    // emitter.width = 800;
@@ -205,16 +206,13 @@ function noParticles(){
 
    this.no.setRotation(0, 0);
    this.no.setXSpeed(700, 0);
-   this.no.setYSpeed(200, 0);
+   this.no.setYSpeed(250, 0);
 
-   this.no.setAlpha(0.1, 0.7, 3000);
+   this.no.setAlpha(0.1, 0.4, 3000);
    this.no.setScale(0.1, 1, 0.1, 1, 6000, Phaser.Easing.Quintic.Out);
    this.no.gravity = -200;
 
    this.no.start(false, 5000, 10);
-
-   this.no.emitX = 0;
-
 }
 
 function NoUPDATE(){
