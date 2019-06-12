@@ -248,7 +248,7 @@ function destroyEmitter() {
 function particleUpdate() {
   //emitterCheck(this.fclick);
   emitterCheck(this.no);
-  emitterCheck(this.gallery);
+  galleryCheck.call(this);
   emitterCheck(this.gull);
   emitterCheck(this.fall);
   emitterCheck(this.emitter);
@@ -273,6 +273,22 @@ function emitterCheck(emitter) {
     }
     else {
       emitter.on = true;
+    }
+  }
+}
+
+function galleryCheck() {
+  if (this.gallery != null) {
+    if (
+      this.player.y > 3900 ||
+      this.player.x > 7200 ||
+      this.player.x < 3600 ||
+      this.player.y < 2000
+    ) {
+      this.gallery.on = false;
+    }
+    else {
+      this.gallery.on = true;
     }
   }
 }
