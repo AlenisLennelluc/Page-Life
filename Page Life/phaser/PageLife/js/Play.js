@@ -13,7 +13,7 @@ Play.prototype = {
 
 		//SET WORLD COLOR
 		game.stage.setBackgroundColor('#fff');
-		game.add.sprite(0, 0, 'BGIMG');
+		game.add.image(0, 0, 'BGIMG');
 
 		///////////
 		//TILEMAP//
@@ -281,8 +281,12 @@ Play.prototype = {
 		game.add.existing(this.player);
 
 		// Insert end game fadeout
-		this.endMask = game.add.sprite(game.camera.x, game.camera.y, 'cover');
-		this.endMask.alpha = 0;
+		this.endMask = game.add.sprite(this.player.x, this.player.y, 'cover');
+		this.endMask.anchor.setTo(0.5, 0.5);
+		this.endMask.scale.x = 2;
+		this.endMask.scale.y = 2;
+		this.endMask.alpha = 1;
+
 
 		this.numbers = game.input.keyboard.addKeys({'one': Phaser.KeyCode.ONE, 'two': Phaser.KeyCode.TWO,
 			'thr': Phaser.KeyCode.THREE, 'fou': Phaser.KeyCode.FOUR,'fiv': Phaser.KeyCode.FIVE, 'six': Phaser.KeyCode.SIX,
@@ -420,6 +424,7 @@ function endUpdate() {
 }
 
 function startCheck(play) {
+	play.game.add.tween(play.endMask).to({alpha: 0}, 10000, Phaser.Easing.Linear.None, true);
 	play.checkFunction = checkForReset;
 }
 
@@ -464,6 +469,7 @@ function resetTears(tear) {
 
 // While dragging box, turn off physics
 function startDrag(pointer) {
+	console.log(pointer.worldX + '/' + pointer.worldY);
 	var position = Phaser.Point.add(pointer.position, game.camera.position);
 	var eggPosition = this.egg.position;
 	var bodies = game.physics.p2.hitTest(position, [this.egg.body]);
@@ -591,16 +597,6 @@ function hsAudioCheck(otherBody, otherData, thisShape, otherShape) {
 		//this.fadeMusic = game.add.tween(this.hsAmbient).to({volume: 1}, 5000, Phaser.Easing.Linear.None, true);
 		noParticles.call(this);
 		thisShape.body.parent.clearShapes();
-	}
-}
-
-function knightAudioCheck(otherBody, otherData, thisShape, otherShape) {
-	if (otherBody === this.player.body) {
-		this.knightAmbient.play();
-		this.knightAmbient.volume = 0;
-		this.fadeMusic = game.add.tween(this.knightAmbient).to({volume: 1}, 5000, Phaser.Easing.Linear.None, true);
-
-		thisShape.enabled = false;
 	}
 }
 
