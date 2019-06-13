@@ -15,7 +15,7 @@ MainMenu.prototype = {
 
 	//Particles for stars, located in particles.js
 	starParticle();
-	rainDropParticles();
+	//rainDropParticles.call(this);
 
 		////////////
 		//GRAPHICS//
@@ -104,7 +104,7 @@ MainMenu.prototype = {
 		this.title = game.add.sprite(0, 0, 'loadTitle');
 		// this.title.scale.x = 0.5;
 		// this.title.scale.y = 0.5;
-		var tween = game.add.tween(this.title).to({alpha: 0}, 5000, Phaser.Easing.Linear.None, true, 500);
+		var tween = game.add.tween(this.title).to({alpha: 0}, 3000, Phaser.Easing.Linear.None, true, 500);
 		tween.onComplete.add(backTween, this);
 
 		//ckptCREATE in scale.js
@@ -120,6 +120,12 @@ MainMenu.prototype = {
 		//Physics
 		game.physics.arcade.collide(this.egg, this.nest);
 		game.physics.arcade.collide(this.player, this.nest);
+
+		this.dArrow.x = this.egg.x + 70;
+		this.dArrow.y = this.egg.y - 10;
+
+		this.drag.x = this.egg.x + 70;
+		this.drag.y = this.egg.y - 70;
 
 		//Egg
 		if (this.egg.position.y > 650)
@@ -153,7 +159,7 @@ MainMenu.prototype = {
 		//Prep song for play state
 		if (this.player.position.y > 650) {
 			if(this.cache.isSoundDecoded('backgroundSong')){
-				var tween = game.add.tween(this.canvas).to({alpha: 1}, 5000, Phaser.Easing.Linear.None, true);
+				var tween = game.add.tween(this.canvas).to({alpha: 1}, 3000, Phaser.Easing.Linear.None, true);
 				tween.onComplete.add(goPlay, this);
 
 				this.player.position.y = -200;
@@ -221,7 +227,7 @@ function stopDragMenu() {
 }
 
 function backTween() {
-	game.add.tween(this.canvas).to({alpha: 0}, 5000, Phaser.Easing.Linear.None, true);
+	game.add.tween(this.canvas).to({alpha: 0}, 3000, Phaser.Easing.Linear.None, true);
 }
 
 function goPlay() {

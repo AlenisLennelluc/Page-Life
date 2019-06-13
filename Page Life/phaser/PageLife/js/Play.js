@@ -2,6 +2,11 @@
 var Play = function(game) {var score;};
 Play.prototype = {
 
+	init: function(map, layer) {
+		this.map = map;
+		this.mapLayer = layer;
+	},
+
 	//////////
 	//CREATE//
 	//////////
@@ -48,12 +53,12 @@ Play.prototype = {
 		/////////////
 
 		// Turn on the Physics engine
-		// game.physics.startSystem(Phaser.Physics.P2JS);
+		game.physics.startSystem(Phaser.Physics.P2JS);
 		game.physics.p2.gravity.y = 1200;
 		game.physics.p2.restitution = 0.1;
 
-		// game.physics.p2.convertTilemap(this.map, this.mapLayer);
-		// game.physics.p2.setBoundsToWorld(true, true, true, true, false);
+		game.physics.p2.convertTilemap(this.map, this.mapLayer);
+		game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
 
 		this.sword = game.physics.p2.createBody(7194, 8840, 0); //, null, [-851, -781, 851, 781]);
@@ -151,6 +156,7 @@ Play.prototype = {
 		  this.nests = game.add.group();
 		  this.nests.physicsBodyType = Phaser.Physics.P2JS;
 		  this.nests.enableBody = true;
+			this.nests.create(400, 14290, 'sprites', 'sNest');
 		  this.nests.create(2670, 14161, 'sprites', 'sNest'); // first nest
 		  this.nests.create(1700,13232, 'sprites', 'sNest');  // above the first steps
 		  this.nests.create(4760, 12754, 'sprites', 'sNest'); // above B block
@@ -161,7 +167,7 @@ Play.prototype = {
 		  this.nests.create(5580, 2745, 'sprites', 'sNest');  // In the gallery corner
 			this.nests.create(4485, 6223, 'sprites', 'sNest');	// At peak of bird feather trail
 		  this.nests.create(3060, 7121, 'sprites', 'sNest');	// On bird leg
-		  this.nests.create(5585, 5011, 'sprites', 'sNest');	//
+		  //this.nests.create(5585, 5011, 'sprites', 'sNest');	//
 		  this.nests.create(7970, 2890, 'sprites', 'sNest');	//
 		  this.nests.create(980, 2460, 'sprites', 'sNest');		//
 		  this.nests.create(2210, 773, 'sprites', 'sNest');		//
@@ -327,6 +333,7 @@ Play.prototype = {
 		leafParticles.call(this);
 		seagullParticles.call(this);
 		galleryParticles.call(this);
+		rainDropParticles.call(this);
 		//waterfallParticles();
 		starParticleEND.call(this);
 
@@ -424,7 +431,7 @@ function endUpdate() {
 }
 
 function startCheck(play) {
-	play.game.add.tween(play.endMask).to({alpha: 0}, 10000, Phaser.Easing.Linear.None, true);
+	play.game.add.tween(play.endMask).to({alpha: 0}, 3000, Phaser.Easing.Linear.None, true);
 	play.checkFunction = checkForReset;
 }
 

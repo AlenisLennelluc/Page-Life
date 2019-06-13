@@ -31,11 +31,6 @@ PlayBoot.prototype = {
     // set the world size to match the size of the Tilemap layer
     this.mapLayer.resizeWorld();
 
-		game.physics.startSystem(Phaser.Physics.P2JS);
-
-		game.physics.p2.convertTilemap(this.map, this.mapLayer);
-		game.physics.p2.setBoundsToWorld(true, true, true, true, false);
-
-		this.state.start('Play', true, true);
+		this.state.start('Play', false, false, this.map, this.mapLayer);
 	}
 }

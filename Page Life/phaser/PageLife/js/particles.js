@@ -192,22 +192,28 @@ function galleryParticles(){
 }
 
 function rainDropParticles(){
-	this.rain = game.add.emitter(500, 600, 500);
-	this.rain.width = 1000;
+	this.rain = game.add.emitter(6412, 5704, 4000);
+  //this.rain = game.add.emitter(540, 550, 1000);
+	this.rain.width = 2080;
 
 	this.rain.makeParticles(['line']);
-	this.rain.setScale(0.5, 0.5);
+
+  this.rain.setRotation(30, 45);
+	this.rain.setScale(0.4, 0.4);
 	this.rain.setAlpha(0.1, 0.3);
-	this.rain.frequency = 1;
+	//this.rain.frequency = 1;
 
 	this.rain.minParticleSpeed.set(0,300);
 	this.rain.maxParticleSpeed.set(0,1000);
-	this.rain.setYSpeed(2000, 2500);
+	this.rain.setYSpeed(-500, -700);
+  //this.rain.setXSpeed(500, 1000);
+
 
 	this.rain.setRotation(0,0);
-	this.rain.gravity = -700;
+	this.rain.gravity = -500;
 
-	this.rain.start(false, 20000, 500);
+	this.rain.flow(2000, 1, 30);
+  //this.rain.frequency = 0.01;
 }
 
 function noParticles(){
@@ -279,6 +285,7 @@ function particleUpdate() {
     this.gallery.emitX = this.player.x;
     this.gallery.emitY = this.player.y;
   }
+  rainCheck.call(this);
 }
 
 function emitterCheck(emitter) {
@@ -309,6 +316,24 @@ function galleryCheck() {
     }
     else {
       this.gallery.on = true;
+    }
+  }
+}
+
+function rainCheck() {
+  if (this.rain != null) {
+    if (
+      this.player.y > 5150 ||
+      this.player.x > 8450 ||
+      this.player.x < 8350 ||
+      this.player.y < 2900
+    ) {
+      this.rain.on = false;
+    }
+    else {
+      this.rain.on = true;
+      this.rain.emitX = this.player.x;
+      this.rain.emitY = this.player.y + 550;
     }
   }
 }
