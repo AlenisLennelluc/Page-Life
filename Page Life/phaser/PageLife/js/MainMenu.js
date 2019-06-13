@@ -15,7 +15,7 @@ MainMenu.prototype = {
 
 	//Particles for stars, located in particles.js
 	starParticle();
-	
+
 		////////////
 		//GRAPHICS//
 		////////////
@@ -224,5 +224,5 @@ function backTween() {
 }
 
 function goPlay() {
-	game.state.start('Play');
+	game.state.start('PlayBoot');
 }

@@ -16,6 +16,7 @@ game.state.add('Load', Load);
 game.state.add('MainMenu', MainMenu);
 game.state.add('Play', Play);
 game.state.add('GameOver', GameOver);
+game.state.add('PlayBoot', PlayBoot);
 game.state.start('Boot');
 
 
