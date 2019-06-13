@@ -191,6 +191,25 @@ function galleryParticles(){
 
 }
 
+function rainDropParticles(){
+	this.rain = game.add.emitter(500, 600, 500);
+	this.rain.width = 1000;
+
+	this.rain.makeParticles(['line']);
+	this.rain.setScale(0.5, 0.5);
+	this.rain.setAlpha(0.1, 0.3);
+	this.rain.frequency = 1;
+
+	this.rain.minParticleSpeed.set(0,300);
+	this.rain.maxParticleSpeed.set(0,1000);
+	this.rain.setYSpeed(2000, 2500);
+
+	this.rain.setRotation(0,0);
+	this.rain.gravity = -700;
+
+	this.rain.start(false, 20000, 500);
+}
+
 function noParticles(){
 
    //	Emitters have a center point and a width/height, which extends from their center point to the left/right and up/down
@@ -214,6 +233,7 @@ function noParticles(){
 
    this.no.start(false, 5000, 10);
 }
+
 
 function NoUPDATE(){
 
