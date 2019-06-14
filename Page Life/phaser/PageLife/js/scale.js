@@ -78,18 +78,21 @@ function creditsSetup() {
 	this.creditsButton = game.add.button(37, 100,'creditsButton', changeCredits, this);
 	this.creditsButton.alpha = 0.5;
 	this.creditsButton.inputEnabled = true;
+	this.creditsText = game.add.text(140, 130, 'Credits');
+	this.creditsText.alpha = 0;
 	this.creditsButton.onInputOver.add(creditsOver, this);
 	this.creditsButton.onInputOut.add(creditsOut, this);
 }
 
 function creditsOver() {
 	this.creditsButton.alpha = 1;
-	this.creditsButton.scale.setTo(1.2, 1.2);
+	this.creditsButton.alpha = 1;
 }
 
 function creditsOut() {
 	this.creditsButton.alpha = 0.5;
 	this.creditsButton.scale.setTo(1, 1);
+	this.creditsText.alpha = 0;
 }
 
 function changeCredits() {

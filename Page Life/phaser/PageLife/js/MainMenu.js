@@ -97,11 +97,11 @@ MainMenu.prototype = {
 		this.player.anchor.setTo(0.5, 0.5);
 
 		if (checkCache()) {
-			this.cacheButton = game.add.button(20, 168, 'sNest', clearCache, this);
+			this.cacheButton = game.add.button(20, 175, 'sNest', clearCache, this);
 			this.cacheButton.onInputOver.add(cacheOver, this);
 			this.cacheButton.onInputOut.add(cacheOut, this);
 			this.cacheButton.alpha = 0.5;
-			this.cacheText = game.add.text(0, 145, 'Clear cache?');
+			this.cacheText = game.add.text(140, 180, 'Start Over?');
 			this.cacheText.alpha = 0;
 		}
 
@@ -246,11 +246,14 @@ function goPlay() {
 function cacheOver() {
 	this.cacheText.alpha = 1;
 	this.cacheButton.alpha = 1;
+	this.cacheButton.scale.setTo(1.2, 1.2);
+
 }
 
 function cacheOut() {
 	this.cacheText.alpha = 0;
 	this.cacheButton.alpha = 0.5;
+	this.cacheButton.scale.setTo(1, 1);
 }
 
 function clearCache() {

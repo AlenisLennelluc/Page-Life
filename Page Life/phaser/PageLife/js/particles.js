@@ -200,7 +200,7 @@ function rainDropParticles(){
 
   this.rain.setRotation(30, 45);
 	this.rain.setScale(0.4, 0.4);
-	this.rain.setAlpha(0.1, 0.3);
+	this.rain.setAlpha(0.1, 0.2);
 	//this.rain.frequency = 1;
 
 	this.rain.minParticleSpeed.set(0,300);
@@ -233,7 +233,7 @@ function noParticles(){
    this.no.setXSpeed(700, 0);
    this.no.setYSpeed(250, 0);
 
-   this.no.setAlpha(0.1, 0.4, 3000);
+   this.no.setAlpha(0.1, 0.3, 3000);
    this.no.setScale(0.1, 1, 0.1, 1, 6000, Phaser.Easing.Quintic.Out);
    this.no.gravity = -200;
 
