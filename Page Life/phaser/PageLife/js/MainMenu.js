@@ -96,6 +96,15 @@ MainMenu.prototype = {
 		this.player.animations.add('jump', [4,5], 10, true);
 		this.player.anchor.setTo(0.5, 0.5);
 
+		if (checkCache()) {
+			this.cacheButton = game.add.button(20, 168, 'sNest', clearCache, this);
+			this.cacheButton.onInputOver.add(cacheOver, this);
+			this.cacheButton.onInputOut.add(cacheOut, this);
+			this.cacheButton.alpha = 0.5;
+			this.cacheText = game.add.text(0, 145, 'Clear cache?');
+			this.cacheText.alpha = 0;
+		}
+
 		//Click to blow up feathers, located in particles.js
 		featherClick.call(this);
 		creditsSetup.call(this);
@@ -232,4 +241,20 @@ function backTween() {
 
 function goPlay() {
 	game.state.start('PlayBoot');
+}
+
+function cacheOver() {
+	this.cacheText.alpha = 1;
+	this.cacheButton.alpha = 1;
+}
+
+function cacheOut() {
+	this.cacheText.alpha = 0;
+	this.cacheButton.alpha = 0.5;
+}
+
+function clearCache() {
+	localStorage.clear();
+	this.cacheButton.lifespan = 1000;
+	game.add.tween(this.cacheButton).to({alpha: 0}, 1000, Phaser.Easing.Linear.None, true);
 }

@@ -45,9 +45,6 @@ Play.prototype = {
     // // set the world size to match the size of the Tilemap layer
     // this.mapLayer.resizeWorld();
 
-		game.camera.x = 0;
-		game.camera.y = game.world.height - game.camera.height;
-
 		/////////////
 		// PHYSICS //
 		/////////////
@@ -187,19 +184,25 @@ Play.prototype = {
 		this.saveX = 2670;
 		this.saveY = 14159;
 
-		// this.cacheX = null;
-		// this.cacheY = null;
+		this.cacheX = null;
+		this.cacheY = null;
 
 		var startX = 400;
 		var startY = game.world.height - 250;
 
-		// if (checkCache(this.cacheX, this.cacheY)) {
-		// 	this.saveX = this.cacheX;
-		// 	this.saveY = this.cacheY;
-		//
-		// 	startX = this.cacheX;
-		// 	startY = this.cacheY;
-		// }
+		game.camera.x = 0;
+		game.camera.y = game.world.height - game.camera.height;
+
+		if (checkCache.call(this)) {
+			this.saveX = this.cacheX;
+			this.saveY = this.cacheY;
+
+			startX = this.cacheX;
+			startY = this.cacheY;
+
+			game.camera.x = startX - game.camera.width / 2;
+			game.camera.y = startY - game.camera.height / 2;
+		}
 
 
 
@@ -513,6 +516,9 @@ function connectEggToNest(eggBody, eggData, nestShape, eggShape) {
 		console.log("playing tune");
 		this.saveX = nestShape.body.parent.x;
 		this.saveY = nestShape.body.parent.y;
+		localStorage.setItem('pointX', this.saveX.toString());
+		localStorage.setItem('pointY', this.saveY.toString());
+
 		this.checkPointAudio.play('', 0, 0.10, false);
 
 		ckptActivate.call(this);
@@ -569,8 +575,8 @@ function setSave(nest, egg) {
 	if (egg === this.egg.body.data) {
 		this.saveX = nest.x;
 		this.saveY = nest.y;
-		// localStorage.setItem('pointX', this.saveX.toString());
-		// localStorage.setItem('pointY', this.saveY.toString());
+		localStorage.setItem('pointX', this.saveX.toString());
+		localStorage.setItem('pointY', this.saveY.toString());
 	}
 }
 
@@ -607,22 +613,22 @@ function hsAudioCheck(otherBody, otherData, thisShape, otherShape) {
 	}
 }
 
-// function checkCache(cacheX, cacheY) {
-// 	// check for save points in local storage
-//         if(localStorage.getItem('pointX') != null && localStorage.getItem('pointY') != null) {
-//             cacheX = parseInt(localStorage.getItem('pointX'));
-//             console.log('storedX: ' + cacheX);
-// 						cacheY = parseInt(localStorage.getItem('pointY'));
-// 						console.log('storedY: ' + cacheY);
-//
-// 						return true;
-//             }
-//         // create local storage is none exists
-//         else {
-//             console.log('No save state stored. Saving new birb.');
-// 						return false;
-//         }
-// }
+function checkCache() {
+	// check for save points in local storage
+        if(localStorage.getItem('pointX') != null && localStorage.getItem('pointY') != null) {
+            this.cacheX = parseInt(localStorage.getItem('pointX'));
+            console.log('storedX: ' + this.cacheX);
+						this.cacheY = parseInt(localStorage.getItem('pointY'));
+						console.log('storedY: ' + this.cacheY);
+
+						return true;
+            }
+        // create local storage is none exists
+        else {
+            console.log('No save state stored. Saving new birb.');
+						return false;
+        }
+}
 
 
 ///////////////////

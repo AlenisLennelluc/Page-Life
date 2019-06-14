@@ -7,18 +7,20 @@ Alenis Lennelluc
 
 https://github.com/AlenisLennelluc/Page-Life
 */
+var game;
 
-var game = new Phaser.Game(1080, 550, Phaser.AUTO);
+window.onload = function() {
+	game = new Phaser.Game(1080, 550, Phaser.AUTO);
 
-// Setup game states
-game.state.add('Boot', Boot);
-game.state.add('Load', Load);
-game.state.add('MainMenu', MainMenu);
-game.state.add('Play', Play);
-game.state.add('GameOver', GameOver);
-game.state.add('PlayBoot', PlayBoot);
-game.state.start('Boot');
-
+	// Setup game states
+	game.state.add('Boot', Boot);
+	game.state.add('Load', Load);
+	game.state.add('MainMenu', MainMenu);
+	game.state.add('Play', Play);
+	game.state.add('GameOver', GameOver);
+	game.state.add('PlayBoot', PlayBoot);
+	game.state.start('Boot');
+}
 
 //////////////
 //PAUSE CODE//
