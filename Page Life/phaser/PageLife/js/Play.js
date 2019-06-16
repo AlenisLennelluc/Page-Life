@@ -142,15 +142,14 @@ Play.prototype = {
 		  this.nests.create(2670, 14161, 'sprites', 'sNest'); // first nest
 		  this.nests.create(1700,13232, 'sprites', 'sNest');  // above the first steps
 		  this.nests.create(4760, 12754, 'sprites', 'sNest'); // above B block
-		  this.nests.create(3810, 9551, 'sprites', 'sNest');	// Start of preschool block section
+		  this.nests.create(3810, 9550, 'sprites', 'sNest');	// Start of preschool block section
 		  this.nests.create(8747, 9714, 'sprites', 'sNest');	// End of preschool block section
 		  this.nests.create(3630, 11087, 'sprites', 'sNest'); // Start of high school climb
 		  this.nests.create(5010, 4680, 'sprites', 'sNest');  // Start of the gallery
-		  this.nests.create(5580, 2745, 'sprites', 'sNest');  // In the gallery corner
+		  this.nests.create(5580, 2735, 'sprites', 'sNest');  // In the gallery corner
 			this.nests.create(4485, 6223, 'sprites', 'sNest');	// At peak of bird feather trail
 		  this.nests.create(3060, 7121, 'sprites', 'sNest');	// On bird leg
-		  //this.nests.create(5585, 5011, 'sprites', 'sNest');	//
-		  this.nests.create(7970, 2890, 'sprites', 'sNest');	//
+			this.nests.create(7970, 2890, 'sprites', 'sNest');	//
 		  this.nests.create(980, 2460, 'sprites', 'sNest');		//
 		  this.nests.create(2210, 773, 'sprites', 'sNest');		//
 		  this.nests.create(4054, 1570, 'sprites', 'sNest');	//
@@ -327,6 +326,7 @@ Play.prototype = {
 		//waterfallParticles();
 		starParticleEND.call(this);
 		featherBirdArea.call(this);
+		featherBirdArea2.call(this);
 
 	},
 

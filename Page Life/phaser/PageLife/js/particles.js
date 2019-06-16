@@ -30,7 +30,7 @@ function particleBurst(pointer) {
 }
 
 function featherBirdArea(){
-  this.bArea = game.add.emitter(1640, 6930, 1500);
+  this.bArea = game.add.emitter(1640, 6930, 1600);
 
   this.bArea.makeParticles('LFeather');
   this.bArea.minParticleSpeed.setTo(-300, 30);
@@ -44,7 +44,25 @@ function featherBirdArea(){
 
   //  This will emit a quantity of 5 particles every 500ms. Each particle will live for 2000ms.
   //  The -1 means "run forever"
-  this.bArea.flow(6000, 500, 10, -1);
+  this.bArea.flow(6000, 500, 15, -1);
+}
+
+function featherBirdArea2(){
+  this.bArea = game.add.emitter(2745, 5170, 1600);
+
+  this.bArea.makeParticles('LFeather');
+  this.bArea.minParticleSpeed.setTo(-300, 30);
+  this.bArea.maxParticleSpeed.setTo(300, 100);
+  this.bArea.setXSpeed(1200, 0);
+  this.bArea.setYSpeed(-700, 0);
+  this.bArea.setAlpha(0.1, 0.4);
+  this.bArea.minParticleScale = 0.1;
+  this.bArea.maxParticleScale = 0.5;
+  this.bArea.gravity = 250;
+
+  //  This will emit a quantity of 5 particles every 500ms. Each particle will live for 2000ms.
+  //  The -1 means "run forever"
+  this.bArea.flow(6000, 500, 15, -1);
 }
 
 function starParticle(){
@@ -223,7 +241,7 @@ function rainDropParticles(){
 
 	this.rain.minParticleSpeed.set(0,300);
 	this.rain.maxParticleSpeed.set(0,1000);
-	this.rain.setYSpeed(-100, -300);
+	this.rain.setYSpeed(-50, -250);
   //this.rain.setXSpeed(500, 1000);
 
 
