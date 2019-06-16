@@ -48,21 +48,59 @@ function featherBirdArea(){
 }
 
 function featherBirdArea2(){
-  this.bArea = game.add.emitter(2745, 5170, 1600);
+  this.bArea2 = game.add.emitter(2745, 5170, 1600);
 
-  this.bArea.makeParticles('LFeather');
-  this.bArea.minParticleSpeed.setTo(-300, 30);
-  this.bArea.maxParticleSpeed.setTo(300, 100);
-  this.bArea.setXSpeed(1200, 0);
-  this.bArea.setYSpeed(-700, 0);
-  this.bArea.setAlpha(0.1, 0.4);
-  this.bArea.minParticleScale = 0.1;
-  this.bArea.maxParticleScale = 0.5;
-  this.bArea.gravity = 250;
+  this.bArea2.makeParticles('LFeather');
+  this.bArea2.minParticleSpeed.setTo(-300, 30);
+  this.bArea2.maxParticleSpeed.setTo(300, 100);
+  this.bArea2.setXSpeed(1200, 0);
+  this.bArea2.setYSpeed(-700, 0);
+  this.bArea2.setAlpha(0.1, 0.4);
+  this.bArea2.minParticleScale = 0.1;
+  this.bArea2.maxParticleScale = 0.5;
+  this.bArea2.gravity = 250;
 
   //  This will emit a quantity of 5 particles every 500ms. Each particle will live for 2000ms.
   //  The -1 means "run forever"
-  this.bArea.flow(6000, 500, 15, -1);
+  this.bArea2.flow(6000, 500, 15, -1);
+}
+
+function featherBirdArea3(){
+  this.bArea3 = game.add.emitter(2050, 1600, 1600);
+
+  this.bArea3.makeParticles('LFeather');
+  this.bArea3.minParticleSpeed.setTo(-300, 30);
+  this.bArea3.maxParticleSpeed.setTo(300, 100);
+  this.bArea3.setRotation(-180, 90)
+  this.bArea3.setXSpeed(1200, 0);
+  this.bArea3.setYSpeed(-700, 0);
+  this.bArea3.setAlpha(0.1, 0.4);
+  this.bArea3.minParticleScale = 0.1;
+  this.bArea3.maxParticleScale = 0.5;
+  this.bArea3.gravity = 250;
+
+  //  This will emit a quantity of 5 particles every 500ms. Each particle will live for 2000ms.
+  //  The -1 means "run forever"
+  this.bArea3.flow(6000, 500, 15, -1);
+}
+
+function featherBirdArea4(){
+  this.bArea4 = game.add.emitter(2050, 1600, 1600);
+
+  this.bArea4.makeParticles('LFeather');
+  this.bArea4.minParticleSpeed.setTo(-300, 30);
+  this.bArea4.maxParticleSpeed.setTo(300, 100);
+  this.bArea4.setRotation(-180, 90)
+  this.bArea4.setXSpeed(-1200, 0);
+  this.bArea4.setYSpeed(700, 0);
+  this.bArea4.setAlpha(0.1, 0.4);
+  this.bArea4.minParticleScale = 0.1;
+  this.bArea4.maxParticleScale = 0.5;
+  this.bArea4.gravity = 250;
+
+  //  This will emit a quantity of 5 particles every 500ms. Each particle will live for 2000ms.
+  //  The -1 means "run forever"
+  this.bArea4.flow(6000, 500, 5, -1);
 }
 
 function starParticle(){
@@ -141,6 +179,19 @@ this.emitter.gravity = 100;
 //  The -1 means "run forever"
 this.emitter.flow(6000, 500, 3, -1);
 
+}
+
+function mindParticles(){
+  this.mind = game.add.emitter(4815, 350, 200);
+
+  //  Here we're passing an array of image keys. It will pick one at random when emitting a new particle.
+  this.mind.makeParticles(['charA', 'charB']);
+  this.mind.setAlpha(0.1, 0.4);
+
+
+  //  This will emit a quantity of 5 particles every 500ms. Each particle will live for 2000ms.
+  //  The -1 means "run forever"
+  this.mind.flow(6000, 500, 3, -1);
 }
 
 function waterfallParticles(){

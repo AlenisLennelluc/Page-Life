@@ -327,6 +327,9 @@ Play.prototype = {
 		starParticleEND.call(this);
 		featherBirdArea.call(this);
 		featherBirdArea2.call(this);
+		featherBirdArea3.call(this);
+		featherBirdArea4.call(this);
+		mindParticles.call(this);
 
 	},
 
