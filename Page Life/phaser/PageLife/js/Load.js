@@ -22,7 +22,7 @@ Load.prototype = {
 
 		game.load.path = 'assets/img/icons/';
 		game.load.spritesheet('noCollusion', 'collision.PNG', 32, 32);
-		game.load.images(['scale', 'ckpt', 'credits', 'creditsButton', 'fin', 'so','cText', 'fsText'], ['FS.PNG', 'checkpoint.PNG', 'credits.png', 'creditsBUTTON.png', 'fin.PNG', 'startOver.PNG', 'cText.PNG', 'fsText.PNG']);
+		game.load.images(['scale', 'ckpt', 'credits', 'creditsButton', 'fin', 'so','cText', 'fsText', 'dragEGG', 'protectEgg'], ['FS.PNG', 'checkpoint.PNG', 'credits.png', 'creditsBUTTON.png', 'fin.PNG', 'startOver.PNG', 'cText.PNG', 'fsText.PNG', 'dragEGG.PNG', 'Saveegg.PNG']);
 		game.load.path = 'assets/img/particles/';
 		game.load.images(['feather', 'LFeather', 'star', 'gull1', 'gull2', 'line', 'tear', 'No', 'Nice', 'Lovely', 'Incredible', 'Relateable', 'Deep', 'Emotional', 'Great', 'charA', 'charB'], ['smolFeather.png', 'feather.png', 'star.png', 'Seagull1.PNG', 'Seagull2.PNG', 'Line1.PNG', 'tear.PNG', "No1.PNG", 'Nice.PNG', 'Lovely.PNG', 'Incredible.PNG', 'Relateable.PNG', 'Deep.PNG', 'Emotional.PNG', 'Great.PNG', 'characterA.PNG', 'characterB.PNG']);
 

@@ -59,7 +59,7 @@ MainMenu.prototype = {
 		this.downArrow.scale.x = 0.3;
 		this.downArrow.scale.y = 0.3;
 
-		this.saveEgg = game.add.sprite(620, 430, 'sprites', 'Saveegg');
+		this.saveEgg = game.add.sprite(620, 430, 'protectEgg');
 		this.saveEgg.alpha = 0;
 
 		this.Jump = game.add.sprite(720, 80, 'sprites', 'jump');
@@ -67,10 +67,13 @@ MainMenu.prototype = {
 		this.Jump.scale.y = 1.5;
 		this.Jump.alpha = 0;
 
-		this.Move = game.add.sprite(720, 170, 'sprites', 'move');
+		this.Move = game.add.sprite(720, 200, 'sprites', 'move');
 		this.Move.scale.x = 1.5;
 		this.Move.scale.y = 1.5;
 		this.Move.alpha = 0;
+
+		this.dragEgg = game.add.sprite(720, 360, 'dragEGG');
+		this.dragEgg.alpha = 0;
 
 		// this.pArrow = game.add.sprite(240, 290, 'sprites', 'ArrowDLL');
 		// this.pArrow.scale.x = 0.3;
@@ -158,6 +161,7 @@ MainMenu.prototype = {
 			game.add.tween(this.saveEgg).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
 			game.add.tween(this.Jump).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
 			game.add.tween(this.Move).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
+			game.add.tween(this.dragEgg).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
 			game.add.tween(this.smallTitle).to({alpha:0}, 500, Phaser.Easing.Linear.None, true);
 
 			// var text = game.add.text(450, 300, 'WASD or arrow keys to move.\n' +
