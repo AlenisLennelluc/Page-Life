@@ -151,6 +151,7 @@ Play.prototype = {
 		  this.nests.create(3110, 7120, 'sprites', 'sNest');	// On bird leg
 			this.nests.create(7970, 2897, 'sprites', 'sNest');	//
 		  this.nests.create(980, 2460, 'sprites', 'sNest');		//
+		  this.nests.create(2400, 3964, 'sprites', 'sNest');		//
 		  this.nests.create(2210, 773, 'sprites', 'sNest');		//
 		  this.nests.create(4054, 1570, 'sprites', 'sNest');	//
 		  this.nests.create(5930, 615, 'sprites', 'sNest');		//
