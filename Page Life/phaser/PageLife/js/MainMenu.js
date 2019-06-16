@@ -59,32 +59,23 @@ MainMenu.prototype = {
 		this.downArrow.scale.x = 0.3;
 		this.downArrow.scale.y = 0.3;
 
-		this.saveEgg = game.add.sprite(620, 430, 'protectEgg');
-		this.saveEgg.alpha = 0;
-
-		this.Jump = game.add.sprite(720, 80, 'sprites', 'jump');
+		this.Jump = game.add.sprite(720, 32, 'sprites', 'jump');
 		this.Jump.scale.x = 1.5;
 		this.Jump.scale.y = 1.5;
 		this.Jump.alpha = 0;
 
-		this.Move = game.add.sprite(720, 200, 'sprites', 'move');
+		this.Move = game.add.sprite(720, 150, 'sprites', 'move');
 		this.Move.scale.x = 1.5;
 		this.Move.scale.y = 1.5;
 		this.Move.alpha = 0;
 
-		this.dragEgg = game.add.sprite(720, 360, 'dragEGG');
+		this.dragEgg = game.add.sprite(720, 315, 'dragEGG');
 		this.dragEgg.alpha = 0;
 
-		// this.pArrow = game.add.sprite(240, 290, 'sprites', 'ArrowDLL');
-		// this.pArrow.scale.x = 0.3;
-		// this.pArrow.scale.y = 0.3;
-		// this.pArrow.alpha = 0;
-		//
-		// this.pArrow2 = game.add.sprite(180, 290, 'sprites', 'ArrowDLL');
-		// this.pArrow2.scale.x = 0.3 * -1;
-		// this.pArrow2.scale.y = 0.3;
-		// this.pArrow2.alpha = 0;
+		this.saveEgg = game.add.sprite(620, 400, 'protectEgg');
+		this.saveEgg.alpha = 0;
 
+		//EGG AND BIRD
 		this.egg = game.add.sprite(140, 200, 'sprites', 'egg');
 		this.egg.inputEnabled = true;
 		this.egg.input.enableDrag(true);

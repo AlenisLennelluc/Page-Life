@@ -353,6 +353,9 @@ function pNestBurst(otherBody, otherData, nestShape, otherShape) {
 
 }
 
+function endPS(){
+  
+}
 
 function destroyEmitter() {
 
