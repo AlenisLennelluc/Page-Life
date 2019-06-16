@@ -31,6 +31,7 @@ MainMenu.prototype = {
 		/////////////////
 
 		this.smallTitle = game.add.sprite(450, 100, 'miniTitle');
+		this.smallTitle.alpha = 1;
 		// this.smallTitle.scale.x = .3;
 		// this.smallTitle.scale.y = .3;
 
@@ -58,28 +59,28 @@ MainMenu.prototype = {
 		this.downArrow.scale.x = 0.3;
 		this.downArrow.scale.y = 0.3;
 
-		this.saveEgg = game.add.sprite(550, 250, 'sprites', 'Saveegg');
+		this.saveEgg = game.add.sprite(620, 430, 'sprites', 'Saveegg');
 		this.saveEgg.alpha = 0;
 
-		this.Jump = game.add.sprite(220, 220, 'sprites', 'jump');
+		this.Jump = game.add.sprite(720, 80, 'sprites', 'jump');
 		this.Jump.scale.x = 1.5;
 		this.Jump.scale.y = 1.5;
 		this.Jump.alpha = 0;
 
-		this.Move = game.add.sprite(50, 220, 'sprites', 'move');
-		// this.Move.scale.x = 1.5;
-		// this.Move.scale.y = 1.5;
+		this.Move = game.add.sprite(720, 170, 'sprites', 'move');
+		this.Move.scale.x = 1.5;
+		this.Move.scale.y = 1.5;
 		this.Move.alpha = 0;
 
-		this.pArrow = game.add.sprite(240, 290, 'sprites', 'ArrowDLL');
-		this.pArrow.scale.x = 0.3;
-		this.pArrow.scale.y = 0.3;
-		this.pArrow.alpha = 0;
-
-		this.pArrow2 = game.add.sprite(180, 290, 'sprites', 'ArrowDLL');
-		this.pArrow2.scale.x = 0.3 * -1;
-		this.pArrow2.scale.y = 0.3;
-		this.pArrow2.alpha = 0;
+		// this.pArrow = game.add.sprite(240, 290, 'sprites', 'ArrowDLL');
+		// this.pArrow.scale.x = 0.3;
+		// this.pArrow.scale.y = 0.3;
+		// this.pArrow.alpha = 0;
+		//
+		// this.pArrow2 = game.add.sprite(180, 290, 'sprites', 'ArrowDLL');
+		// this.pArrow2.scale.x = 0.3 * -1;
+		// this.pArrow2.scale.y = 0.3;
+		// this.pArrow2.alpha = 0;
 
 		this.egg = game.add.sprite(140, 200, 'sprites', 'egg');
 		this.egg.inputEnabled = true;
@@ -97,11 +98,13 @@ MainMenu.prototype = {
 		this.player.anchor.setTo(0.5, 0.5);
 
 		if (checkCache()) {
-			this.cacheButton = game.add.button(20, 175, 'sNest', clearCache, this);
+			this.cacheButton = game.add.button(40, 175, 'birb', clearCache, this);
+			this.cacheButton.scale.x = 0.5;
+			this.cacheButton.scale.y = 0.5;
 			this.cacheButton.onInputOver.add(cacheOver, this);
 			this.cacheButton.onInputOut.add(cacheOut, this);
 			this.cacheButton.alpha = 0.5;
-			this.cacheText = game.add.sprite(140,180, 'so');
+			this.cacheText = game.add.sprite(100, 190, 'so');
 			this.cacheText.alpha = 0;
 		}
 
@@ -155,8 +158,7 @@ MainMenu.prototype = {
 			game.add.tween(this.saveEgg).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
 			game.add.tween(this.Jump).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
 			game.add.tween(this.Move).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
-			game.add.tween(this.pArrow).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
-			game.add.tween(this.pArrow2).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
+			game.add.tween(this.smallTitle).to({alpha:0}, 500, Phaser.Easing.Linear.None, true);
 
 			// var text = game.add.text(450, 300, 'WASD or arrow keys to move.\n' +
 			// 	'Space or W to jump.\nGo save your egg!', { fontSize: '32px', fill: '#000'});
@@ -246,14 +248,14 @@ function goPlay() {
 function cacheOver() {
 	this.cacheText.alpha = 1;
 	this.cacheButton.alpha = 1;
-	this.cacheButton.scale.setTo(1.2, 1.2);
+	this.cacheButton.scale.setTo(0.6, 0.6);
 
 }
 
 function cacheOut() {
 	this.cacheText.alpha = 0;
 	this.cacheButton.alpha = 0.5;
-	this.cacheButton.scale.setTo(1, 1);
+	this.cacheButton.scale.setTo(0.5, 0.5);
 }
 
 function clearCache() {

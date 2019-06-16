@@ -17,7 +17,7 @@ function scaleWindow(){
       this.scaleButton.alpha = 0.5;
 			this.scaleButton.fixedToCamera = true;
 
-			this.scaleText = game.add.sprite(140, 40, 'fsText');
+			this.scaleText = game.add.sprite(100, 40, 'fsText');
 			this.scaleText.alpha = 0;
 
       this.scaleButton.inputEnabled = true;
@@ -84,7 +84,8 @@ function creditsSetup() {
 	this.creditsButton.alpha = 0.5;
 	this.creditsButton.inputEnabled = true;
 	//this.creditsText = game.add.text(140, 130, 'Credits');
-	this.creditsText = game.add.sprite(140, 100, 'cText');
+	this.creditsText = game.add.sprite(100, 110, 'cText');
+	this.creditsText.scale.setTo(0.8, 0.8);
 	this.creditsText.alpha = 0;
 	this.creditsButton.onInputOver.add(creditsOver, this);
 	this.creditsButton.onInputOut.add(creditsOut, this);
@@ -93,6 +94,7 @@ function creditsSetup() {
 function creditsOver() {
 	this.creditsButton.alpha = 1;
 	this.creditsText.alpha = 1;
+	this.creditsButton.scale.setTo(1.1, 1.1);
 }
 
 function creditsOut() {

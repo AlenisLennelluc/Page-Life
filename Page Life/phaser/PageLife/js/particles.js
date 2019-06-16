@@ -51,8 +51,8 @@ function featherBirdArea2(){
   this.bArea2 = game.add.emitter(2145, 5170, 1600);
 
   this.bArea2.makeParticles('LFeather');
-  this.bArea2.minParticleSpeed.setTo(-300, 30);
-  this.bArea2.maxParticleSpeed.setTo(300, 100);
+  this.bArea2.minParticleSpeed.setTo(-300, -300);
+  this.bArea2.maxParticleSpeed.setTo(300, 300);
   this.bArea2.setXSpeed(1200, 0);
   this.bArea2.setYSpeed(-700, 0);
   this.bArea2.setAlpha(0.1, 0.4);
@@ -69,9 +69,11 @@ function featherBirdArea3(){
   this.bArea3 = game.add.emitter(2050, 1600, 1600);
 
   this.bArea3.makeParticles('LFeather');
-  this.bArea3.minParticleSpeed.setTo(-300, 30);
-  this.bArea3.maxParticleSpeed.setTo(300, 100);
+  this.bArea3.minParticleSpeed.setTo(-300, -300);
+  this.bArea3.maxParticleSpeed.setTo(300, 300);
   this.bArea3.setRotation(-180, 90)
+  this.bArea3.minRotation = 0;
+  this.bArea3.maxRotation = 0;
   this.bArea3.setXSpeed(1200, 0);
   this.bArea3.setYSpeed(-700, 0);
   this.bArea3.setAlpha(0.1, 0.4);
@@ -88,8 +90,8 @@ function featherBirdArea4(){
   this.bArea4 = game.add.emitter(2050, 1600, 1600);
 
   this.bArea4.makeParticles('LFeather');
-  this.bArea4.minParticleSpeed.setTo(-300, 30);
-  this.bArea4.maxParticleSpeed.setTo(300, 100);
+  this.bArea4.minParticleSpeed.setTo(-300, -300);
+  this.bArea4.maxParticleSpeed.setTo(300, 300);
   this.bArea4.setRotation(-180, 90)
   this.bArea4.setXSpeed(-1200, 0);
   this.bArea4.setYSpeed(700, 0);
@@ -279,7 +281,7 @@ function galleryParticles(){
 }
 
 function rainDropParticles(){
-	this.rain = game.add.emitter(6412, 5704, 4000);
+	this.rain = game.add.emitter(6412, 5704, 1000);
   //this.rain = game.add.emitter(540, 550, 1000);
 	this.rain.width = 2080;
 
@@ -299,7 +301,7 @@ function rainDropParticles(){
 	this.rain.setRotation(0,0);
 	this.rain.gravity = -500;
 
-	this.rain.flow(2000, 1, 40);
+	this.rain.flow(2000, 1, 5);
   //this.rain.frequency = 0.01;
 }
 
