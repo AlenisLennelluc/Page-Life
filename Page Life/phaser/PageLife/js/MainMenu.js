@@ -15,8 +15,7 @@ MainMenu.prototype = {
 
 	//Particles for stars, located in particles.js
 	starParticle();
-	//rainDropParticles.call(this);
-
+	
 		////////////
 		//GRAPHICS//
 		////////////
