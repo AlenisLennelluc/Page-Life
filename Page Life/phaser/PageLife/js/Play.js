@@ -16,35 +16,6 @@ Play.prototype = {
 		//scaleWindow located in scale.js
 		scaleWindow.call(this);
 
-		//SET WORLD COLOR
-		// game.stage.setBackgroundColor('#fff');
-		// game.add.image(0, 0, 'BGIMG');
-		//
-		// ///////////
-		// //TILEMAP//
-		// ///////////
-		//
-		// // create new Tilemap objects - when using Tiled, you only need to pass the key
-		// this.map = game.add.tilemap('level');
-		//
-		// // add an image to the maps to be used as a tileset (tileset, key)
-    // // the tileset name is specified w/in the .json file (or in Tiled)
-    // // a single map may use multiple tilesets
-    // this.map.addTilesetImage('collision', 'noCollusion');
-		//
-		//
-    // // set ALL tiles to collide *except* those passed in the array
-    // this.map.setCollisionByExclusion([]);
-		//
-    // // create new TilemapLayer object
-    // // A Tilemap Layer is a set of map data combined with a tileset
-    // this.mapLayer = this.map.createLayer('collision');
-		// this.map.layers[0].visible = false;
-		// this.mapLayer.alpha = 0;
-		//
-    // // set the world size to match the size of the Tilemap layer
-    // this.mapLayer.resizeWorld();
-
 		/////////////
 		// PHYSICS //
 		/////////////
@@ -124,12 +95,26 @@ Play.prototype = {
 		this.knightTrigger.debug = true;
 		this.knightTrigger.onBeginContact.add(knightAudioCheck, this);
 
+		this.knightEndTrigger = game.physics.p2.createBody(4610, 4536, 0);
+		this.knightEndTrigger.addRectangle(300, 300);
+		this.knightEndTrigger.data.shapes[0].sensor = true;
+		game.physics.p2.addBody(this.knightEndTrigger);
+		this.knightEndTrigger.debug = true;
+		this.knightEndTrigger.onBeginContact.add(knightAudioEnd, this);
+
 		this.HSTrigger = game.physics.p2.createBody(5380, 11340, 0);
 		this.HSTrigger.addRectangle(300, 300);
 		this.HSTrigger.data.shapes[0].sensor = true;
 		game.physics.p2.addBody(this.HSTrigger);
 		this.HSTrigger.debug = true;
 		this.HSTrigger.onBeginContact.add(hsAudioCheck, this);
+
+		this.wind = game.physics.p2.createBody(3304, 275, 0);
+		this.wind.addRectangle(300, 300);
+		this.wind.data.shapes[0].sensor = true;
+		game.physics.p2.addBody(this.wind);
+		this.wind.debug = true;
+		this.wind.onBeginContact.add(windAudioCheck, this);
 
 		this.tearKnight = game.physics.p2.createBody(6455, 9530, 0);
 		this.tearKnight.addRectangle(300, 300);
@@ -315,10 +300,12 @@ Play.prototype = {
 		this.amb1Birbs = game.add.audio('amb1Birbs', 0.2);
 		this.galleryAmbient = game.add.audio('galleryAudio', 0.2);
 		this.hsAmbient = game.add.audio('hsAmbient', 1);
-		this.knightAmbient = game.add.audio('knightAudio', 0.2);
+		this.knightAmbient = game.add.audio('knightAmbient', 0.2);
+		this.kArea = game.add.audio('kArea', 0.3);
+		this.wind = game.add.audio('wind', 0.3);
 
 		this.song.play('', 0, 0.10, true);
-		this.amb1Birbs.play('', 0, 0.10, false)
+		this.amb1Birbs.play('', 0, 0.10, false);
 
 		// timers
 		this.endTimer = 0;
@@ -339,6 +326,7 @@ Play.prototype = {
 		rainDropParticles.call(this);
 		//waterfallParticles();
 		starParticleEND.call(this);
+		featherBirdArea.call(this);
 
 	},
 
@@ -598,7 +586,18 @@ function tearAudioCheck(otherBody, otherData, thisShape, otherShape) {
 function knightAudioCheck(otherBody, otherData, thisShape, otherShape) {
 	if (otherBody === this.player.body && otherShape.sensor) {
 		this.knightAmbient.play();
+		this.kArea.play('', 0, 0.3, true);
 
+		thisShape.body.parent.clearShapes();
+	}
+}
+
+function knightAudioEnd(otherBody, otherData, thisShape, otherShape) {
+	if (otherBody === this.player.body && otherShape.sensor) {
+		this.knightAmbient.stop();
+		this.kArea.stop('', 0, 0.3, true);
+
+		noParticles.call(this);
 		thisShape.body.parent.clearShapes();
 	}
 }
@@ -609,6 +608,15 @@ function hsAudioCheck(otherBody, otherData, thisShape, otherShape) {
 		//this.hsAmbient.volume = 0;
 		//this.fadeMusic = game.add.tween(this.hsAmbient).to({volume: 1}, 5000, Phaser.Easing.Linear.None, true);
 		noParticles.call(this);
+		thisShape.body.parent.clearShapes();
+	}
+}
+
+function windAudioCheck(otherBody, otherData, thisShape, otherShape) {
+	if (otherBody === this.player.body && otherShape.sensor) {
+		this.wind.play();
+
+
 		thisShape.body.parent.clearShapes();
 	}
 }

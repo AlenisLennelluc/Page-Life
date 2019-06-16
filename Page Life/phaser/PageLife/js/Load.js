@@ -38,6 +38,9 @@ Load.prototype = {
 		game.load.audio('galleryAudio', ['gallery.mp3', 'gallery.ogg']);
 		game.load.audio('hsAmbient', ['highschool.mp3', 'highschool.ogg']);
 		game.load.audio('knightAmbient', ['knight.mp3', 'knight.ogg']);
+		game.load.audio('kArea', ['kArea.mp3', 'kArea.ogg']);
+		game.load.audio('wind', ['wind.mp3', 'wind.ogg']);
+
 	},
 	create: function() {
 		// check for local storage browser support

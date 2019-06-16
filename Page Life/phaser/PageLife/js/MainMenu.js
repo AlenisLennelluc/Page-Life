@@ -61,22 +61,22 @@ MainMenu.prototype = {
 		this.saveEgg = game.add.sprite(550, 250, 'sprites', 'Saveegg');
 		this.saveEgg.alpha = 0;
 
-		this.Jump = game.add.sprite(220, 210, 'sprites', 'jump');
+		this.Jump = game.add.sprite(220, 220, 'sprites', 'jump');
 		this.Jump.scale.x = 1.5;
 		this.Jump.scale.y = 1.5;
 		this.Jump.alpha = 0;
 
-		this.Move = game.add.sprite(50, 200, 'sprites', 'move');
+		this.Move = game.add.sprite(50, 220, 'sprites', 'move');
 		// this.Move.scale.x = 1.5;
 		// this.Move.scale.y = 1.5;
 		this.Move.alpha = 0;
 
-		this.pArrow = game.add.sprite(240, 280, 'sprites', 'ArrowDLL');
+		this.pArrow = game.add.sprite(240, 290, 'sprites', 'ArrowDLL');
 		this.pArrow.scale.x = 0.3;
 		this.pArrow.scale.y = 0.3;
 		this.pArrow.alpha = 0;
 
-		this.pArrow2 = game.add.sprite(180, 280, 'sprites', 'ArrowDLL');
+		this.pArrow2 = game.add.sprite(180, 290, 'sprites', 'ArrowDLL');
 		this.pArrow2.scale.x = 0.3 * -1;
 		this.pArrow2.scale.y = 0.3;
 		this.pArrow2.alpha = 0;
