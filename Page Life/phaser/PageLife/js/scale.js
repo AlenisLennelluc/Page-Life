@@ -17,6 +17,9 @@ function scaleWindow(){
       this.scaleButton.alpha = 0.5;
 			this.scaleButton.fixedToCamera = true;
 
+			this.scaleText = game.add.sprite(140, 40, 'fsText');
+			this.scaleText.alpha = 0;
+
       this.scaleButton.inputEnabled = true;
 			this.scaleButton.onInputOver.add(scaleOver, this);
 			this.scaleButton.onInputOut.add(scaleOut, this);
@@ -26,11 +29,13 @@ function scaleWindow(){
 function scaleOver() {
   this.scaleButton.alpha = 1;
   this.scaleButton.scale.setTo(1.2, 1.2);
+	this.scaleText.alpha = 1;
 }
 
 function scaleOut() {
   this.scaleButton.alpha = 0.5;
   this.scaleButton.scale.setTo(1, 1);
+	this.scaleText.alpha = 0;
 }
 
 //fullscreen slides
@@ -78,7 +83,8 @@ function creditsSetup() {
 	this.creditsButton = game.add.button(37, 100,'creditsButton', changeCredits, this);
 	this.creditsButton.alpha = 0.5;
 	this.creditsButton.inputEnabled = true;
-	this.creditsText = game.add.text(140, 130, 'Credits');
+	//this.creditsText = game.add.text(140, 130, 'Credits');
+	this.creditsText = game.add.sprite(140, 100, 'cText');
 	this.creditsText.alpha = 0;
 	this.creditsButton.onInputOver.add(creditsOver, this);
 	this.creditsButton.onInputOut.add(creditsOut, this);
@@ -86,7 +92,7 @@ function creditsSetup() {
 
 function creditsOver() {
 	this.creditsButton.alpha = 1;
-	this.creditsButton.alpha = 1;
+	this.creditsText.alpha = 1;
 }
 
 function creditsOut() {

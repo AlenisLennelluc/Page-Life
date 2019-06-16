@@ -6,7 +6,8 @@ GameOver.prototype = {
 		//game.add.tileSprite(0,0, game.world.width, game.world.height, 'background');
 
 		// Add GameOver text
-		this.endText = game.add.text(960,480, 'Fin', { fontSize: '32px', fill: '#000'});
+		//this.endText = game.add.text(960,480, 'Fin', { fontSize: '32px', fill: '#000'});
+		this.endText = game.add.sprite(940, 460, 'fin');
 		this.endText.alpha = 0;
 	},
 	create: function() {

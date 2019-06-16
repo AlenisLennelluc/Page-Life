@@ -148,8 +148,8 @@ Play.prototype = {
 		  this.nests.create(5010, 4680, 'sprites', 'sNest');  // Start of the gallery
 		  this.nests.create(5580, 2735, 'sprites', 'sNest');  // In the gallery corner
 			this.nests.create(4485, 6223, 'sprites', 'sNest');	// At peak of bird feather trail
-		  this.nests.create(3060, 7121, 'sprites', 'sNest');	// On bird leg
-			this.nests.create(7970, 2890, 'sprites', 'sNest');	//
+		  this.nests.create(3110, 7120, 'sprites', 'sNest');	// On bird leg
+			this.nests.create(7970, 2897, 'sprites', 'sNest');	//
 		  this.nests.create(980, 2460, 'sprites', 'sNest');		//
 		  this.nests.create(2210, 773, 'sprites', 'sNest');		//
 		  this.nests.create(4054, 1570, 'sprites', 'sNest');	//
@@ -203,7 +203,7 @@ Play.prototype = {
 		this.home.body.setRectangle(400, 160, -15, 15)
 		this.home.body.static = true;
 
-		this.endStar = game.add.sprite(game.world.width - 650, 300, 'star');
+		this.endStar = game.add.sprite(game.world.width - 650, 280, 'star');
 		game.physics.p2.enable(this.endStar);
 		this.endStar.body.data.shapes[0].sensor = true;
 		this.endStar.body.static = true;

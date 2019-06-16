@@ -101,7 +101,7 @@ MainMenu.prototype = {
 			this.cacheButton.onInputOver.add(cacheOver, this);
 			this.cacheButton.onInputOut.add(cacheOut, this);
 			this.cacheButton.alpha = 0.5;
-			this.cacheText = game.add.text(140, 180, 'Start Over?');
+			this.cacheText = game.add.sprite(140,180, 'so');
 			this.cacheText.alpha = 0;
 		}
 

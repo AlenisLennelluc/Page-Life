@@ -48,7 +48,7 @@ function featherBirdArea(){
 }
 
 function featherBirdArea2(){
-  this.bArea2 = game.add.emitter(2745, 5170, 1600);
+  this.bArea2 = game.add.emitter(2145, 5170, 1600);
 
   this.bArea2.makeParticles('LFeather');
   this.bArea2.minParticleSpeed.setTo(-300, 30);
