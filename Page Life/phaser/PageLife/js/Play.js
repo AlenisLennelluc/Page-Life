@@ -92,28 +92,28 @@ Play.prototype = {
 		this.knightTrigger.addRectangle(300, 300);
 		this.knightTrigger.data.shapes[0].sensor = true;
 		game.physics.p2.addBody(this.knightTrigger);
-		this.knightTrigger.debug = true;
+		//this.knightTrigger.debug = true;
 		this.knightTrigger.onBeginContact.add(knightAudioCheck, this);
 
 		this.knightEndTrigger = game.physics.p2.createBody(4610, 4536, 0);
 		this.knightEndTrigger.addRectangle(300, 300);
 		this.knightEndTrigger.data.shapes[0].sensor = true;
 		game.physics.p2.addBody(this.knightEndTrigger);
-		this.knightEndTrigger.debug = true;
+		//this.knightEndTrigger.debug = true;
 		this.knightEndTrigger.onBeginContact.add(knightAudioEnd, this);
 
 		this.HSTrigger = game.physics.p2.createBody(5380, 11340, 0);
 		this.HSTrigger.addRectangle(300, 300);
 		this.HSTrigger.data.shapes[0].sensor = true;
 		game.physics.p2.addBody(this.HSTrigger);
-		this.HSTrigger.debug = true;
+		//this.HSTrigger.debug = true;
 		this.HSTrigger.onBeginContact.add(hsAudioCheck, this);
 
 		this.wind = game.physics.p2.createBody(3304, 275, 0);
 		this.wind.addRectangle(300, 300);
 		this.wind.data.shapes[0].sensor = true;
 		game.physics.p2.addBody(this.wind);
-		this.wind.debug = true;
+		//this.wind.debug = true;
 		this.wind.onBeginContact.add(windAudioCheck, this);
 
 		this.tearKnight = game.physics.p2.createBody(6455, 9530, 0);
@@ -376,45 +376,45 @@ function normalUpdate() {
 	//DEBUG//
 	/////////
 
-	if (this.numbers.one.justDown) {
-		setSave.call(this, this.nests.children[0], this.egg.body.data);
-	}
-	else if (this.numbers.two.justDown) {
-		setSave.call(this, this.nests.children[1], this.egg.body.data);
-	}
-	else if (this.numbers.thr.justDown) {
-		setSave.call(this, this.nests.children[2], this.egg.body.data);
-	}
-	else if (this.numbers.fou.justDown) {
-		setSave.call(this, this.nests.children[3], this.egg.body.data);
-	}
-	else if (this.numbers.fiv.justDown) {
-		setSave.call(this, this.nests.children[4], this.egg.body.data);
-	}
-	else if (this.numbers.six.justDown) {
-		setSave.call(this, this.nests.children[5], this.egg.body.data);
-	}
-	else if (this.numbers.sev.justDown) {
-		setSave.call(this, this.nests.children[6], this.egg.body.data);
-	}
-	else if (this.numbers.eig.justDown) {
-		setSave.call(this, this.nests.children[7], this.egg.body.data);
-	}
-	else if (this.numbers.nin.justDown) {
-		setSave.call(this, this.nests.children[8], this.egg.body.data);
-	}
-	else if (this.numbers.zer.justDown) {
-		setSave.call(this, this.nests.children[9], this.egg.body.data);
-	}
-
-	if (this.mKey.justDown) {
-		if (this.mapLayer.alpha == 0) {
-			this.mapLayer.alpha = 0.5;
-		}
-		else {
-			this.mapLayer.alpha = 0;
-		}
-	}
+	// if (this.numbers.one.justDown) {
+	// 	setSave.call(this, this.nests.children[0], this.egg.body.data);
+	// }
+	// else if (this.numbers.two.justDown) {
+	// 	setSave.call(this, this.nests.children[1], this.egg.body.data);
+	// }
+	// else if (this.numbers.thr.justDown) {
+	// 	setSave.call(this, this.nests.children[2], this.egg.body.data);
+	// }
+	// else if (this.numbers.fou.justDown) {
+	// 	setSave.call(this, this.nests.children[3], this.egg.body.data);
+	// }
+	// else if (this.numbers.fiv.justDown) {
+	// 	setSave.call(this, this.nests.children[4], this.egg.body.data);
+	// }
+	// else if (this.numbers.six.justDown) {
+	// 	setSave.call(this, this.nests.children[5], this.egg.body.data);
+	// }
+	// else if (this.numbers.sev.justDown) {
+	// 	setSave.call(this, this.nests.children[6], this.egg.body.data);
+	// }
+	// else if (this.numbers.eig.justDown) {
+	// 	setSave.call(this, this.nests.children[7], this.egg.body.data);
+	// }
+	// else if (this.numbers.nin.justDown) {
+	// 	setSave.call(this, this.nests.children[8], this.egg.body.data);
+	// }
+	// else if (this.numbers.zer.justDown) {
+	// 	setSave.call(this, this.nests.children[9], this.egg.body.data);
+	// }
+	//
+	// if (this.mKey.justDown) {
+	// 	if (this.mapLayer.alpha == 0) {
+	// 		this.mapLayer.alpha = 0.5;
+	// 	}
+	// 	else {
+	// 		this.mapLayer.alpha = 0;
+	// 	}
+	// }
 }
 
 function endUpdate() {
@@ -525,6 +525,12 @@ function connectEggToNest(eggBody, eggData, nestShape, eggShape) {
 	}
 }
 
+function disconnectNest(eggBody, eggData, nestShape, eggShape) {
+	if (eggData === this.egg.body.data && this.eggHead != null) {
+		disconnectEgg.call(this);
+	}
+}
+
 // When egg touches star, end the game
 function getHome(eggBody, eggData, nestShape, eggShape) {
 	if (eggBody === this.egg.body)
@@ -560,6 +566,7 @@ function setupNest(nest) {
 	nest.body.data.shapes[0].sensor = true;
 	nest.body.onBeginContact.add(connectEggToNest, this);
 	nest.body.onBeginContact.add(pNestBurst, this);
+	nest.body.onEndContact.add(disconnectNest, this);
 	//console.log("setup a nest");
 }
 
