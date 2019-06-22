@@ -15,7 +15,7 @@ MainMenu.prototype = {
 
 	//Particles for stars, located in particles.js
 	starParticle();
-	
+
 		////////////
 		//GRAPHICS//
 		////////////
@@ -148,7 +148,7 @@ MainMenu.prototype = {
 			game.add.tween(this.drophere).to({alpha:0}, 500, Phaser.Easing.Linear.None, true);
 			game.add.tween(this.downArrow).to({alpha:0}, 500, Phaser.Easing.Linear.None, true);
 			game.add.tween(this.dArrow).to({alpha:0}, 500, Phaser.Easing.Linear.None, true);
-			game.add.tween(this.saveEgg).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
+			//game.add.tween(this.saveEgg).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
 			game.add.tween(this.Jump).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
 			game.add.tween(this.Move).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
 			game.add.tween(this.dragEgg).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);

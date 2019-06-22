@@ -84,7 +84,7 @@ function creditsSetup() {
 	this.creditsButton.alpha = 0.5;
 	this.creditsButton.inputEnabled = true;
 	//this.creditsText = game.add.text(140, 130, 'Credits');
-	this.creditsText = game.add.sprite(100, 110, 'cText');
+	this.creditsText = game.add.sprite(100, 120, 'cText');
 	this.creditsText.scale.setTo(0.8, 0.8);
 	this.creditsText.alpha = 0;
 	this.creditsButton.onInputOver.add(creditsOver, this);
