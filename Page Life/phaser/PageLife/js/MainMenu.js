@@ -58,12 +58,12 @@ MainMenu.prototype = {
 		this.downArrow.scale.x = 0.3;
 		this.downArrow.scale.y = 0.3;
 
-		this.Jump = game.add.sprite(720, 32, 'sprites', 'jump');
+		this.Jump = game.add.sprite(740, 32, 'jump');
 		this.Jump.scale.x = 1.5;
 		this.Jump.scale.y = 1.5;
 		this.Jump.alpha = 0;
 
-		this.Move = game.add.sprite(720, 150, 'sprites', 'move');
+		this.Move = game.add.sprite(770, 180, 'move');
 		this.Move.scale.x = 1.5;
 		this.Move.scale.y = 1.5;
 		this.Move.alpha = 0;
@@ -71,7 +71,7 @@ MainMenu.prototype = {
 		this.dragEgg = game.add.sprite(720, 315, 'dragEGG');
 		this.dragEgg.alpha = 0;
 
-		this.saveEgg = game.add.sprite(620, 400, 'protectEgg');
+		this.saveEgg = game.add.sprite(550, 430, 'bringEgg');
 		this.saveEgg.alpha = 0;
 
 		//EGG AND BIRD
@@ -148,7 +148,7 @@ MainMenu.prototype = {
 			game.add.tween(this.drophere).to({alpha:0}, 500, Phaser.Easing.Linear.None, true);
 			game.add.tween(this.downArrow).to({alpha:0}, 500, Phaser.Easing.Linear.None, true);
 			game.add.tween(this.dArrow).to({alpha:0}, 500, Phaser.Easing.Linear.None, true);
-			//game.add.tween(this.saveEgg).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
+			game.add.tween(this.saveEgg).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
 			game.add.tween(this.Jump).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
 			game.add.tween(this.Move).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);
 			game.add.tween(this.dragEgg).to({alpha:1}, 2000, Phaser.Easing.Linear.None, true);

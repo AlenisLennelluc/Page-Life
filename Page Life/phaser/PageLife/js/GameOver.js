@@ -7,12 +7,12 @@ GameOver.prototype = {
 
 		// Add GameOver text
 		//this.endText = game.add.text(960,480, 'Fin', { fontSize: '32px', fill: '#000'});
-		finPS.call(this);
+		this.endText = game.add.sprite(940, 460, 'fin');
+		this.end = game.add.sprite(200, 0, 'endImg');
 		this.endText.alpha = 0;
 	},
 	create: function() {
 
-		endPS.call(this)
 		this.endsong = game.add.audio('end');
 		this.end.alpha = 0;
 		game.add.tween(this.end).to({alpha: 1}, 5000, Phaser.Easing.Linear.None, true);

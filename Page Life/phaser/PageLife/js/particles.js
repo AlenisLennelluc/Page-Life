@@ -353,36 +353,6 @@ function pNestBurst(otherBody, otherData, nestShape, otherShape) {
 
 }
 
-function endPS(){
-  this.end = game.add.emitter(game.width/2, game.height/2, 100);
-
-  this.end.width = 3;
-  this.end.height = 3;
-
-  this.end.makeParticles('endImg');
-  this.end.setRotation(0, 0);
-  this.end.setAlpha(1, 1);
-  this.end.minParticleSpeed.set(0, 0);
-  this.end.maxParticleSpeed.set(0, 0);
-  this.end.gravity = 0;
-
-  this.end.flow(false, 800, 1);
-}
-
-function finPS(){
-  this.endText = game.add.emitter(940, 460, 100);
-  this.endText.width = 1;
-  this.endText.height = 1;
-
-  this.endText.makeParticles('fin');
-  this.endText.setRotation(0, 0);
-  this.endText.setAlpha(0.3, 1);
-  this.endText.minParticleSpeed.set(0, 0);
-  this.endText.maxParticleSpeed.set(0, 0);
-  this.endText.gravity = 0;
-
-  this.endText.flow(false, 500, 1);
-}
 
 function destroyEmitter() {
 
@@ -399,6 +369,11 @@ function particleUpdate() {
   emitterCheck(this.emitter);
   emitterCheck(this.starsE);
   emitterCheck(this.stars);
+  emitterCheck(this.bArea);
+  emitterCheck(this.mind);
+  emitterCheck(this.bArea2);
+  emitterCheck(this.bArea3);
+  emitterCheck(this.bArea4);      
 
   if (this.gallery != null) {
     this.gallery.emitX = this.player.x;
