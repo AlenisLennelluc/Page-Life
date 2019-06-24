@@ -64,7 +64,7 @@ Load.prototype = {
 
 	loadUpdate: function(game) {
 			//loadingBar
-		 	this.title = game.add.sprite(0, 0, 'loadTitle');
+		 	this.title = game.add.sprite(0, 100, 'loadTitle');
 			// set the preloadBar sprite as a loader sprite.
 		 	this.load.setPreloadSprite(this.title);
 	 }

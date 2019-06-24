@@ -106,7 +106,7 @@ MainMenu.prototype = {
 		creditsSetup.call(this);
 
 		this.canvas = game.add.sprite(0,0, 'cover');
-		this.title = game.add.sprite(0, 0, 'loadTitle');
+		this.title = game.add.sprite(0, 100, 'loadTitle');
 		// this.title.scale.x = 0.5;
 		// this.title.scale.y = 0.5;
 		var tween = game.add.tween(this.title).to({alpha: 0}, 3000, Phaser.Easing.Linear.None, true, 500);

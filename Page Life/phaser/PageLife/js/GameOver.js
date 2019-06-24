@@ -32,7 +32,7 @@ function tweenOut() {
 }
 
 function titleIn() {
-	var title = game.add.image(0, 0, 'loadTitle');
+	var title = game.add.image(0, 100, 'loadTitle');
 	title.alpha = 0;
 	var titleTween = game.add.tween(title).to({alpha: 1}, 5000, Phaser.Easing.Linear.None, true);
 	titleTween.onComplete.add(exit);
